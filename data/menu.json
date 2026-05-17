@@ -1,0 +1,112 @@
+{	"home": {
+		"id": "navbar__home",
+		"target": "index",
+		"icon": "bi bi-house-fill",
+		"text": "Accueil"
+	},
+	"menu": [
+		{
+			"title": "Concepts de base",
+			"subMenu": [
+				{
+					"tag": "init",
+					"text": "Initialiser un projet"
+				},
+				{
+					"tag": "app",
+					"text": "Créer une application"
+				},
+				{
+					"tag": "settings",
+					"text": "Paramétrer le projet"
+				},
+				{
+					"tag": "server",
+					"text": "Démarrer le serveur"
+				},
+				{
+					"tag": "urls",
+					"text": "Configurer urls.py"
+				},
+				{
+					"tag": "functions",
+					"text": "Créer une vue avec une fonction"
+				},
+				{
+					"tag": "templates",
+					"text": "Créer un template HTML"
+				},
+				{
+					"tag": "static",
+					"text": "Configurer les fichiers statiques"
+				},
+				{
+					"tag": "project-personal-site",
+					"text": "Projet : le mini-site personnel"
+				}
+			]
+		},
+		{
+			"title": "Concepts intermédiaires",
+			"subMenu": [
+				{
+					"tag": "models",
+					"text": "Définir un modèle"
+				},
+				{
+					"tag": "database",
+					"text": "Interroger la base de données"
+				},
+				{
+					"tag": "dependencies",
+					"text": "Définir les relations entre modèles"
+				},
+				{
+					"tag": "admin",
+					"text": "Utiliser l'interface d'administration"
+				},
+				{
+					"tag": "display-data",
+					"text": "Afficher des données dans un template"
+				},
+				{
+					"tag": "project-library",
+					"text": "Projet : la bibliothèque"
+				}
+			]
+		},
+		{
+			"title": "Concepts avancés",
+			"subMenu": [
+				{
+					"tag": "classes",
+					"text": "Créer une vue avec une classe"
+				},
+				{
+					"tag": "forms",
+					"text": "Créer des formulaires"
+				},
+				{
+					"tag": "form-data",
+					"text": "Traiter les données envoyées par l'utilisateur"
+				},
+				{
+					"tag": "validation",
+					"text": "Valider un formulaire"
+				},
+				{
+					"tag": "media",
+					"text": "Gérer les fichiers médias de l'utilisateur"
+				},
+				{
+					"tag": "mixins",
+					"text": "Réutiliser du code dans les vues avec les mixins"
+				},
+				{
+					"tag": "project-project-manager",
+					"text": "Projet : le gestionnaire de projet"
+				}
+			]
+		}
+	]
+}
