@@ -6,6 +6,15 @@
 	},
 	"menu": [
 		{
+			"title": "Introduction",
+			"subMenu": [
+				{
+					"tag": "flask-django",
+					"text": "Comparaison Django / Flask"
+				}
+			]
+		},
+		{
 			"title": "Concepts de base",
 			"subMenu": [
 				{
@@ -14,31 +23,31 @@
 				},
 				{
 					"tag": "app",
-					"text": "Créer une application"
-				},
-				{
-					"tag": "settings",
-					"text": "Paramétrer le projet"
+					"text": "Créer une première application Flask"
 				},
 				{
 					"tag": "server",
-					"text": "Démarrer le serveur"
+					"text": "Lancer le serveur"
 				},
 				{
-					"tag": "urls",
-					"text": "Configurer urls.py"
+					"tag": "routes",
+					"text": "Créer des routes"
 				},
 				{
-					"tag": "functions",
-					"text": "Créer une vue avec une fonction"
+					"tag": "views",
+					"text": "Créer des vues"
 				},
 				{
 					"tag": "templates",
-					"text": "Créer un template HTML"
+					"text": "Utiliser des templates"
+				},
+				{
+					"tag": "layout",
+					"text": "Créer un template de base"
 				},
 				{
 					"tag": "static",
-					"text": "Configurer les fichiers statiques"
+					"text": "Gérer les fichiers statiques"
 				},
 				{
 					"tag": "project-personal-site",
@@ -50,28 +59,32 @@
 			"title": "Concepts intermédiaires",
 			"subMenu": [
 				{
-					"tag": "models",
-					"text": "Définir un modèle"
+					"tag": "jinja",
+					"text": "Intégrer des données dans un template"
+				},
+				{
+					"tag": "forms",
+					"text": "Créer un formulaire"
+				},
+				{
+					"tag": "form-data",
+					"text": "Traiter les données d'un formulaire"
+				},
+				{
+					"tag": "redirect",
+					"text": "Rediriger avec redirect() et url_for()"
 				},
 				{
 					"tag": "database",
-					"text": "Interroger la base de données"
+					"text": "Connecter une base de données SQLite"
 				},
 				{
-					"tag": "dependencies",
-					"text": "Définir les relations entre modèles"
+					"tag": "crud",
+					"text": "Créer une interface de gestion de données"
 				},
 				{
-					"tag": "admin",
-					"text": "Utiliser l'interface d'administration"
-				},
-				{
-					"tag": "display-data",
-					"text": "Afficher des données dans un template"
-				},
-				{
-					"tag": "project-library",
-					"text": "Projet : la bibliothèque"
+					"tag": "project-notes",
+					"text": "Projet : le carnet de notes"
 				}
 			]
 		},
@@ -79,32 +92,52 @@
 			"title": "Concepts avancés",
 			"subMenu": [
 				{
-					"tag": "classes",
-					"text": "Créer une vue avec une classe"
+					"tag": "structure",
+					"text": "Structurer l'application Flask"
 				},
 				{
-					"tag": "forms",
-					"text": "Créer des formulaires"
+					"tag": "blueprints",
+					"text": "Découper l'application avec les blueprints"
 				},
 				{
-					"tag": "form-data",
-					"text": "Traiter les données envoyées par l'utilisateur"
+					"tag": "models",
+					"text": "Créer des modèles avec SQLAlchemy"
+				},
+				{
+					"tag": "migrations",
+					"text": "Gérer les migrations avec Flask-Migrate"
+				},
+				{
+					"tag": "wtforms",
+					"text": "Optimiser les formulaires avec Flask-WTF"
 				},
 				{
 					"tag": "validation",
-					"text": "Valider un formulaire"
+					"text": "Valider les formulaires"
 				},
 				{
-					"tag": "media",
-					"text": "Gérer les fichiers médias de l'utilisateur"
+					"tag": "auth",
+					"text": "Gérer l'authentification"
 				},
 				{
-					"tag": "mixins",
-					"text": "Réutiliser du code dans les vues avec les mixins"
+					"tag": "sessions",
+					"text": "Utiliser les sessions"
 				},
 				{
-					"tag": "project-project-manager",
-					"text": "Projet : le gestionnaire de projet"
+					"tag": "uploads",
+					"text": "Gérer les fichiers envoyés"
+				},
+				{
+					"tag": "config",
+					"text": "Configurer l'application Flask"
+				},
+				{
+					"tag": "deployment",
+					"text": "Préparer le déploiement"
+				},
+				{
+					"tag": "project-student-manager",
+					"text": "Projet : le gestionnaire d'élèves"
 				}
 			]
 		}
