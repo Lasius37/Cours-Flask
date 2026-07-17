@@ -36,7 +36,43 @@
 
         <!-- sidebar
              ======================================================================================================= -->
-        <nav class="sidebar"></nav>
+        <nav class="sidebar">
+
+            <!-- sidebar group ------------------------------------------------------------------------------------- -->
+            <section class="sidebar__group">
+                <h2>Dans cette page</h2>
+
+                <ul>
+                    <li class="sidebar__element">
+                        <a href="#project">Créer le projet</a>
+                    </li>
+
+                    <li class="sidebar__element">
+                        <a href="#venv">Utiliser un environnement virtuel</a>
+                    </li>
+
+                    <li class="sidebar__element">
+                        <a href="#install">Installer Flask</a>
+                    </li>
+
+                    <li class="sidebar__element">
+                        <a href="#check">Vérifier l'installation</a>
+                    </li>
+
+                    <li class="sidebar__element">
+                        <a href="#requirements">Enregistrer les dépendances</a>
+                    </li>
+
+                    <li class="sidebar__element">
+                        <a href="#structure">Observer la structure du projet</a>
+                    </li>
+
+                    <li class="sidebar__element">
+                        <a href="#errors">Erreurs fréquentes</a>
+                    </li>
+                </ul>
+            </section>
+        </nav>
     </aside>
 
     <!-- ***************************************************************************************************************
@@ -46,8 +82,129 @@
 
         <!-- content section
              ======================================================================================================= -->
-        <section>
+        <section id="project">
+            <h2>Créer le projet</h2>
 
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Dans PyCharm, créer un nouveau projet Python et choisir son emplacement.
+                    </p>
+                    <p>
+                        Le nom du dossier doit décrire clairement le projet. Il est préférable d'éviter les espaces,
+                        les accents et les caractères spéciaux. Par exemple :
+                    </p>
+                    <pre class="console"><code>mon_projet_flask</code></pre>
+                    <p>
+                        PyCharm ouvre ensuite ce dossier comme racine du projet. Tous les fichiers de l'application
+                        seront progressivement ajoutés dans ce dossier.
+                    </p>
+                    <p>
+                        Lors de la création du projet, PyCharm peut créer automatiquement un environnement virtuel
+                        nommé<span class="comment"> .venv</span>. Il faut vérifier que cette option est activée et
+                        que le bon interpréteur Python est sélectionné.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="install">
+            <h2>Installer Flask</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Une fois l'environnement virtuel sélectionné et activé, Flask peut être installé avec
+                        <span class="comment"> pip</span>.
+                    </p>
+                    <pre class="console"><code>pip install Flask</code></pre>
+                    <p>
+                        La commande installe Flask ainsi que les bibliothèques nécessaires à son fonctionnement.
+                        Elles sont uniquement ajoutées à l'environnement virtuel du projet. Il n'est donc pas
+                        nécessaire d'installer Flask séparément sur l'ensemble de l'ordinateur.
+                    </p>
+                    <p>
+                        Pour vérifier les bibliothèques installées (dont Flask) :
+                    </p>
+                    <pre class="console"><code>pip list</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="requirements">
+            <h2>Enregistrer les dépendances</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Les bibliothèques utilisées par le projet peuvent être enregistrées dans un fichier
+                        <span class="comment"> requirements.txt</span>, qui contient le nom et la version des
+                        bibliothèques installées.
+                    </p>
+                    <pre class="console"><code>pip freeze &gt; requirements.txt</code></pre>
+                    <p>
+                        Il permet de recréer plus tard le même environnement, notamment après avoir récupéré le
+                        projet sur un autre ordinateur :
+                    </p>
+                    <pre class="console"><code>pip install -r requirements.txt</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="structure">
+            <h2>Observer la structure du projet</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        À ce stade, le projet ne contient pas encore d'application Flask. Sa structure reste
+                        volontairement minimale.
+                    </p>
+                    <pre class="console"><code>mon_projet_flask/
+    │
+    ├── .venv/                  <span class="comment">environnement virtuel du projet</span>
+    │
+    └── requirements.txt        <span class="comment">bibliothèques nécessaires au projet</span></code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="errors">
+            <h2>Erreurs fréquentes</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <ul>
+                        <li>
+                            Ne pas installer d'environnement virtuel :
+                            <span class="error">risque de conflit entre les bibliothèques importées</span>.
+                        </li>
+                        <li>
+                            Oublier de mettre à jour<span class="comment"> requirements.txt</span> après
+                            l'installation d'une nouvelle bibliothèque :
+                            <span class="error">le projet ne pourra pas être recréé complètement</span>.
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </section>
     </main>
 
