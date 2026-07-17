@@ -89,8 +89,8 @@
                     <p>
                         Un template HTML peut contenir des informations fixes, mais aussi des données produites par
                         l'application Flask. Flask utilise le moteur de templates<span class="comment"> Jinja </span>
-                        pour intégrer ces données dans les pages HTML en Python. Cela suppose une syntaxe un peu
-                        particulière. Jinja utilise principalement trois types de délimiteurs :
+                        pour intégrer ces données dans les pages HTML avec une syntaxe proche de Python. Jinja utilise
+                        principalement trois types de délimiteurs :
                     </p>
                     <ul>
                         <li>
@@ -163,7 +163,7 @@
                     </p>
                     <pre class="html"><code>&lt;h1&gt;Accueil&lt;/h1&gt;</code></pre>
                     <p>
-                        Une variable peut être utilisée dans un n'importe quel emplacement du template.
+                        Une variable peut être utilisée dans n'importe quel emplacement du template.
                     </p>
                     <pre class="html"><code>&lt;title&gt;&#123;&#123; title &#125;&#125;&lt;/title&gt;
 &lt;p&gt;Bonjour &#123;&#123; firstname &#125;&#125;.&lt;/p&gt;
@@ -315,12 +315,12 @@
                     </p>
                     <pre class="python"><code>projects = [
     {
-        <span class="text">"name"</span>: <span class="text">"Mini-site personnel"</span>,
-        <span class="text">"language"</span>: <span class="text">"Django"</span>
+        <span class="text">"name"</span>: <span class="text">"Contenu du site"</span>,
+        <span class="text">"language"</span>: <span class="text">"HTML"</span>
     },
     {
-        <span class="text">"name"</span>: <span class="text">"Quiz interactif"</span>,
-        <span class="text">"language"</span>: <span class="text">"JavaScript"</span>
+        <span class="text">"name"</span>: <span class="text">"Mise en forme du site"</span>,
+        <span class="text">"language"</span>: <span class="text">"CSS"</span>
     }
 ]</code></pre>
 
@@ -344,7 +344,7 @@
                 <!-- layout element -------------------------------------------------------------------------------- -->
                 <div class="layout__text">
                     <p>
-                        Un filtre permet de transformer une donnée transmise en Python avant de l'afficher.
+                        Un filtre permet de transformer la valeur d'une donnée avant de l'afficher.
                     </p>
                     <p>
                         Il est placé après la variable avec le caractère<span class="comment"> |</span>.
@@ -423,6 +423,10 @@
                         <li>
                             Écrire du code Python complet dans le template :
                             <span class="error">Jinja utilise sa propre syntaxe simplifiée</span>.
+                        </li>
+                        <li>
+                            Utiliser un nom différent dans la vue et dans le template :
+                            <span class="error">la donnée ne s'affiche pas</span>.
                         </li>
                     </ul>
                 </div>
