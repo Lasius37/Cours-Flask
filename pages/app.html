@@ -36,7 +36,25 @@
 
         <!-- sidebar
              ======================================================================================================= -->
-        <nav class="sidebar"></nav>
+        <nav class="sidebar">
+
+            <!-- sidebar group ------------------------------------------------------------------------------------- -->
+            <section class="sidebar__group">
+                <h2>Dans cette page</h2>
+
+                <ul>
+                    <li class="sidebar__element">
+                        <a href="#application">Créer l'application</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#first-page">Créer une première page</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#errors">Erreurs fréquentes</a>
+                    </li>
+                </ul>
+            </section>
+        </nav>
     </aside>
 
     <!-- ***************************************************************************************************************
@@ -46,8 +64,108 @@
 
         <!-- content section
              ======================================================================================================= -->
-        <section>
+        <section id="application">
+            <h2>Créer l'application</h2>
 
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        À la racine du projet, créer un fichier Python
+                        nommé<span class="comment"> app.py</span>. Ce fichier contiendra le code principal de la
+                        première application Flask. Le projet devient :
+                    </p>
+                    <div class="layout__text">
+                    <pre class="console"><code>mon_projet_flask/
+    │
+    ├── .venv/
+    │
+    ├── app.py                  <span class="comment">application Flask</span>
+    └── requirements.txt</code></pre>
+                </div>
+                    <p>
+                        Dans ce fichier<span class="comment"> app.py</span>, importer la
+                        classe<span class="comment"> Flask </span>depuis la
+                        bibliothèque<span class="comment"> flask</span>.
+                    </p>
+                    <pre class="python"><code><span class="word">from</span> flask <span class="word">import</span> Flask</code></pre>
+                    <p>
+                        Créer ensuite une instance de la classe<span class="comment"> Flask </span> et
+                        l'enregistrer dans une variable nommée<span class="comment"> app</span>.
+                    </p>
+                    <pre class="python"><code>app = Flask(__name__)</code></pre>
+                    <p>
+                        La variable<span class="comment"> app </span>représente l'application Flask.
+                        Elle permettra notamment de définir les différentes pages du site.
+                    </p>
+                    <p>
+                        La variable spéciale<span class="comment"> __name__ </span>indique à Flask dans quel
+                        fichier l'application est créée.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="first-page">
+            <h2>Créer une première page</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Une page Flask est associée à une adresse grâce au
+                        décorateur <span class="comment">@app.route()</span>.
+                    </p>
+                    <pre class="python"><code>@app.route(<span class="text">"/"</span>)
+
+<span class="word">def</span> <span class="function">accueil</span>():
+    <span class="word">return</span> <span class="text">"Bienvenue sur mon application Flask !"</span></code></pre>
+                    <p>
+                        La valeur<span class="comment"> "/"</span> représente la racine du site, c'est-à-dire
+                        sa page d'accueil. Lorsque cette adresse est demandée, Flask exécute la
+                        fonction <span class="comment">accueil()</span>.
+                    </p>
+                    <p>
+                        Le texte placé après<span class="comment"> return</span> est ensuite envoyé au navigateur.
+                    </p>
+                    <p>L'application est créée, mais elle n'est pas encore exécutée.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="errors">
+            <h2>Erreurs fréquentes</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <ul>
+                        <li>
+                            Nommer le fichier<span class="comment"> flask.py</span> :
+                            <span class="error">Python risque de confondre ce fichier avec la bibliothèque Flask</span>.
+                        </li>
+                        <li>
+                            Écrire<span class="python"> Flask</span> sans majuscule :
+                            <span class="error">le nom de la classe doit être respecté exactement</span>.
+                        </li>
+                        <li>
+                            Oublier les parenthèses après<span class="function"> accueil</span> :
+                            <span class="error">une fonction doit être déclarée avec des parenthèses</span>.
+                        </li>
+                        <li>
+                            Oublier l'indentation après la fonction :
+                            <span class="error">l'instruction return doit appartenir au bloc de la fonction</span>.
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </section>
     </main>
 
