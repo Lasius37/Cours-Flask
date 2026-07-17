@@ -36,7 +36,28 @@
 
         <!-- sidebar
              ======================================================================================================= -->
-        <nav class="sidebar"></nav>
+        <nav class="sidebar">
+
+            <!-- sidebar group ------------------------------------------------------------------------------------- -->
+            <section class="sidebar__group">
+                <h2>Dans cette page</h2>
+
+                <ul>
+                    <li class="sidebar__element">
+                        <a href="#route">Comprendre le rôle d'une route</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#multiple">Créer plusieurs routes</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#dynamic">Créer une route dynamique</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#errors">Erreurs fréquentes</a>
+                    </li>
+                </ul>
+            </section>
+        </nav>
     </aside>
 
     <!-- ***************************************************************************************************************
@@ -46,8 +67,133 @@
 
         <!-- content section
              ======================================================================================================= -->
-        <section>
+        <section id="route">
+            <h2>Comprendre le rôle d'une route</h2>
 
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Une route associe une adresse de l'application à une fonction Python.
+                    </p>
+                    <p>
+                        Elle est créée avec le décorateur<span class="comment"> @app.route()</span>, placé juste
+                        au-dessus de la fonction à exécuter.
+                    </p>
+                    <pre class="python"><code>@app.route(<span class="text">"/"</span>)
+<span class="word">def</span> <span class="function">accueil</span>():
+    <span class="word">return</span> <span class="text">"Bienvenue sur la page d'accueil"</span></code></pre>
+                    <p>
+                        Lorsque l'utilisateur ouvre l'adresse<span class="comment"> http://127.0.0.1:5000/</span>,
+                        Flask exécute la fonction<span class="comment"> accueil()</span>. Le
+                        chemin<span class="comment"> "/" </span>correspond à la racine du site, donc à sa page
+                        d'accueil.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="multiple">
+            <h2>Créer plusieurs routes</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Une application contient généralement plusieurs routes. Chaque route possède une adresse
+                        et appelle une fonction différente.
+                    </p>
+                    <pre class="python"><code>@app.route(<span class="text">"/"</span>)
+<span class="word">def</span> <span class="function">accueil</span>():  <span class="comment"># http://127.0.0.1:5000/ : page d'accueil</span>
+    <span class="word">return</span> <span class="text">"Bienvenue sur la page d'accueil"</span>
+
+@app.route(<span class="text">"/about"</span>)
+<span class="word">def</span> <span class="function">about</span>():  <span class="comment"># http://127.0.0.1:5000/about : page de présentation</span>
+    <span class="word">return</span> <span class="text">"À propos de ce site"</span>
+
+@app.route(<span class="text">"/contact"</span>)
+<span class="word">def</span> <span class="function">contact</span>():  <span class="comment"># http://127.0.0.1:5000/contact : page de contact</span>
+    <span class="word">return</span> <span class="text">"Page de contact"</span></code></pre>
+                    <p>
+                        Le nom de la fonction ne détermine pas l'adresse de la page. C'est le chemin écrit
+                        dans<span class="comment"> @app.route() </span>qui définit l'URL.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="dynamic">
+            <h2>Créer une route dynamique</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Une route peut contenir une partie variable. Cette valeur est placée entre chevrons dans
+                        l'adresse.
+                    </p>
+                    <pre class="python"><code>@app.route(<span class="text">"/user/&lt;name&gt;"</span>)
+<span class="word">def</span> <span class="function">user</span>(name):
+    <span class="word">return</span> <span class="text">f"Bienvenue {name}"</span></code></pre>
+                    <p>
+                        Dans cette route, la partie<span class="comment"> &lt;name&gt; </span>peut prendre
+                        différentes valeurs.
+                    </p>
+                    <p>
+                        La valeur récupérée dans l'adresse est transmise à la fonction grâce au
+                        paramètre<span class="comment"> name</span>.
+                    </p>
+                    <p>
+                        Le nom placé entre les chevrons doit être identique au nom du paramètre de la fonction.
+                    </p>
+                    <ul>
+                        <li>
+                            <span class="comment">/user/Pierre </span>affiche<span class="comment"> Bienvenue Pierre</span>
+                        </li>
+                        <li>
+                            <span class="comment">/user/Alice </span>affiche<span class="comment"> Bienvenue Alice</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="errors">
+            <h2>Erreurs fréquentes</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <ul>
+                        <li>
+                            Oublier le caractère<span class="comment"> / </span>au début du chemin :
+                            <span class="error">la route n'est pas correctement déclarée</span>.
+                        </li>
+                        <li>
+                            Utiliser deux fois le même nom de fonction :
+                            <span class="error">Flask ne peut pas distinguer les deux fonctions</span>.
+                        </li>
+                        <li>
+                            Ouvrir une adresse qui ne correspond à aucune route :
+                            <span class="error">le navigateur affiche une erreur 404</span>.
+                        </li>
+                        <li>
+                            Utiliser un nom différent dans la route et dans le paramètre de la fonction :
+                            <span class="error">la valeur dynamique ne peut pas être transmise correctement</span>.
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </section>
     </main>
 
