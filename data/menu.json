@@ -26,12 +26,8 @@
 					"text": "Créer et lancer une application"
 				},
 				{
-					"tag": "routes",
-					"text": "Créer des routes"
-				},
-				{
 					"tag": "views",
-					"text": "Créer des vues"
+					"text": "Créer des routes et des vues"
 				},
 				{
 					"tag": "templates",

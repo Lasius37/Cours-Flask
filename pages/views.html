@@ -1,4 +1,5 @@
 <!doctype html>
+
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -8,19 +9,20 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap"
+          rel="stylesheet">
     <link rel="stylesheet" href="../css/normalize.css">
     <link rel="stylesheet" href="../css/init.css">
     <link rel="stylesheet" href="../css/style.css">
     <script type="module" src="../js/script.js" defer></script>
-    <title>Créer des vues</title>
+    <title>Créer des routes et des vues</title>
 </head>
 <body>
     <!-- ***************************************************************************************************************
          HEADER
     **************************************************************************************************************** -->
     <header>
-        <h1>Créer des vues</h1>
+        <h1>Créer des routes et des vues</h1>
 
         <!-- navbar
              ======================================================================================================= -->
@@ -36,7 +38,34 @@
 
         <!-- sidebar
              ======================================================================================================= -->
-        <nav class="sidebar"></nav>
+        <nav class="sidebar">
+
+            <!-- sidebar group ------------------------------------------------------------------------------------- -->
+            <section class="sidebar__group">
+                <h2>Dans cette page</h2>
+
+                <ul>
+                    <li class="sidebar__element">
+                        <a href="#route-view">Distinguer une route et une vue</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#multiple">Créer plusieurs routes et vues</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#dynamic">Créer une route dynamique</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#converters">Utiliser les convertisseurs</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#response">Renvoyer une réponse</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#errors">Erreurs fréquentes</a>
+                    </li>
+                </ul>
+            </section>
+        </nav>
     </aside>
 
     <!-- ***************************************************************************************************************
@@ -46,8 +75,239 @@
 
         <!-- content section
              ======================================================================================================= -->
-        <section>
+        <section id="route-view">
+            <h2>Distinguer une route et une vue</h2>
 
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Une route associe une adresse de l'application à une fonction Python. Cette fonction est
+                        appelée une vue. Elle est exécutée lorsque l'utilisateur ouvre l'adresse correspondante
+                        et renvoie la réponse à afficher.
+                    </p>
+
+                    <pre class="python"><code>@app.route(<span class="text">"/"</span>)                <span class="comment"># route</span>
+<span class="word">def</span> <span class="function">accueil</span>():                 <span class="comment"># vue</span>
+    <span class="word">return</span> <span class="text">"Bienvenue sur la page d'accueil"</span></code></pre>
+                    <ul>
+                        <li><span class="comment">@app.route("/") </span>définit l'adresse de la page</li>
+                        <li><span class="comment">accueil() </span>est la vue exécutée par Flask</li>
+                        <li><span class="comment">return </span>fournit la réponse envoyée au navigateur</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="multiple">
+            <h2>Créer plusieurs routes et vues</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Une application contient généralement plusieurs routes. Chaque route appelle une vue
+                        différente.
+                    </p>
+
+                    <pre class="python"><code>@app.route(<span class="text">"/"</span>)
+<span class="word">def</span> <span class="function">accueil</span>():
+    <span class="word">return</span> <span class="text">"Bienvenue sur la page d'accueil"</span>
+
+@app.route(<span class="text">"/about"</span>)
+<span class="word">def</span> <span class="function">about</span>():
+    <span class="word">return</span> <span class="text">"À propos de ce site"</span>
+
+@app.route(<span class="text">"/contact"</span>)
+<span class="word">def</span> <span class="function">contact</span>():
+    <span class="word">return</span> <span class="text">"Page de contact"</span></code></pre>
+                    <p>
+                        Le nom de la fonction ne détermine pas l'adresse de la page. C'est le chemin écrit
+                        dans<span class="comment"> @app.route() </span>qui définit l'URL.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="dynamic">
+            <h2>Créer une route dynamique</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Une route dynamique contient une valeur qui peut changer. Cette valeur est placée entre
+                        chevrons dans l'adresse. Le nom placé entre les chevrons doit être identique au nom
+                        du paramètre de la fonction.
+                    </p>
+                    <pre class="python"><code>@app.route(<span class="text">"/user/&lt;name&gt;"</span>)
+<span class="word">def</span> <span class="function">user</span>(name):
+    <span class="word">return</span> <span class="text">f"Bienvenue {name}"</span></code></pre>
+                    <p>
+                        La valeur récupérée dans l'adresse est transmise au
+                        paramètre<span class="comment"> name </span>de la vue :
+                    </p>
+                    <ul>
+                        <li>
+                            <span class="comment">/user/Pierre </span>affiche<span class="comment"> Bienvenue Pierre</span>
+                        </li>
+                        <li>
+                            <span class="comment">/user/Alice </span>affiche<span class="comment"> Bienvenue Alice</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="converters">
+            <h2>Utiliser les convertisseurs</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Par défaut, la valeur récupérée dans une route dynamique est une chaîne de caractères.
+                        Un convertisseur permet d'imposer un autre type de valeur.
+                    </p>
+                    <pre class="python"><code>@app.route(<span class="text">"/article/&lt;int:article_id&gt;"</span>)
+<span class="word">def</span> <span class="function">article</span>(article_id):
+    <span class="word">return</span> <span class="text">f"Article numéro {article_id}"</span></code></pre>
+                    <p>
+                        Le convertisseur<span class="comment"> int </span>indique
+                        que<span class="comment"> article_id </span>doit être un nombre entier.
+                    </p>
+                    <ul>
+                        <li>
+                            <span class="comment">/article/12 </span>correspond à la route
+                        </li>
+                        <li>
+                            <span class="comment">/article/python </span>ne correspond pas à la route et provoque
+                            une erreur 404
+                        </li>
+                    </ul>
+
+                    <table>
+                        <tr>
+                            <th>Convertisseur</th>
+                            <th>Valeur acceptée</th>
+                            <th>Exemple</th>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">string</span></td>
+                            <td>texte sans caractère<span class="comment"> /</span></td>
+                            <td><span class="comment">&lt;string:name&gt;</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">int</span></td>
+                            <td>nombre entier positif</td>
+                            <td><span class="comment">&lt;int:id&gt;</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">float</span></td>
+                            <td>nombre décimal positif</td>
+                            <td><span class="comment">&lt;float:price&gt;</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">path</span></td>
+                            <td>texte pouvant contenir des caractères<span class="comment"> /</span></td>
+                            <td><span class="comment">&lt;path:subpath&gt;</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">uuid</span></td>
+                            <td>identifiant au format UUID</td>
+                            <td><span class="comment">&lt;uuid:user_id&gt;</span></td>
+                        </tr>
+                    </table>
+                    <p>
+                        Le convertisseur<span class="comment"> string </span>est utilisé par défaut. Il n'est donc
+                        généralement pas nécessaire de l'indiquer. Les deux routes suivantes sont donc identiques :
+                    </p>
+                    <pre class="python"><code>@app.route(<span class="text">"/user/&lt;name&gt;"</span>)
+
+@app.route(<span class="text">"/user/&lt;string:name&gt;"</span>)</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="response">
+            <h2>Renvoyer une réponse</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Une vue doit toujours renvoyer une réponse avec<span class="comment"> return</span>.
+                        Pour le moment, les vues renvoient simplement du texte :
+                    </p>
+
+                    <pre class="python"><code>@app.route(<span class="text">"/contact"</span>)
+<span class="word">def</span> <span class="function">contact</span>():
+    <span class="word">return</span> <span class="text">"Page de contact"</span></code></pre>
+                    <p>
+                        Il est également possible de renvoyer directement du code HTML :
+                    </p>
+                    <pre class="python"><code>@app.route(<span class="text">"/about"</span>)
+<span class="word">def</span> <span class="function">about</span>():
+    <span class="word">return</span> <span class="text">"&lt;h1&gt;À propos&lt;/h1&gt;"</span></code></pre>
+                    <p>
+                        Cette méthode devient alors rapidement difficile à lire et elle est inadaptée. Les pages
+                        HTML seront donc placées dans des fichiers séparés
+                        appelés<span class="comment"> templates</span>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="errors">
+            <h2>Erreurs fréquentes</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <ul>
+                        <li>
+                            Oublier le caractère<span class="comment"> / </span>au début du chemin :
+                            <span class="error">la route n'est pas correctement déclarée</span>.
+                        </li>
+                        <li>
+                            Utiliser deux fois le même nom de fonction :
+                            <span class="error">Flask ne peut pas distinguer les deux vues</span>.
+                        </li>
+                        <li>
+                            Ouvrir une adresse qui ne correspond à aucune route :
+                            <span class="error">le navigateur affiche une erreur 404</span>.
+                        </li>
+                        <li>
+                            Utiliser un nom différent dans la route et dans le paramètre de la vue :
+                            <span class="error">la valeur dynamique ne peut pas être transmise correctement</span>.
+                        </li>
+                        <li>
+                            Fournir une valeur qui ne correspond pas au convertisseur :
+                            <span class="error">la route n'est pas reconnue et le navigateur affiche une erreur 404</span>.
+                        </li>
+                        <li>
+                            Oublier l'instruction<span class="comment"> return </span>:
+                            <span class="error">la vue ne renvoie aucune réponse</span>.
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </section>
     </main>
 
