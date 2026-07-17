@@ -23,11 +23,7 @@
 				},
 				{
 					"tag": "app",
-					"text": "Créer une première application Flask"
-				},
-				{
-					"tag": "server",
-					"text": "Lancer le serveur"
+					"text": "Créer et lancer une application Flask"
 				},
 				{
 					"tag": "routes",

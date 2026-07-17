@@ -13,14 +13,14 @@
     <link rel="stylesheet" href="../css/init.css">
     <link rel="stylesheet" href="../css/style.css">
     <script type="module" src="../js/script.js" defer></script>
-    <title>Créer une première application Flask</title>
+    <title>Créer et lancer une application Flask</title>
 </head>
 <body>
     <!-- ***************************************************************************************************************
          HEADER
     **************************************************************************************************************** -->
     <header>
-        <h1>Créer une première application Flask</h1>
+        <h1>Créer et lancer une application Flask</h1>
 
         <!-- navbar
              ======================================================================================================= -->
@@ -50,6 +50,12 @@
                         <a href="#first-page">Créer une première page</a>
                     </li>
                     <li class="sidebar__element">
+                        <a href="#run">Démarrer le serveur</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#open">Ouvrir l'application</a>
+                    </li>
+                    <li class="sidebar__element">
                         <a href="#errors">Erreurs fréquentes</a>
                     </li>
                 </ul>
@@ -77,12 +83,12 @@
                         première application Flask. Le projet devient :
                     </p>
                     <div class="layout__text">
-                    <pre class="console"><code>mon_projet_flask/
-    │
-    ├── .venv/
-    │
-    ├── app.py                  <span class="comment">application Flask</span>
-    └── requirements.txt</code></pre>
+                    <pre class="console"><code>my_flask_project/
+│
+├── .venv/
+│
+├── app.py                  <span class="comment">application Flask</span>
+└── requirements.txt</code></pre>
                 </div>
                     <p>
                         Dans ce fichier<span class="comment"> app.py</span>, importer la
@@ -121,7 +127,6 @@
                         décorateur<span class="comment"> @app.route()</span>.
                     </p>
                     <pre class="python"><code>@app.route(<span class="text">"/"</span>)
-
 <span class="word">def</span> <span class="function">accueil</span>():
     <span class="word">return</span> <span class="text">"Bienvenue sur mon application Flask !"</span></code></pre>
                     <p>
@@ -133,6 +138,83 @@
                         Le texte placé après<span class="comment"> return </span>est ensuite envoyé au navigateur.
                     </p>
                     <p>L'application est créée, mais elle n'est pas encore exécutée.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="run">
+            <h2>Démarrer le serveur</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Dans le terminal de PyCharm, lancer le serveur de développement avec la commande :
+                    </p>
+                    <pre class="console"><code>flask run</code></pre>
+                    <p>
+                        Flask trouve automatiquement l'application lorsque le fichier est nommé
+                        <span class="comment"> app.py </span>et que l'instance de l'application est enregistrée
+                        dans une variable nommée<span class="comment"> app</span>.
+                    </p>
+                    <p>
+                        Pendant le développement, il est préférable d'activer le mode debug :
+                    </p>
+                    <pre class="console"><code>flask run --debug</code></pre>
+                    <p>
+                        Ce mode redémarre automatiquement le serveur lorsque le code Python est modifié. Il affiche
+                        également davantage d'informations lorsqu'une erreur se produit. Le mode debug doit uniquement
+                        être utilisé pendant le développement de l'application.
+                    </p>
+                    <p>
+                        Lorsque le serveur démarre, le terminal affiche notamment :
+                    </p>
+                    <pre class="console"><code>* Serving Flask app 'app'
+* Running on http://127.0.0.1:5000</code></pre>
+                    <p>
+                        Tant que le serveur fonctionne, le terminal reste occupé et affiche les requêtes
+                        reçues par l'application.
+                    </p>
+                    <p>
+                        Pour arrêter le serveur, sélectionner le terminal et utiliser :
+                    </p>
+                    <pre class="console"><code>Ctrl + C</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="open">
+            <h2>Démarrer le serveur et ouvrir l'application</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Quand le serveur est lancé, dans un navigateur, ouvrir l'adresse indiquée dans le terminal :
+                    </p>
+                    <pre class="console"><code>http://127.0.0.1:5000</code></pre>
+                    <ul>
+                        <li>
+                            L'adresse<span class="comment"> 127.0.0.1</span> désigne l'ordinateur sur lequel
+                            l'application est exécutée.
+                        </li>
+                        <li>
+                            Le nombre<span class="comment"> 5000</span> correspond au port utilisé par défaut
+                            par le serveur Flask.
+                        </li>
+                    </ul>
+                    <p>
+                        Le navigateur doit afficher le message défini dans la
+                        fonction<span class="comment"> accueil() </span>:
+                    </p>
+                    <pre class="console"><code>Bienvenue sur mon application Flask !</code></pre>
+
                 </div>
             </div>
         </section>
@@ -154,6 +236,22 @@
                         <li>
                             Écrire<span class="comment"> Flask </span>sans majuscule :
                             <span class="error">le nom de la classe doit être respecté exactement</span>.
+                        </li>
+                        <li>
+                            Lancer le serveur depuis un autre dossier :
+                            <span class="error">Flask ne trouve pas le fichier app.py</span>.
+                        </li>
+                        <li>
+                            Lancer le mode debug en production :
+                            <span class="error">risque important de sécurité</span>.
+                        </li>
+                        <li>
+                            Utiliser un terminal dans lequel l'environnement virtuel n'est pas activé :
+                            <span class="error">la commande Flask peut être introuvable</span>.
+                        </li>
+                        <li>
+                            Utiliser un port déjà occupé :
+                            <span class="error">le serveur ne peut pas démarrer sur ce port</span>.
                         </li>
                     </ul>
                 </div>
