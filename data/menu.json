@@ -105,19 +105,7 @@
 				},
 				{
 					"tag": "wtforms",
-					"text": "Créer des formulaires avec Flask-WTF"
-				},
-				{
-					"tag": "validation",
-					"text": "Valider les données"
-				},
-				{
-					"tag": "auth",
-					"text": "Gérer l'authentification"
-				},
-				{
-					"tag": "sessions",
-					"text": "Utiliser les sessions"
+					"text": "Créer des formulaires avancés"
 				},
 				{
 					"tag": "uploads",
