@@ -51,24 +51,32 @@
 					"text": "Intégrer des données dans un template"
 				},
 				{
+					"tag": "database",
+					"text": "Configurer une base de données"
+				},
+				{
+					"tag": "models",
+					"text": "Créer un modèle"
+				},
+				{
+					"tag": "query-data",
+					"text": "Enregistrer et afficher des données"
+				},
+				{
 					"tag": "forms",
 					"text": "Créer un formulaire"
 				},
 				{
 					"tag": "form-data",
-					"text": "Traiter les données d'un formulaire"
+					"text": "Enregistrer les données d'un formulaire"
 				},
 				{
 					"tag": "redirect",
 					"text": "Rediriger avec redirect() et url_for()"
 				},
 				{
-					"tag": "database",
-					"text": "Connecter une base de données SQLite"
-				},
-				{
 					"tag": "crud",
-					"text": "Créer une interface de gestion de données"
+					"text": "Modifier et supprimer des données"
 				},
 				{
 					"tag": "project-notes",
@@ -81,27 +89,27 @@
 			"subMenu": [
 				{
 					"tag": "structure",
-					"text": "Structurer l'application Flask"
+					"text": "Structurer l'application"
 				},
 				{
 					"tag": "blueprints",
 					"text": "Découper l'application avec les blueprints"
 				},
 				{
-					"tag": "models",
-					"text": "Créer des modèles avec SQLAlchemy"
+					"tag": "relationships",
+					"text": "Créer des relations entre les modèles"
 				},
 				{
 					"tag": "migrations",
-					"text": "Gérer les migrations avec Flask-Migrate"
+					"text": "Gérer les migrations"
 				},
 				{
 					"tag": "wtforms",
-					"text": "Optimiser les formulaires avec Flask-WTF"
+					"text": "Créer des formulaires avec Flask-WTF"
 				},
 				{
 					"tag": "validation",
-					"text": "Valider les formulaires"
+					"text": "Valider les données"
 				},
 				{
 					"tag": "auth",
@@ -117,7 +125,7 @@
 				},
 				{
 					"tag": "config",
-					"text": "Configurer l'application Flask"
+					"text": "Configurer l'application"
 				},
 				{
 					"tag": "deployment",
