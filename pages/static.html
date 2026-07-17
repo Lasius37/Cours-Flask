@@ -36,7 +36,34 @@
 
         <!-- sidebar
              ======================================================================================================= -->
-        <nav class="sidebar"></nav>
+        <nav class="sidebar">
+
+            <!-- sidebar group ------------------------------------------------------------------------------------- -->
+            <section class="sidebar__group">
+                <h2>Dans cette page</h2>
+
+                <ul>
+                    <li class="sidebar__element">
+                        <a href="#static">Créer le dossier static</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#css">Ajouter une feuille de style</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#images">Afficher une image</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#javascript">Ajouter un fichier JavaScript</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#structure">Observer la structure du projet</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#errors">Erreurs fréquentes</a>
+                    </li>
+                </ul>
+            </section>
+        </nav>
     </aside>
 
     <!-- ***************************************************************************************************************
@@ -46,8 +73,190 @@
 
         <!-- content section
              ======================================================================================================= -->
-        <section>
+        <section id="static">
+            <h2>Créer le dossier static</h2>
 
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Les fichiers qui ne sont pas générés par Flask sont
+                        appelés<span class="comment">fichiers statiques</span>. Il peut notamment s'agir de feuilles
+                        de style CSS, d'images ou de fichiers JavaScript.
+                    <p>
+                        À la racine du projet, créer un dossier nommé<span class="comment">static</span>.
+                    </p>
+                    <pre class="console"><code>my_flask_project/
+│
+├── .venv/
+├── static/
+├── templates/
+│
+├── app.py
+└── requirements.txt</code></pre>
+                    <p>
+                        Flask rend automatiquement les fichiers placés dans ce dossier accessibles à l'application.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="css">
+            <h2>Ajouter une feuille de style</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Dans le dossier<span class="comment"> static</span>, créer un
+                        dossier<span class="comment"> css</span>, puis un
+                        fichier<span class="comment"> style.css</span>.
+                    </p>
+
+                    <pre class="console"><code>static/
+└── css/
+    └── style.css</code></pre>
+
+                    <p>
+                        Ajouter quelques règles dans le fichier CSS :
+                    </p>
+
+                    <pre class="css"><code>body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+}
+
+header {
+    padding: 20px;
+}
+
+main {
+    max-width: 900px;
+    margin: auto;
+}</code></pre>
+                    <p>
+                        Dans le fichier<span class="comment"> base.html</span>, utiliser la
+                        fonction<span class="comment"> url_for() </span>pour construire l'adresse de la feuille de style :
+                    </p>
+                    <pre class="html"><code>&lt;link rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"&gt;</code></pre>
+
+                    <ul>
+                        <li>
+                            L'argument<span class="comment"> static </span>désigne le dossier des fichiers
+                            statiques.
+                        </li>
+                        <li>
+                            Le paramètre<span class="comment"> filename </span>indique le chemin du fichier
+                            à l'intérieur de ce dossier.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="images">
+            <h2>Afficher une image</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Créer un dossier<span class="comment"> images </span>dans le
+                        dossier<span class="comment"> static</span>, puis y placer une image.
+                    </p>
+                    <pre class="console"><code>static/
+├── css/
+└── images/
+    └── profile.jpg</code></pre>
+                    <p>
+                        Dans un template, construire l'adresse de l'image avec<span class="comment"> url_for() </span>:
+                    </p>
+                    <pre class="html"><code>&lt;img
+    src="{{ url_for('static', filename='images/profile.jpg') }}"
+    alt="Photo de présentation"
+&gt;</code></pre>
+
+                    <p>
+                        Le chemin indiqué dans<span class="comment"> filename </span>commence à l'intérieur du
+                        dossier<span class="comment"> static</span>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="javascript">
+            <h2>Ajouter un fichier JavaScript</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Les fichiers JavaScript sont aussi placés dans le dossier<span class="comment"> static</span>.
+                    </p>
+                    <p>
+                        Créer un dossier<span class="comment"> js</span>, puis un
+                        fichier<span class="comment"> script.js</span>.
+                    </p>
+                    <pre class="console"><code>static/
+├── css/
+├── images/
+└── js/
+    └── script.js</code></pre>
+                    <p>
+                        Dans le fichier JavaScript :
+                    </p>
+                    <pre class="js"><code>console.<span class="function">log</span>(<span class="text">"Le fichier JavaScript est chargé."</span>);</code></pre>
+                    <p>
+                        Puis, dans<span class="comment"> base.html</span>, ajouter la balise suivante dans
+                        le<span class="comment"> &lt;head&gt; </span>:
+                    </p>
+
+                    <pre class="html"><code>&lt;script src="{{ url_for('static', filename='js/script.js') }}" defer&gt;&lt;/script&gt;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="errors">
+            <h2>Erreurs fréquentes</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <ul>
+                        <li>
+                            Donner un autre nom au dossier<span class="comment"> static </span>:
+                            <span class="error">Flask ne trouve pas automatiquement les fichiers</span>.
+                        </li>
+                        <li>
+                            Indiquer<span class="comment"> static/ </span>au début
+                            de<span class="comment"> filename </span>:
+                            <span class="error">le dossier static est déjà désigné par le premier argument</span>.
+                        </li>
+                        <li>
+                            Utiliser un chemin qui ne correspond pas à l'arborescence :
+                            <span class="error">le navigateur ne trouve pas le fichier</span>.
+                        </li>
+                        <li>
+                            Modifier un fichier sans actualiser le navigateur :
+                            <span class="error">l'ancienne version peut rester affichée</span>.
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </section>
     </main>
 
