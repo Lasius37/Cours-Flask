@@ -36,7 +36,40 @@
 
         <!-- sidebar
              ======================================================================================================= -->
-        <nav class="sidebar"></nav>
+        <nav class="sidebar">
+
+            <!-- sidebar group ------------------------------------------------------------------------------------- -->
+            <section class="sidebar__group">
+                <h2>Dans cette page</h2>
+
+                <ul>
+                    <li class="sidebar__element">
+                        <a href="#jinja">Du Python dans le HTML</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#send">Transmettre une donnée</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#display">Afficher une donnée</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#multiple">Transmettre plusieurs données</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#conditions">Utiliser des conditions</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#loops">Parcourir une liste</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#filters">Utiliser des filtres</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#errors">Erreurs fréquentes</a>
+                    </li>
+                </ul>
+            </section>
+        </nav>
     </aside>
 
     <!-- ***************************************************************************************************************
@@ -46,8 +79,354 @@
 
         <!-- content section
              ======================================================================================================= -->
-        <section>
+        <section id="jinja">
+            <h2>Du Python dans le HTML</h2>
 
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Un template HTML peut contenir des informations fixes, mais aussi des données produites par
+                        l'application Flask. Flask utilise le moteur de templates<span class="comment"> Jinja </span>
+                        pour intégrer ces données dans les pages HTML en Python. Cela suppose une syntaxe un peu
+                        particulière. Jinja utilise principalement trois types de délimiteurs :
+                    </p>
+                    <ul>
+                        <li>
+                            <span class="comment">&#123;&#123; ... &#125;&#125; </span>pour afficher une donnée ;
+                        </li>
+                        <li>
+                            <span class="comment">&#123;% ... %&#125; </span>pour exécuter une instruction ;
+                        </li>
+                        <li>
+                            <span class="comment">&#123;# ... #&#125; </span>pour écrire un commentaire Jinja.
+                        </li>
+                    </ul>
+                    <pre class="html"><code>&lt;h1&gt;&#123;&#123; title &#125;&#125;&lt;/h1&gt;
+
+&#123;% if user %&#125;
+    &lt;p&gt;Bienvenue !&lt;/p&gt;
+&#123;% endif %&#125;
+
+&#123;# Ce commentaire n'apparaît pas dans la page HTML. #&#125;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="send">
+            <h2>Transmettre une donnée au template</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Les données sont transmises au template depuis la vue avec la
+                        fonction<span class="comment"> render_template()</span>.
+                    </p>
+                    <pre class="python"><code>@app.route(<span class="text">"/"</span>)
+<span class="word">def</span> <span class="function">accueil</span>():
+    <span class="word">return</span> render_template(
+        <span class="text">"index.html"</span>,
+        title=<span class="text">"Accueil"</span>
+    )</code></pre>
+                    <p>
+                        Dans cet exemple, la donnée<span class="comment"> "Accueil"</span> est transmise
+                        au template sous le nom<span class="comment"> title</span>. La syntaxe utilisée est :
+                    </p>
+                    <pre class="python"><code>render_template(
+    <span class="text">"my-template.html"</span>,
+    my_variable=value
+)</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="display">
+            <h2>Afficher une donnée</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Dans le template, placer le nom de la variable entre doubles accolades :
+                    </p>
+                    <pre class="html"><code>&lt;h1&gt;&#123;&#123; title &#125;&#125;&lt;/h1&gt;</code></pre>
+                    <p>
+                        Lors de l'affichage de la page, Jinja remplace la variable par sa valeur :
+                    </p>
+                    <pre class="html"><code>&lt;h1&gt;Accueil&lt;/h1&gt;</code></pre>
+                    <p>
+                        Une variable peut être utilisée dans un n'importe quel emplacement du template.
+                    </p>
+                    <pre class="html"><code>&lt;title&gt;&#123;&#123; title &#125;&#125;&lt;/title&gt;
+&lt;p&gt;Bonjour &#123;&#123; firstname &#125;&#125;.&lt;/p&gt;
+&lt;img src="&#123;&#123; image &#125;&#125;" alt="Photo de présentation"&gt;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="multiple">
+            <h2>Transmettre plusieurs données</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Une vue peut transmettre plusieurs données au même template.
+                    </p>
+                    <pre class="python"><code>@app.route(<span class="text">"/profile"</span>)
+<span class="word">def</span> <span class="function">profile</span>():
+    <span class="word">return</span> render_template(
+        <span class="text">"profile.html"</span>,
+        title=<span class="text">"Mon profil"</span>,
+        firstname=<span class="text">"Alex"</span>,
+        age=<span class="number">15</span>,
+        city=<span class="text">"Lyon"</span>
+    )</code></pre>
+                    <p>
+                        Chaque donnée est ensuite accessible avec le nom choisi dans la vue :
+                    </p>
+                    <pre class="html"><code>&lt;h1&gt;&#123;&#123; title &#125;&#125;&lt;/h1&gt;
+&lt;p&gt;Prénom : &#123;&#123; firstname &#125;&#125;&lt;/p&gt;
+&lt;p&gt;Âge : &#123;&#123; age &#125;&#125; ans&lt;/p&gt;
+&lt;p&gt;Ville : &#123;&#123; city &#125;&#125;&lt;/p&gt;</code></pre>
+                    <p>
+                        Il est souvent plus judicieux de regrouper plusieurs informations dans un dictionnaire.
+                    </p>
+                    <pre class="python"><code>context = {
+    <span class="text">"firstname"</span>: <span class="text">"Alex"</span>,
+    <span class="text">"age"</span>: <span class="number">15</span>,
+    <span class="text">"city"</span>: <span class="text">"Lyon"</span>
+}
+<span class="word">return</span> render_template(
+    <span class="text">"profile.html"</span>,
+    context=context
+)</code></pre>
+                    <p>
+                        Les valeurs du dictionnaire sont accessibles avec un point :
+                    </p>
+                    <pre class="html"><code>&lt;p&gt;Prénom : &#123;&#123; context.firstname &#125;&#125;&lt;/p&gt;
+&lt;p&gt;Âge : &#123;&#123; context.age &#125;&#125; ans&lt;/p&gt;
+&lt;p&gt;Ville : &#123;&#123; context.city &#125;&#125;&lt;/p&gt;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="conditions">
+            <h2>Utiliser des conditions</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Une condition permet d'afficher un contenu uniquement lorsque certaines conditions
+                        sont respectées.
+                    </p>
+                    <pre class="python"><code>@app.route(<span class="text">"/profile"</span>)
+<span class="word">def</span> <span class="function">profile</span>():
+    <span class="word">return</span> render_template(
+        <span class="text">"profile.html"</span>,
+        show_city=<span class="word">True</span>,
+        city=<span class="text">"Lyon"</span>
+    )</code></pre>
+                    <p>
+                        Dans le template :
+                    </p>
+                    <pre class="html"><code>&#123;% if show_city %&#125;
+    &lt;p&gt;Ville : &#123;&#123; city &#125;&#125;&lt;/p&gt;
+&#123;% endif %&#125;</code></pre>
+                    <p>
+                        Une alternative peut être ajoutée avec<span class="comment"> else</span>.
+                    </p>
+                    <pre class="html"><code>&#123;% if show_city %&#125;
+    &lt;p&gt;Ville : &#123;&#123; city &#125;&#125;&lt;/p&gt;
+&#123;% else %&#125;
+    &lt;p&gt;La ville n'est pas renseignée.&lt;/p&gt;
+&#123;% endif %&#125;</code></pre>
+                    <p>
+                        Plusieurs cas peuvent être testés avec<span class="comment"> elif</span>.
+                    </p>
+                    <pre class="html"><code>&#123;% if age &gt;= 18 %&#125;
+    &lt;p&gt;Utilisateur majeur.&lt;/p&gt;
+&#123;% elif age &gt;= 13 %&#125;
+    &lt;p&gt;Utilisateur adolescent.&lt;/p&gt;
+&#123;% else %&#125;
+    &lt;p&gt;Utilisateur enfant.&lt;/p&gt;
+&#123;% endif %&#125;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="loops">
+            <h2>Parcourir une liste</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Une boucle permet de répéter une partie du HTML pour chaque élément d'une liste.
+                    </p>
+
+                    <pre class="python"><code>@app.route(<span class="text">"/skills"</span>)
+<span class="word">def</span> <span class="function">skills</span>():
+    skills = [<span class="text">"HTML"</span>, <span class="text">"CSS"</span>, <span class="text">"JavaScript"</span>]
+
+    <span class="word">return</span> render_template(
+        <span class="text">"skills.html"</span>,
+        skills=skills
+    )</code></pre>
+                    <p>
+                        Dans le template, la boucle<span class="comment"> for </span>génère un élément de liste
+                        pour chaque compétence.
+                    </p>
+                    <pre class="html"><code>&lt;ul&gt;
+    &#123;% for skill in skills %&#125;
+        &lt;li&gt;&#123;&#123; skill &#125;&#125;&lt;/li&gt;
+    &#123;% endfor %&#125;
+&lt;/ul&gt;</code></pre>
+                    <p>
+                        Jinja permet également de prévoir le cas où la liste est vide :
+                    </p>
+                    <pre class="html"><code>&lt;ul&gt;
+    &#123;% for skill in skills %&#125;
+        &lt;li&gt;&#123;&#123; skill &#125;&#125;&lt;/li&gt;
+    &#123;% else %&#125;
+        &lt;li&gt;Aucune compétence renseignée.&lt;/li&gt;
+    &#123;% endfor %&#125;
+&lt;/ul&gt;</code></pre>
+                    <p>
+                        Une liste peut aussi contenir des dictionnaires.
+                    </p>
+                    <pre class="python"><code>projects = [
+    {
+        <span class="text">"name"</span>: <span class="text">"Mini-site personnel"</span>,
+        <span class="text">"language"</span>: <span class="text">"Django"</span>
+    },
+    {
+        <span class="text">"name"</span>: <span class="text">"Quiz interactif"</span>,
+        <span class="text">"language"</span>: <span class="text">"JavaScript"</span>
+    }
+]</code></pre>
+
+                    <pre class="html"><code>&#123;% for project in projects %&#125;
+    &lt;article&gt;
+        &lt;h2&gt;&#123;&#123; project.name &#125;&#125;&lt;/h2&gt;
+        &lt;p&gt;Technologie : &#123;&#123; project.language &#125;&#125;&lt;/p&gt;
+    &lt;/article&gt;
+&#123;% endfor %&#125;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="filters">
+            <h2>Utiliser des filtres</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Un filtre permet de transformer une donnée transmise en Python avant de l'afficher.
+                    </p>
+                    <p>
+                        Il est placé après la variable avec le caractère<span class="comment"> |</span>.
+                    </p>
+                    <pre class="html"><code>&#123;&#123; my_variable | my_filter &#125;&#125;</code></pre>
+                    <p>
+                        Quelques filtres courants :
+                    </p>
+                    <table>
+                        <tr>
+                            <th>Filtre</th>
+                            <th>Code</th>
+                        </tr>
+                        <tr>
+                            <td>Majuscules</td>
+                            <td>
+                                <pre class="html"><code>&lt;p&gt;&#123;&#123; firstname | upper &#125;&#125;&lt;/p&gt;</code></pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Minuscules</td>
+                            <td>
+                                <pre class="html"><code>&lt;p&gt;&#123;&#123; firstname | lower &#125;&#125;&lt;/p&gt;</code></pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Première lettre en majuscules</td>
+                            <td>
+                                <pre class="html"><code>&lt;p&gt;&#123;&#123; firstname | capitalize &#125;&#125;&lt;/p&gt;</code></pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Nombre d'éléments dans une liste</td>
+                            <td>
+                                <pre class="html"><code>&lt;p&gt;&#123;&#123; skills | length &#125;&#125; compétences&lt;/p&gt;</code></pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Valeur si la variable n'est pas définie</td>
+                            <td>
+                                <pre class="html"><code>&lt;p&gt;&#123;&#123; city | default("Ville inconnue") &#125;&#125;&lt;/p&gt;</code></pre>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="errors">
+            <h2>Erreurs fréquentes</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <ul>
+                        <li>
+                            Oublier les doubles accolades autour d'une variable :
+                            <span class="error">le nom de la variable apparaît comme du texte</span>.
+                        </li>
+                        <li>
+                            Oublier de fermer une condition avec<span class="comment"> endif </span>:
+                            <span class="error">Jinja signale une erreur de syntaxe</span>.
+                        </li>
+
+                        <li>
+                            Oublier de fermer une boucle avec<span class="comment"> endfor </span>:
+                            <span class="error">le template ne peut pas être interprété</span>.
+                        </li>
+                        <li>
+                            Parcourir une variable qui n'est pas une liste :
+                            <span class="error">le résultat peut être incorrect ou provoquer une erreur</span>.
+                        </li>
+                        <li>
+                            Écrire du code Python complet dans le template :
+                            <span class="error">Jinja utilise sa propre syntaxe simplifiée</span>.
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </section>
     </main>
 
