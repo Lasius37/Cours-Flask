@@ -36,7 +36,34 @@
 
         <!-- sidebar
              ======================================================================================================= -->
-        <nav class="sidebar"></nav>
+        <nav class="sidebar">
+
+            <!-- sidebar group ------------------------------------------------------------------------------------- -->
+            <section class="sidebar__group">
+                <h2>Dans cette page</h2>
+
+                <ul>
+                    <li class="sidebar__element">
+                        <a href="#template">Créer un template</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#render">Afficher un template</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#multiple">Créer plusieurs templates</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#base">Créer un template de base</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#inheritance">Utiliser l'héritage d'un template</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#errors">Erreurs fréquentes</a>
+                    </li>
+                </ul>
+            </section>
+        </nav>
     </aside>
 
     <!-- ***************************************************************************************************************
@@ -46,8 +73,259 @@
 
         <!-- content section
              ======================================================================================================= -->
-        <section>
+        <section id="template">
+            <h2>Créer un template</h2>
 
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Écrire directement du code HTML dans une vue devient rapidement difficile à lire.
+                        Les pages HTML sont donc placées dans des fichiers séparés
+                        appelés<span class="comment">templates</span>.
+                    </p>
+
+                    <p>
+                        Une bonne pratique consiste à créer, à la racine du projet, un
+                        dossier<span class="comment">
+                        templates</span>, puis un fichier html (pour
+                        l'exemple,<span class="comment"> index.html</span>) dans ce dossier.
+                    </p>
+                    <pre class="console"><code>my_flask_project/
+│
+├── .venv/
+├── templates/
+│   └── index.html
+│
+├── app.py
+└── requirements.txt</code></pre>
+                    <p>
+                        Dans le fichier<span class="comment"> index.html</span>, écrire une page HTML classique :
+                    </p>
+                    <pre class="html"><code>&lt;!doctype html&gt;
+&lt;html lang="fr"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Accueil&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Bienvenue sur mon site&lt;/h1&gt;
+    &lt;p&gt;Voici ma première page créée avec Flask.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="render">
+            <h2>Afficher un template</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Pour afficher un template, il faut importer la
+                        fonction<span class="comment">render_template()</span> depuis Flask.
+                    </p>
+                    <pre class="python"><code><span class="word">from</span> flask <span class="word">import</span> Flask, render_template</code></pre>
+                    <p>
+                        Dans la vue, remplacer le texte renvoyé par l'appel de la
+                        fonction<span class="comment">render_template()</span>.
+                    </p>
+                    <pre class="python"><code>@app.route(<span class="text">"/"</span>)
+<span class="word">def</span> <span class="function">accueil</span>():
+    <span class="word">return</span> render_template(<span class="text">"index.html"</span>)</code></pre>
+
+                    <p>
+                        Flask recherche automatiquement le fichier
+                        <span class="comment">index.html</span> dans le dossier
+                        <span class="comment">templates</span>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="multiple">
+            <h2>Créer plusieurs templates</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Chaque page de l'application peut utiliser son propre template.
+                    </p>
+                    <pre class="console"><code>templates/
+├── index.html
+├── about.html
+└── contact.html</code></pre>
+                    <p>
+                        Chaque route renvoie alors le template correspondant :
+                    </p>
+                    <pre class="python"><code>@app.route(<span class="text">"/"</span>)
+<span class="word">def</span> <span class="function">accueil</span>():
+    <span class="word">return</span> render_template(<span class="text">"index.html"</span>)
+
+@app.route(<span class="text">"/about"</span>)
+<span class="word">def</span> <span class="function">about</span>():
+    <span class="word">return</span> render_template(<span class="text">"about.html"</span>)
+
+@app.route(<span class="text">"/contact"</span>)
+<span class="word">def</span> <span class="function">contact</span>():
+    <span class="word">return</span> render_template(<span class="text">"contact.html"</span>)</code></pre>
+                    <p>
+                        Ces fichiers contiennent souvent des éléments identiques : la structure HTML, le menu,
+                        l'en-tête ou le pied de page. Copier ces éléments dans chaque fichier crée des répétitions.
+                        On utilise alors un template de base.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="base">
+            <h2>Créer un template de base</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Un template de base contient les éléments communs à toutes les pages.
+                        Créer un fichier<span class="comment"> base.html </span>dans le
+                        dossier<span class="comment"> templates</span>.
+                    </p>
+                    <pre class="html"><code>&lt;!doctype html&gt;
+&lt;html lang="fr"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Mon site Flask&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header&gt;
+        &lt;h1&gt;Mon site Flask&lt;/h1&gt;
+
+        &lt;nav&gt;
+            &lt;a href="/"&gt;Accueil&lt;/a&gt;
+            &lt;a href="/about"&gt;À propos&lt;/a&gt;
+            &lt;a href="/contact"&gt;Contact&lt;/a&gt;
+        &lt;/nav&gt;
+    &lt;/header&gt;
+
+    &lt;main&gt;
+        &#123;% block content %&#125;
+        &#123;% endblock %&#125;
+    &lt;/main&gt;
+
+    &lt;footer&gt;
+        &lt;p&gt;Mon premier site Flask&lt;/p&gt;
+    &lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+                    <p>
+                        Le bloc<span class="comment"> content </span>délimite la partie qui pourra être remplacée
+                        par le contenu propre à chaque page.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="inheritance">
+            <h2>Utiliser l'héritage d'un template</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Les autres templates peuvent hériter de la structure
+                        de<span class="comment">base.html</span>.
+                    </p>
+                    <p>
+                        Le fichier<span class="comment"> index.html </span>devient :
+                    </p>
+                    <pre class="html"><code>{% extends "base.html" %}
+
+{% block content %}
+    &lt;h2&gt;Accueil&lt;/h2&gt;
+    &lt;p&gt;Bienvenue sur mon site.&lt;/p&gt;
+{% endblock %}</code></pre>
+                    <ul>
+                        <li>
+                            L'instruction<span class="comment"> extends </span>indique que la page
+                            utilise<span class="comment">base.html </span>comme modèle.
+                        </li>
+                        <li>
+                            Le contenu placé dans le bloc<span class="comment"> content</span> remplace le bloc du même
+                            nom défini dans le template de base.
+                        </li>
+                    </ul>
+                    <p>
+                        Le fichier<span class="comment"> about.html </span>peut également utiliser la même
+                        organisation :
+                    </p>
+                    <pre class="html"><code>{% extends "base.html" %}
+
+{% block content %}
+    &lt;h2&gt;À propos&lt;/h2&gt;
+    &lt;p&gt;Cette page présente mon site.&lt;/p&gt;
+{% endblock %}</code></pre>
+                    <p>
+                        La structure commune est ainsi écrite une seule fois
+                        dans<span class="comment">base.html</span>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="errors">
+            <h2>Erreurs fréquentes</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <ul>
+                        <li>
+                            Donner un autre nom au dossier<span class="comment"> templates </span>:
+                            <span class="error">Flask ne trouve pas automatiquement les fichiers HTML</span>.
+                        </li>
+                        <li>
+                            Placer le dossier<span class="comment"> templates </span>au mauvais endroit :
+                            <span class="error">une erreur TemplateNotFound peut être affichée</span>.
+                        </li>
+                        <li>
+                            Oublier d'importer<span class="comment"> render_template </span>:
+                            <span class="error">Python ne reconnaît pas la fonction</span>.
+                        </li>
+                        <li>
+                            Utiliser un nom de fichier différent dans<span class="comment"> render_template() </span>:
+                            <span class="error">Flask ne trouve pas le template demandé</span>.
+                        </li>
+                        <li>
+                            Oublier<span class="comment"> extends </span>dans une page :
+                            <span class="error">le template de base n'est pas utilisé</span>.
+                        </li>
+                        <li>
+                            Utiliser un nom de bloc différent de celui défini
+                            dans<span class="comment"> base.html </span>:
+                            <span class="error">le contenu n'apparaît pas à l'emplacement attendu</span>.
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </section>
     </main>
 

@@ -34,10 +34,6 @@
 					"text": "Utiliser des templates"
 				},
 				{
-					"tag": "layout",
-					"text": "Créer un template de base"
-				},
-				{
 					"tag": "static",
 					"text": "Gérer les fichiers statiques"
 				},
