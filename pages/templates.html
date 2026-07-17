@@ -83,14 +83,12 @@
                     <p>
                         Écrire directement du code HTML dans une vue devient rapidement difficile à lire.
                         Les pages HTML sont donc placées dans des fichiers séparés
-                        appelés<span class="comment">templates</span>.
+                        appelés<span class="comment"> templates</span>.
                     </p>
 
                     <p>
-                        Une bonne pratique consiste à créer, à la racine du projet, un
-                        dossier<span class="comment">
-                        templates</span>, puis un fichier html (pour
-                        l'exemple,<span class="comment"> index.html</span>) dans ce dossier.
+                        À la racine du projet, créer un dossier<span class="comment"> templates</span>,
+                        puis un fichier html (pour l'exemple,<span class="comment"> index.html</span>) dans ce dossier.
                     </p>
                     <pre class="console"><code>my_flask_project/
 │
@@ -101,7 +99,7 @@
 ├── app.py
 └── requirements.txt</code></pre>
                     <p>
-                        Dans le fichier<span class="comment"> index.html</span>, écrire une page HTML classique :
+                        Dans<span class="comment"> index.html</span>, écrire une page HTML classique :
                     </p>
                     <pre class="html"><code>&lt;!doctype html&gt;
 &lt;html lang="fr"&gt;
@@ -129,21 +127,20 @@
                 <div class="layout__text">
                     <p>
                         Pour afficher un template, il faut importer la
-                        fonction<span class="comment">render_template()</span> depuis Flask.
+                        fonction<span class="comment"> render_template() </span>depuis Flask.
                     </p>
                     <pre class="python"><code><span class="word">from</span> flask <span class="word">import</span> Flask, render_template</code></pre>
                     <p>
                         Dans la vue, remplacer le texte renvoyé par l'appel de la
-                        fonction<span class="comment">render_template()</span>.
+                        fonction<span class="comment"> render_template()</span>.
                     </p>
                     <pre class="python"><code>@app.route(<span class="text">"/"</span>)
 <span class="word">def</span> <span class="function">accueil</span>():
     <span class="word">return</span> render_template(<span class="text">"index.html"</span>)</code></pre>
 
                     <p>
-                        Flask recherche automatiquement le fichier
-                        <span class="comment">index.html</span> dans le dossier
-                        <span class="comment">templates</span>.
+                        Flask recherche automatiquement le fichier<span class="comment"> index.html </span>dans le
+                        dossier<span class="comment"> templates</span>.
                     </p>
                 </div>
             </div>
@@ -263,10 +260,10 @@
                     <ul>
                         <li>
                             L'instruction<span class="comment"> extends </span>indique que la page
-                            utilise<span class="comment">base.html </span>comme modèle.
+                            utilise<span class="comment"> base.html </span>comme modèle.
                         </li>
                         <li>
-                            Le contenu placé dans le bloc<span class="comment"> content</span> remplace le bloc du même
+                            Le contenu placé dans le bloc<span class="comment"> content </span>remplace le bloc du même
                             nom défini dans le template de base.
                         </li>
                     </ul>
@@ -282,7 +279,7 @@
 {% endblock %}</code></pre>
                     <p>
                         La structure commune est ainsi écrite une seule fois
-                        dans<span class="comment">base.html</span>.
+                        dans<span class="comment"> base.html</span>.
                     </p>
                 </div>
             </div>
