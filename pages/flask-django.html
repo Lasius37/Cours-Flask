@@ -8,13 +8,15 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap"
+          rel="stylesheet">
     <link rel="stylesheet" href="../css/normalize.css">
     <link rel="stylesheet" href="../css/init.css">
     <link rel="stylesheet" href="../css/style.css">
     <script type="module" src="../js/script.js" defer></script>
     <title>Comparaison Django / Flask</title>
 </head>
+
 <body>
     <!-- ***************************************************************************************************************
          HEADER
@@ -36,7 +38,43 @@
 
         <!-- sidebar
              ======================================================================================================= -->
-        <nav class="sidebar"></nav>
+        <nav class="sidebar">
+
+            <!-- sidebar group ------------------------------------------------------------------------------------- -->
+            <section class="sidebar__group">
+                <h2>Dans cette page</h2>
+
+                <ul>
+                    <li class="sidebar__element">
+                        <a href="#framework">Comprendre le rôle d'un framework web</a>
+                    </li>
+
+                    <li class="sidebar__element">
+                        <a href="#common">Identifier les points communs</a>
+                    </li>
+
+                    <li class="sidebar__element">
+                        <a href="#differences">Comparer les deux approches</a>
+                    </li>
+
+                    <li class="sidebar__element">
+                        <a href="#choice">Choisir entre Django et Flask</a>
+                    </li>
+
+                    <li class="sidebar__element">
+                        <a href="#structure">Comparer la structure des projets</a>
+                    </li>
+
+                    <li class="sidebar__element">
+                        <a href="#errors">Éviter les idées reçues</a>
+                    </li>
+
+                    <li class="sidebar__element">
+                        <a href="#remember">Retenir l'essentiel</a>
+                    </li>
+                </ul>
+            </section>
+        </nav>
     </aside>
 
     <!-- ***************************************************************************************************************
@@ -46,8 +84,206 @@
 
         <!-- content section
              ======================================================================================================= -->
-        <section>
+        <section id="framework">
+            <h2>Comprendre le rôle d'un framework web</h2>
 
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Une application web doit recevoir une requête envoyée par un navigateur, exécuter du code,
+                        puis construire une réponse. Cette réponse peut être une page HTML, une redirection, un fichier
+                        ou des données.
+                    </p>
+                    <p>
+                        Il serait possible de programmer entièrement ce fonctionnement avec Python. Cependant, il
+                        faudrait alors créer soi-même de nombreux outils : la gestion des URL, la lecture des
+                        formulaires, les réponses HTTP, les templates ou encore les sessions.
+                    </p>
+                    <p>
+                        Un framework web fournit une structure et des outils prêts à l'emploi pour faciliter la
+                        création d'une application web.
+                    </p>
+                    <p>
+                        Django et Flask sont deux frameworks web écrits en Python. Ils permettent donc de réaliser des
+                        applications similaires, mais ils ne proposent pas la même manière de construire un projet.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="common">
+            <h2>Identifier les points communs</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Django et Flask reposent sur les mêmes principes généraux.
+                    </p>
+                    <ul>
+                        <li>Ils utilisent Python pour programmer le fonctionnement de l'application.</li>
+                        <li>Ils associent des URL à des fonctions ou à des classes Python (les vues).</li>
+                        <li>Ils peuvent générer des pages HTML à partir de templates.</li>
+                        <li>Ils permettent de recevoir les données envoyées par un formulaire.</li>
+                        <li>Ils peuvent communiquer avec une base de données.</li>
+                        <li>Ils peuvent gérer des comptes utilisateurs, des sessions et des fichiers.</li>
+                        <li>Ils séparent le fonctionnement de l'application de sa présentation HTML et CSS.</li>
+                        <li>Ils traitent les requêtes avec un schéma analogue.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="differences">
+            <h2>Comparer les deux approches</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <table>
+                        <tr>
+                            <th style="width: 50%;">Flask : un framework léger et modulable</th>
+                            <th style="width: 50%;">Django : un framework complet</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>
+                                    Flask fournit un noyau plus réduit. Une application minimale peut être créée dans un seul
+                                    fichier Python.
+                                </p>
+                                <p>
+                                    Le développeur ajoute ensuite uniquement les outils dont son projet a besoin. Par exemple, il
+                                    peut ajouter une bibliothèque pour la base de données, les formulaires ou l'authentification.
+                                </p>
+                                <p>
+                                    Flask impose moins de décisions. Le développeur dispose donc de davantage de liberté, mais il
+                                    doit aussi choisir lui-même l'organisation et les bibliothèques de son application.
+                                </p>
+                            </td>
+                            <td>
+                                <p>
+                                    Django fournit dès son installation une organisation de projet et de nombreuses fonctionnalités.
+                                </p>
+                                <ul>
+                                    <li>une structure de projet prédéfinie</li>
+                                    <li>un système de configuration</li>
+                                    <li>un outil de gestion des URL</li>
+                                    <li>un moteur de templates</li>
+                                    <li>un ORM pour manipuler les bases de données</li>
+                                    <li>un système de migrations</li>
+                                    <li>une interface d'administration</li>
+                                    <li>un système d'authentification</li>
+                                    <li>des outils pour créer et valider des formulaires</li>
+                                </ul>
+                                <p>
+                                    Le développeur doit respecter les conventions de Django. En contrepartie, il dispose rapidement
+                                    d'un environnement complet et cohérent.
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="choice">
+            <h2>Choisir entre Django et Flask</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <h3>Utiliser plutôt Django</h3>
+
+                    <p>
+                        Django est particulièrement adapté lorsqu'une application nécessite rapidement de nombreuses
+                        fonctionnalités déjà intégrées.
+                    </p>
+                    <p>
+                        Flask est particulièrement adapté lorsqu'on souhaite construire progressivement une
+                        application et contrôler précisément les outils utilisés.
+                    </p>
+
+                    <table>
+                        <tr>
+                            <th style="width: 50%;">Utiliser plutôt Flask</th>
+                            <th style="width: 50%;">Utiliser plutôt Django</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <ul>
+                                    <li>un petit site dynamique</li>
+                                    <li>un prototype</li>
+                                    <li>une application web simple</li>
+                                    <li>une API</li>
+                                    <li>un projet pédagogique</li>
+                                    <li>un projet nécessitant une organisation personnalisée</li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <li>une application de gestion comportant plusieurs modèles</li>
+                                    <li>une interface d'administration</li>
+                                    <li>un système complet de comptes utilisateurs</li>
+                                    <li>de nombreux formulaires</li>
+                                    <li>une organisation commune pour une équipe de développeurs</li>
+                                    <li>un projet important destiné à évoluer</li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
+                    <p>
+                        Ce choix n'est pas déterminé uniquement par la taille du projet. Une application Flask peut
+                        devenir complexe et une petite application peut être créée avec Django. Le choix dépend surtout
+                        des besoins du projet et de la manière dont le développeur souhaite travailler.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="errors">
+            <h2>Éviter les idées reçues</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <ul>
+                        <li>
+                            Penser que Flask ne permet de créer que de petits projets : une application Flask peut
+                            être organisée en plusieurs modules et devenir complexe.
+                        </li>
+                        <li>
+                            Penser que Django réalise automatiquement toute l'application : le développeur doit
+                            toujours définir les données, les vues, les templates et les règles de fonctionnement.
+                        </li>
+                        <li>
+                            Penser que Flask est toujours plus facile : il est simple pour commencer, mais demande
+                            davantage de choix lorsque le projet grandit.
+                        </li>
+                        <li>
+                            Penser qu'il faut obligatoirement choisir le framework le plus puissant : il faut
+                            choisir l'outil adapté aux besoins du projet.
+                        </li>
+                        <li>
+                            Mélanger Flask et Django dans une même application : ils répondent au même besoin
+                            général et sont normalement utilisés séparément.
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </section>
     </main>
 
