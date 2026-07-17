@@ -36,7 +36,22 @@
 
         <!-- sidebar
              ======================================================================================================= -->
-        <nav class="sidebar"></nav>
+        <nav class="sidebar">
+
+            <!-- sidebar group ------------------------------------------------------------------------------------- -->
+            <section class="sidebar__group">
+                <h2>Dans cette page</h2>
+
+                <ul>
+                    <li class="sidebar__element">
+                        <a href="#questions">Énoncé</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#help">Conseils de réalisation</a>
+                    </li>
+                </ul>
+            </section>
+        </nav>
     </aside>
 
     <!-- ***************************************************************************************************************
@@ -46,8 +61,159 @@
 
         <!-- content section
              ======================================================================================================= -->
-        <section>
+        <section id="questions">
+            <h2>Énoncé</h2>
 
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Vous devez réaliser un mini-site personnel avec Flask.
+                    </p>
+                    <ul>
+                        <li>
+                            Le site doit présenter une personne réelle ou fictive.
+                        </li>
+                        <li>
+                            Le projet doit utiliser<span class="comment"> Flask</span>.
+                        </li>
+                        <li>
+                            Le site contiendra au minimum trois pages :
+                            <ul>
+                                <li>une page d'accueil</li>
+                                <li>une page de présentation</li>
+                                <li>une page de contact ou de centres d'intérêt</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Chaque page doit être associée à une<span class="comment"> route </span> et à
+                            une<span class="comment"> vue</span>.
+                        </li>
+                        <li>
+                            Chaque vue doit afficher un<span class="comment"> template</span>.
+                        </li>
+                        <li>
+                            La navigation doit permettre de passer facilement d'une page à l'autre.
+                        </li>
+                        <li>
+                            Les pages doivent partager une présentation cohérente basée sur un template commun :
+                            <ul>
+                                <li>un en-tête commun</li>
+                                <li>un menu de navigation</li>
+                                <li>un pied de page</li>
+                                <li>une feuille de style commune</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Le contenu doit comporter :
+                            <ul>
+                                <li>un titre clair sur chaque page</li>
+                                <li>des textes structurés</li>
+                                <li>au moins une image</li>
+                                <li>des liens de navigation visibles</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Le projet doit fonctionner avec le serveur de développement Flask.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="help">
+            <h2>Conseils de réalisation</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <ul>
+                        <li>
+                            Créer un nouveau projet Python avec un environnement virtuel.
+                        </li>
+                        <li>
+                            Installer Flask et enregistrer les dépendances
+                            dans<span class="comment"> requirements.txt</span>.
+                        </li>
+                        <li>
+                            Créer le fichier<span class="comment"> app.py</span>.
+                        </li>
+                        <li>
+                            Créer les routes et les vues nécessaires :
+                            <ul>
+                                <li>
+                                    <span class="comment">/ </span>: page d'accueil
+                                </li>
+                                <li>
+                                    <span class="comment">/about </span>: page de présentation
+                                </li>
+                                <li>
+                                    <span class="comment">/contact </span>,<span class="comment"> /hobbies </span>ou une
+                                    autre page complémentaire
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            Créer les fichiers HTML nécessaires dans le dossier<span class="comment"> templates</span>.
+                        </li>
+                        <li>
+                            Créer un fichier<span class="comment"> base.html </span>contenant :
+                            <ul>
+                                <li>la structure générale de la page</li>
+                                <li>le menu de navigation</li>
+                                <li>le pied de page</li>
+                                <li>un bloc destiné au contenu propre à chaque page</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Faire hériter les autres templates de<span class="comment"> base.html</span>.
+                        </li>
+                        <li>
+                            Créer un dossier<span class="comment"> static </span>contenant :
+                            <ul>
+                                <li>une feuille de style CSS</li>
+                                <li>au moins une image</li>
+                                <li>éventuellement un fichier JavaScript</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Soigner le contenu :
+                            <ul>
+                                <li>présenter la personne choisie</li>
+                                <li>indiquer son parcours, ses goûts, ses compétences ou ses projets</li>
+                                <li>utiliser des titres, des paragraphes et éventuellement des listes</li>
+                                <li>ajouter une image pertinente</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Personnaliser l'apparence du site :
+                            <ul>
+                                <li>choisir une palette de couleurs cohérente</li>
+                                <li>utiliser une police lisible</li>
+                                <li>prévoir des espacements réguliers</li>
+                                <li>rendre le menu clairement identifiable</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Tester le projet avec le serveur Flask et vérifier que :
+                            <ul>
+                                <li>toutes les pages s'affichent</li>
+                                <li>tous les liens fonctionnent</li>
+                                <li>la feuille de style est chargée</li>
+                                <li>les images apparaissent correctement</li>
+                                <li>
+                                    aucune erreur de type<span class="error"> erreur 404 </span>
+                                    ou<span class="error"> TemplateNotFound </span> n'apparaît
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </section>
     </main>
 
