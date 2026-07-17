@@ -118,19 +118,19 @@
                 <div class="layout__text">
                     <p>
                         Une page Flask est associée à une adresse grâce au
-                        décorateur <span class="comment">@app.route()</span>.
+                        décorateur<span class="comment"> @app.route()</span>.
                     </p>
                     <pre class="python"><code>@app.route(<span class="text">"/"</span>)
 
 <span class="word">def</span> <span class="function">accueil</span>():
     <span class="word">return</span> <span class="text">"Bienvenue sur mon application Flask !"</span></code></pre>
                     <p>
-                        La valeur<span class="comment"> "/"</span> représente la racine du site, c'est-à-dire
+                        La valeur<span class="comment"> "/" </span>représente la racine du site, c'est-à-dire
                         sa page d'accueil. Lorsque cette adresse est demandée, Flask exécute la
-                        fonction <span class="comment">accueil()</span>.
+                        fonction<span class="comment"> accueil()</span>.
                     </p>
                     <p>
-                        Le texte placé après<span class="comment"> return</span> est ensuite envoyé au navigateur.
+                        Le texte placé après<span class="comment"> return </span>est ensuite envoyé au navigateur.
                     </p>
                     <p>L'application est créée, mais elle n'est pas encore exécutée.</p>
                 </div>
@@ -148,20 +148,12 @@
                 <div class="layout__text">
                     <ul>
                         <li>
-                            Nommer le fichier<span class="comment"> flask.py</span> :
+                            Nommer le fichier<span class="comment"> flask.py </span>:
                             <span class="error">Python risque de confondre ce fichier avec la bibliothèque Flask</span>.
                         </li>
                         <li>
-                            Écrire<span class="python"> Flask</span> sans majuscule :
+                            Écrire<span class="comment"> Flask </span>sans majuscule :
                             <span class="error">le nom de la classe doit être respecté exactement</span>.
-                        </li>
-                        <li>
-                            Oublier les parenthèses après<span class="function"> accueil</span> :
-                            <span class="error">une fonction doit être déclarée avec des parenthèses</span>.
-                        </li>
-                        <li>
-                            Oublier l'indentation après la fonction :
-                            <span class="error">l'instruction return doit appartenir au bloc de la fonction</span>.
                         </li>
                     </ul>
                 </div>
