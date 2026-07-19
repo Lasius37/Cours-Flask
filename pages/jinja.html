@@ -134,7 +134,7 @@
         title=<span class="text">"Accueil"</span>
     )</code></pre>
                     <p>
-                        Dans cet exemple, la donnée<span class="comment"> "Accueil"</span> est transmise
+                        Dans cet exemple, la donnée<span class="comment"> "Accueil" </span>est transmise
                         au template sous le nom<span class="comment"> title</span>. La syntaxe utilisée est :
                     </p>
                     <pre class="python"><code>render_template(
@@ -313,21 +313,25 @@
                     <p>
                         Une liste peut aussi contenir des dictionnaires.
                     </p>
-                    <pre class="python"><code>projects = [
+                    <pre class="python"><code>languages = [
     {
-        <span class="text">"name"</span>: <span class="text">"Contenu du site"</span>,
-        <span class="text">"language"</span>: <span class="text">"HTML"</span>
+        <span class="text">"function"</span>: <span class="text">"Coder le contenu du site"</span>,
+        <span class="text">"name"</span>: <span class="text">"HTML"</span>
     },
     {
-        <span class="text">"name"</span>: <span class="text">"Mise en forme du site"</span>,
-        <span class="text">"language"</span>: <span class="text">"CSS"</span>
+        <span class="text">"function"</span>: <span class="text">"Mettre en forme le site"</span>,
+        <span class="text">"name"</span>: <span class="text">"CSS"</span>
+    },
+    {
+        <span class="text">"function"</span>: <span class="text">"Rendre le site dynamique"</span>,
+        <span class="text">"name"</span>: <span class="text">"JavaScript"</span>
     }
 ]</code></pre>
 
-                    <pre class="html"><code>&#123;% for project in projects %&#125;
+                    <pre class="html"><code>&#123;% for language in languages %&#125;
     &lt;article&gt;
-        &lt;h2&gt;&#123;&#123; project.name &#125;&#125;&lt;/h2&gt;
-        &lt;p&gt;Technologie : &#123;&#123; project.language &#125;&#125;&lt;/p&gt;
+        &lt;h2&gt;&#123;&#123; language.name &#125;&#125;&lt;/h2&gt;
+        &lt;p&gt;Utilisation : &#123;&#123; language.function &#125;&#125;&lt;/p&gt;
     &lt;/article&gt;
 &#123;% endfor %&#125;</code></pre>
                 </div>
