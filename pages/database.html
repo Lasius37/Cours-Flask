@@ -134,7 +134,7 @@
 
                     <p>
                         Avec cette configuration, Flask-SQLAlchemy placera le
-                        fichier<span class="comment"> notes.db </span>dans le
+                        fichier<span class="comment"> my_db_file.db </span>dans le
                         dossier<span class="comment"> instance </span>de l'application.
                     </p>
 
@@ -172,7 +172,7 @@
                     </p>
                     <pre class="python"><code>db = SQLAlchemy(app)</code></pre>
                     <p>
-                        L'objet<span class="comment"> db </span>relie SQLAlchemy à l'application Flask.
+                        L'objet<span class="comment"> db </span>relie Flask-SQLAlchemy à l'application Flask.
                     </p>
                     <p>
                         Il permettra notamment :
@@ -223,7 +223,7 @@ db = SQLAlchemy(app)</code></pre>
                             <span class="error">il devient difficile d'identifier la base réellement utilisée</span>.
                         </li>
                         <li>
-                            Chercher immédiatement le fichier<span class="comment"> notes.db </span>:
+                            Chercher immédiatement le fichier<span class="comment"> my_db_file.db </span>:
                             <span class="error">il ne sera créé qu'après la génération des premières tables</span>.
                         </li>
                     </ul>
