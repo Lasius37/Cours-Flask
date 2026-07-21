@@ -36,7 +36,34 @@
 
         <!-- sidebar
              ======================================================================================================= -->
-        <nav class="sidebar"></nav>
+        <nav class="sidebar">
+
+            <!-- sidebar group ------------------------------------------------------------------------------------- -->
+            <section class="sidebar__group">
+                <h2>Dans cette page</h2>
+
+                <ul>
+                    <li class="sidebar__element">
+                        <a href="#model">Comprendre le rôle d'un modèle</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#create">Créer un modèle</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#columns">Définir les colonnes</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#options">Configurer les colonnes</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#table">Créer la table</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#errors">Erreurs fréquentes</a>
+                    </li>
+                </ul>
+            </section>
+        </nav>
     </aside>
 
     <!-- ***************************************************************************************************************
@@ -46,8 +73,277 @@
 
         <!-- content section
              ======================================================================================================= -->
-        <section>
+        <section id="model">
+            <h2>Comprendre le rôle d'un modèle</h2>
 
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Un modèle décrit la structure des données que l'application
+                        doit enregistrer.
+                    </p>
+                    <p>
+                        Chaque modèle correspond généralement à une table de la base de données :
+                    </p>
+                    <ul>
+                        <li>la classe Python représente la table</li>
+                        <li>les attributs de la classe représentent les colonnes</li>
+                        <li>les objets créés à partir de la classe représenteront les lignes</li>
+                    </ul>
+                    <p>
+                        Par exemple, pour une bibliothèque, le modèle<span class="comment"> Book </span>pourra contenir :
+                    </p>
+                    <table>
+                        <tr>
+                            <th>Colonne</th>
+                            <th>Contenu</th>
+                        </tr>
+                        <tr>
+                            <td>id</td>
+                            <td>Identifiant unique du livre</td>
+                        </tr>
+                        <tr>
+                            <td>title</td>
+                            <td>Titre du livre</td>
+                        </tr>
+                        <tr>
+                            <td>synopsis</td>
+                            <td>Le synopsis du livre</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="create">
+            <h2>Créer un modèle</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Un modèle est une classe Python qui hérite de<span class="comment"> db.Model</span>.
+                    </p>
+                    <pre class="python"><code><span class="word">class</span> <span class="function">Book</span>(db.Model):
+    <span class="word">pass</span></code></pre>
+                    <p>
+                        Flask-SQLAlchemy transforme ensuite ce modèle en table dans la base de données.
+                        Lorsque le nom de la table n'est pas indiqué, il peut être généré automatiquement.
+                    </p>
+                    <p>
+                        Il est toutefois possible de définir explicitement ce nom
+                        avec<span class="comment"> __tablename__ </span>:
+                    </p>
+                    <pre class="python"><code><span class="word">class</span> <span class="function">Note</span>(db.Model):
+    __tablename__ = <span class="text">"books"</span></code></pre>
+                    <p>
+                        Le modèle<span class="comment"> Book </span>correspondra ainsi à une table
+                        nommée<span class="comment"> books</span>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="columns">
+            <h2>Définir les colonnes</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Chaque colonne est créée avec<span class="comment"> db.Column()</span>.
+                    </p>
+                    <pre class="python"><code><span class="word">class</span> <span class="function">Book</span>(db.Model):
+    __tablename__ = <span class="text">"books"</span>
+    id = db.Column(db.Integer)
+    title = db.Column(db.String)
+    synopsis = db.Column(db.Text)</code></pre>
+                    <p>
+                        Le premier argument indique le type de donnée que la colonne pourra contenir.
+                    </p>
+                    <table>
+                        <tr>
+                            <th>Type</th>
+                            <th>Utilisation</th>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">db.Integer</span></td>
+                            <td>Nombre entier</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">db.String</span></td>
+                            <td>Texte court</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">db.Text</span></td>
+                            <td>Texte long</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">db.Boolean</span></td>
+                            <td>Valeur vraie ou fausse</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">db.Float</span></td>
+                            <td>Nombre décimal</td>
+                        </tr>
+                    </table>
+                    <p>
+                        La longueur maximale d'un texte court peut être précisée :
+                    </p>
+                    <pre class="python"><code>title = db.Column(db.String(<span class="number">100</span>))</code></pre>
+                    <p>
+                        La colonne<span class="comment"> title </span>pourra ainsi contenir un texte court
+                        dont la longueur maximale prévue est de 100 caractères.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="options">
+            <h2>Configurer les colonnes</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Plusieurs options permettent de préciser le fonctionnement d'une colonne.
+                    </p>
+                    <table>
+                        <tr>
+                            <th>Option</th>
+                            <th>Rôle</th>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">primary_key=True</span></td>
+                            <td>Définit la clé primaire de la table</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">nullable=False</span></td>
+                            <td>Rend la valeur obligatoire</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">unique=True</span></td>
+                            <td>Interdit les valeurs identiques</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">default=...</span></td>
+                            <td>Définit une valeur par défaut</td>
+                        </tr>
+                    </table>
+                    <p>
+                        Chaque modèle doit posséder une clé primaire permettant d'identifier chaque ligne
+                        de façon unique.
+                    </p>
+                    <pre class="python"><code>id = db.Column(
+    db.Integer,
+    primary_key=<span class="word">True</span>
+)</code></pre>
+                    <p>
+                        La valeur de<span class="comment"> id </span>sera générée automatiquement pour chaque
+                        nouveau livre.
+                    </p>
+                    <p>
+                        Le titre et le synopsis peuvent être rendus obligatoires :
+                    </p>
+                    <pre class="python"><code>title = db.Column(
+    db.String(<span class="number">100</span>),
+    nullable=<span class="word">False</span>
+)
+
+content = db.Column(
+    db.Text,
+    nullable=<span class="word">False</span>
+)</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="table">
+            <h2>Créer la table</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        La création d'un modèle ne crée pas immédiatement la table correspondante dans
+                        la base de données.
+                    </p>
+                    <p>
+                        Après la définition du modèle, utiliser<span class="comment"> db.create_all() </span>
+                        dans le contexte de l'application :
+                    </p>
+                    <pre class="python"><code><span class="word">with</span> app.app_context():
+    db.<span class="function">create_all</span>()</code></pre>
+                    <p>
+                        Le contexte d'application permet à Flask-SQLAlchemy de savoir quelle application
+                        et quelle configuration doivent être utilisées. Lors du lancement du programme :
+                    </p>
+                    <ul>
+                        <li>le dossier<span class="comment"> instance </span>est créé si nécessaire</li>
+                        <li>le fichier<span class="comment"> my_db_file.db </span>est créé</li>
+                        <li>la table<span class="comment"> books </span>est ajoutée à la base</li>
+                    </ul>
+                    <p>
+                        La méthode<span class="comment"> create_all() </span>crée uniquement les tables
+                        qui n'existent pas encore. Elle ne met pas à jour automatiquement la structure
+                        d'une table déjà créée.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="errors">
+            <h2>Erreurs fréquentes</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <ul>
+                        <li>
+                            Ne pas faire hériter le modèle de<span class="comment"> db.Model </span>:
+                            <span class="error">Flask-SQLAlchemy ne reconnaît pas la classe comme un modèle</span>.
+                        </li>
+                        <li>
+                            Oublier la clé primaire :
+                            <span class="error">SQLAlchemy ne peut pas identifier correctement les lignes</span>.
+                        </li>
+                        <li>
+                            Oublier<span class="comment"> nullable=False </span>sur une donnée obligatoire :
+                            <span class="error">une valeur vide pourra être enregistrée dans la colonne</span>.
+                        </li>
+                        <li>
+                            Appeler<span class="comment"> db.create_all() </span>avant la définition du modèle :
+                            <span class="error">la table du modèle n'est pas encore connue</span>.
+                        </li>
+                        <li>
+                            Appeler<span class="comment"> db.create_all() </span>sans contexte d'application :
+                            <span class="error">Flask-SQLAlchemy ne peut pas accéder à l'application courante</span>.
+                        </li>
+                        <li>
+                            Modifier un modèle après la création de la table et relancer
+                            <span class="comment">create_all()</span> :
+                            <span class="error">la table existante n'est pas automatiquement modifiée</span>.
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </section>
     </main>
 
