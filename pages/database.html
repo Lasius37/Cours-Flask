@@ -36,7 +36,28 @@
 
         <!-- sidebar
              ======================================================================================================= -->
-        <nav class="sidebar"></nav>
+        <nav class="sidebar">
+
+            <!-- sidebar group ------------------------------------------------------------------------------------- -->
+            <section class="sidebar__group">
+                <h2>Dans cette page</h2>
+
+                <ul>
+                    <li class="sidebar__element">
+                        <a href="#install">Installer et initialiser Flask-SQLAlchemy</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#configure">Configurer la base de données</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#application">Relier la base à l'application</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#errors">Erreurs fréquentes</a>
+                    </li>
+                </ul>
+            </section>
+        </nav>
     </aside>
 
     <!-- ***************************************************************************************************************
@@ -46,8 +67,174 @@
 
         <!-- content section
              ======================================================================================================= -->
-        <section>
+        <section id="install">
+            <h2>Installer et initialiser Flask-SQLAlchemy</h2>
 
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Dans le terminal de PyCharm, vérifier que l'environnement virtuel du projet est activé,
+                        puis installer Flask-SQLAlchemy :
+                    </p>
+                    <pre class="console"><code>pip install Flask-SQLAlchemy</code></pre>
+                    <p>
+                        Mettre ensuite à jour le fichier des dépendances :
+                    </p>
+                    <pre class="console"><code>pip freeze &gt; requirements.txt</code></pre>
+                    <p>
+                        Dans<span class="comment"> app.py</span>, importer Flask-SQLAlchemy et la
+                        classe<span class="comment"> DeclarativeBase</span>.
+                    </p>
+                    <pre class="python"><code><span class="word">from</span> flask <span class="word">import</span> Flask
+<span class="word">from</span> flask_sqlalchemy <span class="word">import</span> SQLAlchemy
+<span class="word">from</span> sqlalchemy.orm <span class="word">import</span> DeclarativeBase</code></pre>
+                    <p>
+                        Créer ensuite une classe de base :
+                    </p>
+                    <pre class="python"><code><span class="word">class</span> <span class="function">DataBase</span>(DeclarativeBase):
+    <span class="word">pass</span></code></pre>
+                    <p>
+                        Cette classe servira de base aux futurs modèles de l'application.
+                    </p>
+                    <p>
+                        Créer enfin l'objet<span class="comment"> db </span>:
+                    </p>
+                    <pre class="python"><code>db = SQLAlchemy(model_class=DataBase)</code></pre>
+                    <p>
+                        L'objet<span class="comment"> db </span>donnera notamment accès :
+                    </p>
+                    <ul>
+                        <li>à la classe utilisée pour créer les modèles ;</li>
+                        <li>à la session permettant de manipuler les données ;</li>
+                        <li>aux fonctions permettant de créer les tables.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="configure">
+            <h2>Configurer la base de données</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Créer ensuite l'application Flask :
+                    </p>
+                    <pre class="python"><code>app = Flask(__name__)</code></pre>
+                    <p>
+                        La clé de configuration<span class="comment"> SQLALCHEMY_DATABASE_URI </span>
+                        indique à SQLAlchemy quelle base de données utiliser.
+                    </p>
+                    <pre class="python"><code>app.config[<span class="text">"SQLALCHEMY_DATABASE_URI"</span>] = <span class="text">"sqlite:///my_db_file.db"</span></code></pre>
+                    <p>
+                        Cette adresse se décompose ainsi :
+                    </p>
+                    <ul>
+                        <li>
+                            <span class="comment">sqlite</span> indique le système de base de données utilisé ;
+                        </li>
+                        <li>
+                            <span class="comment">my_db_file.db</span> correspond au nom du fichier qui contiendra
+                            les données.
+                        </li>
+                    </ul>
+                    <p>
+                        Avec cette configuration, le fichier<span class="comment"> my_db_file.db </span>sera placé dans le
+                        dossier<span class="comment"> instance </span>de l'application.
+                    </p>
+                    <pre class="console"><code>my_flask_project/
+│
+├── instance/
+│   └── notes.db
+│
+├── static/
+├── templates/
+│
+├── app.py
+└── requirements.txt</code></pre>
+                    <p>
+                        Le fichier<span class="comment"> notes.db </span>n'est pas encore créé.
+                        Il apparaîtra lorsque les premières tables seront générées.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="application">
+            <h2>Relier la base à l'application</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Après avoir configuré l'application, appeler la méthode<span class="comment"> init_app()</span>.
+                    </p>
+                    <pre class="python"><code>db.<span class="function">init_app</span>(app)</code></pre>
+                    <p>
+                        La configuration  de l'application doit être définie avant l'appel
+                        de<span class="comment">db.init_app(app)</span>.
+                    </p>
+                    <pre class="python"><code>app = Flask(__name__)
+
+app.config[<span class="text">"SQLALCHEMY_DATABASE_URI"</span>] = <span class="text">"sqlite:///notes.db"</span>
+
+db.<span class="function">init_app</span>(app)</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="errors">
+            <h2>Erreurs fréquentes</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <ul>
+                        <li>
+                            Installer<span class="comment"> SQLAlchemy </span>sans
+                            installer<span class="comment"> Flask-SQLAlchemy </span>:
+                            <span class="error">l'import flask_sqlalchemy n'est pas reconnu</span>.
+                        </li>
+
+                        <li>
+                            Installer Flask-SQLAlchemy en dehors de l'environnement virtuel :
+                            <span class="error">PyCharm peut ne pas trouver le module</span>.
+                        </li>
+
+                        <li>
+                            Oublier la clé<span class="comment"> SQLALCHEMY_DATABASE_URI </span>:
+                            <span class="error">Flask-SQLAlchemy ne sait pas à quelle base se connecter</span>.
+                        </li>
+
+                        <li>
+                            Configurer la base après<span class="comment"> db.init_app(app) </span>:
+                            <span class="error">la nouvelle configuration n'est pas prise en compte</span>.
+                        </li>
+
+                        <li>
+                            Oublier d'appeler<span class="comment"> db.init_app(app) </span>:
+                            <span class="error">la base n'est pas reliée à l'application Flask</span>.
+                        </li>
+
+                        <li>
+                            Chercher immédiatement le fichier<span class="comment"> notes.db </span>:
+                            <span class="error">il ne sera créé qu'après la création des tables</span>.
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </section>
     </main>
 
