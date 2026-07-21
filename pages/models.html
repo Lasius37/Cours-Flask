@@ -139,7 +139,7 @@
                         Il est toutefois possible de définir explicitement ce nom
                         avec<span class="comment"> __tablename__ </span>:
                     </p>
-                    <pre class="python"><code><span class="word">class</span> <span class="function">Note</span>(db.Model):
+                    <pre class="python"><code><span class="word">class</span> <span class="function">Book</span>(db.Model):
     __tablename__ = <span class="text">"books"</span></code></pre>
                     <p>
                         Le modèle<span class="comment"> Book </span>correspondra ainsi à une table
@@ -261,7 +261,7 @@
     nullable=<span class="word">False</span>
 )
 
-content = db.Column(
+synopsis = db.Column(
     db.Text,
     nullable=<span class="word">False</span>
 )</code></pre>
