@@ -59,8 +59,12 @@
 					"text": "Créer un modèle"
 				},
 				{
+					"tag": "create-data",
+					"text": "Créer et enregistrer des données"
+				},
+				{
 					"tag": "query-data",
-					"text": "Enregistrer, trouver et afficher des données"
+					"text": "Trouver et afficher des données"
 				},
 				{
 					"tag": "forms",
