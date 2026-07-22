@@ -245,6 +245,15 @@ synopsis = request.form[<span class="text">"synopsis"</span>]</code></pre>
                     </p>
                     <pre class="python"><code>year = int(request.form[<span class="text">"year"</span>])</code></pre>
                     <p>
+                        Pour éviter que l'application ne s'arrête lorsque la valeur ne peut pas être convertie,
+                        on peut gérer l'erreur avec<span class="comment"> try </span>
+                        et<span class="comment"> except</span>:
+                    </p>
+                    <pre class="python"><code><span class="word">try</span>:
+    year = int(request.form[<span class="text">"year"</span>])
+    <span class="word">except</span> ValueError:
+        <span class="word">return</span> <span class="text">"L'année doit être un nombre entier."</span></code></pre>
+                    <p>
                         Les valeurs textuelles n'ont pas besoin de conversion :
                     </p>
                     <pre class="python"><code>title = request.form[<span class="text">"title"</span>]
