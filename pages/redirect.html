@@ -29,7 +29,343 @@
         </nav>
     </header>
 
+    <!-- ***************************************************************************************************************
+         ASIDE
+    **************************************************************************************************************** -->
+    <aside>
 
+        <!-- sidebar
+             ======================================================================================================= -->
+        <nav class="sidebar">
+
+            <!-- sidebar group ------------------------------------------------------------------------------------- -->
+            <section class="sidebar__group">
+                <h2>Dans cette page</h2>
+
+                <ul>
+                    <li class="sidebar__element">
+                        <a href="#problem">Comprendre le problème</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#url-for">Générer une URL avec url_for()</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#redirect">Rediriger avec redirect()</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#post-redirect-get">Appliquer le principe POST-Redirect-GET</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#arguments">Transmettre des paramètres à url_for()</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#errors">Erreurs fréquentes</a>
+                    </li>
+                </ul>
+            </section>
+        </nav>
+    </aside>
+
+    <!-- ***************************************************************************************************************
+         MAIN
+    **************************************************************************************************************** -->
+    <main>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="problem">
+            <h2>Comprendre le problème</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Après l'enregistrement d'un livre, la fonction de vue peut renvoyer
+                        directement un message :
+                    </p>
+                    <pre class="python"><code>db.session.<span class="function">add</span>(book)
+db.session.<span class="function">commit</span>()
+
+<span class="word">return</span> <span class="text">"Le livre a été enregistré."</span></code></pre>
+                    <p>
+                        Cette solution confirme l'enregistrement, mais elle ne dirige pas l'utilisateur vers une
+                        véritable page de l'application. Il serait plus utile de renvoyer l'utilisateur vers la
+                        liste des livres après l'enregistrement. Pour cela, Flask fournit deux fonctions :
+                    </p>
+                    <table>
+                        <tr>
+                            <th>Fonction</th>
+                            <th>Rôle</th>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">url_for()</span></td>
+                            <td>Génère l'URL correspondant à une fonction de vue</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">redirect()</span></td>
+                            <td>Demande au navigateur de consulter une autre URL</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="url-for">
+            <h2>Générer une URL avec url_for()</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        La fonction<span class="comment"> url_for() </span>génère une URL à partir du nom d'une
+                        fonction de vue. Considérons une vue qui affiche tous les livres :
+                    </p>
+                    <pre class="python"><code>@app.route(<span class="text">"/books"</span>)
+<span class="word">def</span> <span class="function">books</span>():
+    books = db.session.<span class="function">execute</span>(
+        db.<span class="function">select</span>(Book)
+    ).<span class="function">scalars</span>().<span class="function">all</span>()
+
+    <span class="word">return</span> render_template(
+        <span class="text">"books.html"</span>,
+        books=books
+    )</code></pre>
+                    <p>
+                        Le nom de cette fonction de vue est<span class="comment"> books</span>. Son URL peut donc être
+                        générée ainsi :
+                    </p>
+                    <pre class="python"><code>url = url_for(<span class="text">"books"</span>)</code></pre>
+                    <p>
+                        La variable<span class="comment"> url </span>contient alors :
+                    </p>
+                    <pre class="console"><code>/books</code></pre>
+                    <p>
+                        Attention, il faut importer<span class="comment"> url_for </span>depuis Flask :
+                    </p>
+                    <pre class="python"><code><span class="word">from</span> flask <span class="word">import</span> url_for</code></pre>
+                    <p>
+                        Il est préférable d'utiliser<span class="comment"> url_for() </span>plutôt que d'écrire
+                        directement l'adresse :
+                    </p>
+                    <pre class="python"><code>url = <span class="text">"/books"</span>  <span class="comment"># adresse écrite directement (codée "en dur")</span>
+
+url = url_for(<span class="text">"books"</span>)  <span class="comment"># adresse générée à partir de la fonction de vue</span></code></pre>
+                    <p>
+                        Si l'adresse de la route est modifiée plus tard,<span class="comment"> url_for() </span>
+                        générera automatiquement la nouvelle URL.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="redirect">
+            <h2>Rediriger avec redirect()</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        La fonction<span class="comment"> redirect() </span>crée une réponse demandant au navigateur
+                        de consulter une autre adresse. Elle doit également être importée depuis Flask :
+                    </p>
+                    <pre class="python"><code><span class="word">from</span> flask <span class="word">import</span> redirect</code></pre>
+                    <p>
+                        Une redirection vers la liste des livres peut être écrite ainsi :
+                    </p>
+                    <pre class="python"><code><span class="word">return</span> redirect(<span class="text">"/books"</span>)</code></pre>
+                    <p>
+                        Il est cependant préférable de combiner<span class="comment"> redirect() </span>
+                        et<span class="comment"> url_for() </span>:
+                    </p>
+                    <pre class="python"><code><span class="word">return</span> redirect(
+    url_for(<span class="text">"books"</span>)
+)</code></pre>
+                    <p>
+                        Le fonctionnement se déroule en deux étapes :
+                    </p>
+                    <ul>
+                        <li>
+                            <span class="comment">url_for("books") </span>génère
+                            l'adresse<span class="comment"> /books </span>
+                        </li>
+                        <li>
+                            <span class="comment">redirect() </span>demande au navigateur de consulter cette adresse
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="post-redirect-get">
+            <h2>Appliquer le principe POST-Redirect-GET</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Après le traitement d'un formulaire envoyé avec<span class="comment"> POST</span>, il est
+                        recommandé d'effectuer une redirection. Cette organisation est
+                        appelée<span class="comment"> POST-Redirect-GET</span>.
+                    </p>
+                    <table>
+                        <tr>
+                            <th>Étape</th>
+                            <th>Action</th>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">POST</span></td>
+                            <td>Le formulaire envoie les données</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">Redirect</span></td>
+                            <td>Flask demande au navigateur de consulter une autre page</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">GET</span></td>
+                            <td>Le navigateur demande la page de destination</td>
+                        </tr>
+                    </table>
+                    <p>
+                        Dans la vue<span class="comment"> create_book</span>, le message
+                        provisoire renvoyé par<span class="comment"> return </span>peut donc être remplacé.
+                    </p>
+                    <p>
+                        Avant :
+                    </p>
+                    <pre class="python"><code>db.session.<span class="function">add</span>(book)
+db.session.<span class="function">commit</span>()
+
+<span class="word">return</span> <span class="text">"Le livre a été enregistré."</span></code></pre>
+                    <p>
+                        Après :
+                    </p>
+                    <pre class="python"><code>db.session.<span class="function">add</span>(book)
+db.session.<span class="function">commit</span>()
+
+<span class="word">return</span> redirect(
+    url_for(<span class="text">"books"</span>)
+)</code></pre>
+                    <p>
+                        Une fois le livre enregistré, l'utilisateur est redirigé vers la liste des livres. Cette
+                        redirection évite également qu'un rafraîchissement de la page renvoie immédiatement les
+                        mêmes données du formulaire.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="arguments">
+            <h2>Transmettre des paramètres à url_for()</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Certaines routes contiennent une partie variable.
+                    </p>
+                    <pre class="python"><code>@app.route(<span class="text">"/books/&lt;int:book_id&gt;"</span>)
+<span class="word">def</span> <span class="function">book_detail</span>(book_id):
+    book = db.session.<span class="function">get</span>(Book, book_id)
+
+    <span class="word">if</span> book <span class="word">is</span> <span class="word">None</span>:
+        <span class="word">return</span> <span class="text">"Livre introuvable"</span>, <span class="number">404</span>
+
+    <span class="word">return</span> render_template(
+        <span class="text">"book-detail.html"</span>,
+        book=book
+    )</code></pre>
+                    <p>
+                        Pour générer l'URL de cette route, il faut transmettre une valeur
+                        pour<span class="comment"> book_id </span>:
+                    </p>
+                    <pre class="python"><code>url = url_for(
+    <span class="text">"book_detail"</span>,
+    book_id=<span class="number">1</span>
+)</code></pre>
+                    <p>
+                        L'URL générée est :
+                    </p>
+                    <pre class="console"><code>/books/1</code></pre>
+                    <p>
+                        Après la création d'un livre, il serait donc possible de rediriger
+                        vers sa page de détail :
+                    </p>
+                    <pre class="python"><code>db.session.<span class="function">add</span>(book)
+db.session.<span class="function">commit</span>()
+
+<span class="word">return</span> redirect(
+    url_for(
+        <span class="text">"book_detail"</span>,
+        book_id=book.id
+    )
+)</code></pre>
+                    <p>
+                        Après<span class="comment"> commit()</span>, l'attribut<span class="comment"> book.id </span>
+                        contient l'identifiant attribué au nouveau livre.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="errors">
+            <h2>Erreurs fréquentes</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <ul>
+                        <li>
+                            Oublier d'importer<span class="comment"> redirect </span>
+                            ou<span class="comment"> url_for </span>:
+                            <span class="error">Flask ne reconnaît pas la fonction utilisée</span>.
+                        </li>
+                        <li>
+                            Transmettre à<span class="comment"> url_for() </span>l'adresse
+                            d'une route au lieu du nom de sa fonction :
+                            <span class="error">Flask ne trouve aucun endpoint correspondant</span>.
+                        </li>
+                        <li>
+                            Utiliser<span class="comment"> redirect("books") </span>:
+                            <span class="error">le navigateur est dirigé vers une adresse relative incorrecte</span>.
+                        </li>
+                        <li>
+                            Oublier<span class="comment"> return </span>devant<span class="comment"> redirect() </span>:
+                            <span class="error">la réponse de redirection n'est pas renvoyée par la fonction</span>.
+                        </li>
+                        <li>
+                            Rediriger avant<span class="comment"> db.session.commit() </span>:
+                            <span class="error">le livre peut ne pas être enregistré avant le changement de page</span>.
+                        </li>
+                        <li>
+                            Oublier un paramètre demandé par une route dynamique :
+                            <span class="error">url_for() ne peut pas construire l'URL</span>.
+                        </li>
+                        <li>
+                            Afficher directement une page après une requête<span class="comment"> POST </span>
+                            sans redirection :
+                            <span class="error">un rafraîchissement peut proposer de renvoyer les données du formulaire</span>.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <!-- ***************************************************************************************************************
          FOOTER
