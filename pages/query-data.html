@@ -13,14 +13,14 @@
     <link rel="stylesheet" href="../css/init.css">
     <link rel="stylesheet" href="../css/style.css">
     <script type="module" src="../js/script.js" defer></script>
-    <title>Enregistrer et afficher des données</title>
+    <title>Enregistrer, trouver et afficher des données</title>
 </head>
 <body>
     <!-- ***************************************************************************************************************
          HEADER
     **************************************************************************************************************** -->
     <header>
-        <h1>Enregistrer et afficher des données</h1>
+        <h1>Enregistrer, trouver et afficher des données</h1>
 
         <!-- navbar
              ======================================================================================================= -->
@@ -29,7 +29,317 @@
         </nav>
     </header>
 
+    <!-- ***************************************************************************************************************
+         ASIDE
+    **************************************************************************************************************** -->
+    <aside>
 
+        <!-- sidebar
+             ======================================================================================================= -->
+        <nav class="sidebar">
+
+            <!-- sidebar group ------------------------------------------------------------------------------------- -->
+            <section class="sidebar__group">
+                <h2>Dans cette page</h2>
+
+                <ul>
+                    <li class="sidebar__element">
+                        <a href="#create">Créer une donnée</a>
+                    </li>
+
+                    <li class="sidebar__element">
+                        <a href="#save">Enregistrer une donnée</a>
+                    </li>
+
+                    <li class="sidebar__element">
+                        <a href="#all">Récupérer toutes les données</a>
+                    </li>
+
+                    <li class="sidebar__element">
+                        <a href="#one">Récupérer une donnée</a>
+                    </li>
+
+                    <li class="sidebar__element">
+                        <a href="#display">Afficher les données</a>
+                    </li>
+
+                    <li class="sidebar__element">
+                        <a href="#errors">Erreurs fréquentes</a>
+                    </li>
+                </ul>
+            </section>
+        </nav>
+    </aside>
+
+    <!-- ***************************************************************************************************************
+         MAIN
+    **************************************************************************************************************** -->
+    <main>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="create">
+            <h2>Créer une donnée</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Une ligne de la table est représentée en Python par un objet créé à partir du modèle.
+                    </p>
+                    <p>
+                        Pour créer un nouveau livre, instancier la classe<span class="comment"> Book</span> en indiquant
+                        la valeur de chaque colonne :
+                    </p>
+                    <pre class="python"><code>book = Book(
+    title=<span class="text">"Le Petit Prince"</span>,
+    year=<span class="number">1943</span>,
+    synopsis=<span class="text">"Un aviateur rencontre un jeune prince venu d'une autre planète..."</span>
+)</code></pre>
+                    <p>
+                        Il n'est pas nécessaire d'indiquer la valeur de<span class="comment"> id</span>,
+                        car celle-ci sera générée automatiquement.
+                    </p>
+                    <p>
+                        À ce stade, l'objet existe uniquement dans le programme Python.
+                        Il n'est pas encore enregistré dans la base de données.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="save">
+            <h2>Enregistrer une donnée</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Pour préparer l'enregistrement d'un objet, il faut l'ajouter à la session :
+                    </p>
+                    <pre class="python"><code>db.session.<span class="function">add</span>(book)</code></pre>
+                    <p>
+                        La session regroupe les modifications qui doivent être appliquées à la base de données.
+                    </p>
+                    <p>
+                        Ensuite, on valide ces modifications :
+                    </p>
+                    <pre class="python"><code>db.session.<span class="function">commit</span>()</code></pre>
+                    <p>
+                        L'enregistrement complet nécessite donc trois étapes :
+                    </p>
+                    <pre class="python"><code>book = Book(  <span class="comment"># création de l'enregistrement</span>
+    title=<span class="text">"Le Petit Prince"</span>,
+    year=<span class="number">1943</span>,
+    synopsis=<span class="text">"Un aviateur rencontre un jeune prince venu d'une autre planète..."</span>
+)
+
+db.session.<span class="function">add</span>(book)  <span class="comment"># ajout de l'enregistrement à la session</span>
+
+db.session.<span class="function">commit</span>()  <span class="comment"># enregistrement de la session dans la base</span></code></pre>
+                    <p>
+                        Après l'appel de<span class="comment"> commit()</span>, le livre est enregistré
+                        durablement dans la table<span class="comment"> books</span>.
+                    </p>
+                    <p>
+                        Pour effectuer cette opération directement au lancement du programme, utiliser
+                        le contexte de l'application :
+                    </p>
+                    <pre class="python"><code><span class="word">with</span> app.<span class="function">app_context</span>():
+    book = Book(
+        title=<span class="text">"Le Petit Prince"</span>,
+        year=<span class="number">1943</span>,
+        synopsis=<span class="text">"Un aviateur rencontre un jeune prince venu d'une autre planète."</span>
+    )
+
+    db.session.<span class="function">add</span>(book)
+
+    db.session.<span class="function">commit</span>()</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="all">
+            <h2>Récupérer toutes les données</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Pour récupérer des données, construire une requête avec<span class="comment"> db.select()</span>.
+                    </p>
+                    <pre class="python"><code>query = db.<span class="function">select</span>(Book)</code></pre>
+                    <p>
+                        Cette requête indique que l'application souhaite sélectionner les objets du
+                        modèle<span class="comment">Book</span>.
+                    </p>
+                    <p>
+                        Exécuter ensuite la requête avec la session :
+                    </p>
+                    <pre class="python"><code>result = db.session.<span class="function">execute</span>(query)</code></pre>
+                    <p>
+                        La méthode<span class="comment"> scalars()</span> récupère les objets
+                        <span class="comment">Book</span>, puis<span class="comment"> all()</span>
+                        les rassemble dans une liste :
+                    </p>
+                    <pre class="python"><code>books = db.session.<span class="function">execute</span>(
+    db.<span class="function">select</span>(Book)
+).<span class="function">scalars</span>().<span class="function">all</span>()</code></pre>
+                    <p>
+                        Les livres peuvent également être triés (ici, par titre) :
+                    </p>
+                    <pre class="python"><code>books = db.session.<span class="function">execute</span>(
+    db.<span class="function">select</span>(Book).<span class="function">order_by</span>(Book.title)
+).<span class="function">scalars</span>().<span class="function">all</span>()</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="one">
+            <h2>Récupérer une donnée</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Une donnée peut être retrouvée à partir de sa clé primaire :
+                    </p>
+                    <pre class="python"><code>book = db.session.<span class="function">get</span>(Book, <span class="number">1</span>)</code></pre>
+                    <p>
+                        Cette instruction recherche dans la table<span class="comment"> books </span>
+                        le livre dont l'identifiant vaut<span class="comment"> 1</span>.
+                    </p>
+                    <p>
+                        Si aucun livre ne possède cet identifiant, la valeur<span class="comment"> None </span>est renvoyée.
+                    </p>
+                    <pre class="python"><code><span class="word">if</span> book <span class="word">is</span> <span class="word">None</span>:
+    <span class="word">return</span> <span class="text">"Livre introuvable"</span></code></pre>
+                    <p>
+                        Une donnée peut aussi être recherchée à partir de la valeur d'une colonne :
+                    </p>
+                    <pre class="python"><code>book = db.session.<span class="function">execute</span>(
+    db.<span class="function">select</span>(Book).<span class="function">filter_by</span>(
+        title=<span class="text">"Le Petit Prince"</span>
+    )
+).<span class="function">scalar_one_or_none</span>()</code></pre>
+                    <p>
+                        La méthode<span class="comment"> scalar_one_or_none() </span>renvoie :
+                    </p>
+                    <ul>
+                        <li>l'objet trouvé lorsqu'une seule donnée correspond</li>
+                        <li><span class="comment">None </span>lorsqu'aucune donnée ne correspond</li>
+                        <li>une erreur si plusieurs données correspondent</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="display">
+            <h2>Afficher les données</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Pour afficher les livres dans une page, on les récupère dans la vue puis on les transmet
+                        au template avec<span class="comment"> render_template()</span>.
+                    </p>
+                    <pre class="python"><code><span class="word">from</span> flask <span class="word">import</span> Flask, render_template
+
+@app.route(<span class="text">"/books"</span>)
+<span class="word">def</span> <span class="function">books</span>():
+    books = db.session.<span class="function">execute</span>(
+        db.<span class="function">select</span>(Book).<span class="function">order_by</span>(Book.title)
+    ).<span class="function">scalars</span>().<span class="function">all</span>()
+
+    <span class="word">return</span> render_template(
+        <span class="text">"books.html"</span>,
+        books=books
+    )</code></pre>
+
+                    <p>
+                        Dans le fichier<span class="comment"> templates/books.html</span>, on parcourt
+                        la liste avec une boucle Jinja :
+                    </p>
+
+                    <pre class="html"><code>&lt;h1&gt;Bibliothèque&lt;/h1&gt;
+
+&#123;% if books %&#125;
+    &#123;% for book in books %&#125;
+        &lt;article&gt;
+            &lt;h2&gt;&#123;&#123; book.title &#125;&#125; (&#123;&#123; book.year &#125;&#125;) &lt;/h2&gt;
+            &lt;p&gt;&#123;&#123; book.synopsis &#125;&#125;&lt;/p&gt;
+        &lt;/article&gt;
+    &#123;% endfor %&#125;
+&#123;% else %&#125;
+    &lt;p&gt;Aucun livre enregistré.&lt;/p&gt;
+&#123;% endif %&#125;</code></pre>
+                    <p>
+                        Les colonnes du modèle sont accessibles dans le template avec la notation par point :
+                    </p>
+                    <ul>
+                        <li><span class="comment">book.id</span></li>
+                        <li><span class="comment">book.title</span></li>
+                        <li><span class="comment">book.year</span></li>
+                        <li><span class="comment">book.synopsis</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="errors">
+            <h2>Erreurs fréquentes</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <ul>
+                        <li>
+                            Créer un objet sans l'ajouter à la session :
+                            <span class="error">la donnée n'est pas préparée pour être enregistrée</span>.
+                        </li>
+                        <li>
+                            Oublier<span class="comment"> db.session.commit()</span> :
+                            <span class="error">les modifications ne sont pas enregistrées durablement</span>.
+                        </li>
+                        <li>
+                            Ajouter le même livre au lancement de chaque programme :
+                            <span class="error">une nouvelle ligne identique est créée à chaque exécution</span>.
+                        </li>
+                        <li>
+                            Oublier<span class="comment"> scalars()</span> :
+                            <span class="error">le résultat contient des lignes SQL plutôt que directement les objets</span>.
+                        </li>
+                        <li>
+                            Utiliser un nom de variable différent dans la vue et le template :
+                            <span class="error">la liste ne peut pas être affichée correctement</span>.
+                        </li>
+                        <li>
+                            Utiliser<span class="comment"> scalar_one_or_none()</span> alors que plusieurs résultats
+                            peuvent correspondre :
+                            <span class="error">SQLAlchemy signale que plusieurs lignes ont été trouvées</span>.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <!-- ***************************************************************************************************************
          FOOTER

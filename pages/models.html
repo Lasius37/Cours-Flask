@@ -109,6 +109,10 @@
                             <td>Titre du livre</td>
                         </tr>
                         <tr>
+                            <td>year</td>
+                            <td>L'année de parution</td>
+                        </tr>
+                        <tr>
                             <td>synopsis</td>
                             <td>Le synopsis du livre</td>
                         </tr>
@@ -165,6 +169,7 @@
     __tablename__ = <span class="text">"books"</span>
     id = db.Column(db.Integer)
     title = db.Column(db.String)
+    year = db.Column(db.Integer)
     synopsis = db.Column(db.Text)</code></pre>
                     <p>
                         Le premier argument indique le type de donnée que la colonne pourra contenir.
@@ -258,6 +263,11 @@
                     </p>
                     <pre class="python"><code>title = db.Column(
     db.String(<span class="number">100</span>),
+    nullable=<span class="word">False</span>
+)
+
+year = db.Column(
+    db.Integer,
     nullable=<span class="word">False</span>
 )
 
