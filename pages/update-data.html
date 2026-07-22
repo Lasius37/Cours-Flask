@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/normalize.css">
+    <link rel="stylesheet" href="../css/init.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script type="module" src="../js/script.js" defer></script>
+    <title>Modifier et supprimer des données</title>
+</head>
+<body>
+    <!-- ***************************************************************************************************************
+         HEADER
+    **************************************************************************************************************** -->
+    <header>
+        <h1>Modifier et supprimer des données</h1>
+
+        <!-- navbar
+             ======================================================================================================= -->
+        <nav>
+            <ul class="navbar"></ul>
+        </nav>
+    </header>
+
+    <!-- ***************************************************************************************************************
+         ASIDE
+    **************************************************************************************************************** -->
+    <aside>
+
+        <!-- sidebar
+             ======================================================================================================= -->
+        <nav class="sidebar">
+
+            <!-- sidebar group ------------------------------------------------------------------------------------- -->
+            <section class="sidebar__group">
+                <h2>Dans cette page</h2>
+
+                <ul>
+                    <li class="sidebar__element">
+                        <a href="#route">Créer la route de modification</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#get">Récupérer la donnée à modifier</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#form">Préremplir le formulaire</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#update">Modifier les valeurs</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#links">Ajouter le lien de modification</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#errors">Erreurs fréquentes</a>
+                    </li>
+                </ul>
+            </section>
+        </nav>
+    </aside>
+
+    <!-- ***************************************************************************************************************
+         MAIN
+    **************************************************************************************************************** -->
+    <main>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="route">
+            <h2>Créer la route de modification</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Pour modifier un livre, il faut connaître l'identifiant de la donnée concernée.
+                    </p>
+                    <p>
+                        La route contient donc une partie variable :
+                    </p>
+                    <pre class="python"><code>@app.route(
+    <span class="text">"/books/&lt;int:book_id&gt;/update"</span>,
+    methods=[<span class="text">"GET"</span>, <span class="text">"POST"</span>]
+)
+<span class="word">def</span> <span class="function">update_book</span>(book_id):
+    <span class="comment"># modification du livre</span></code></pre>
+                    <p>
+                        La variable<span class="comment"> book_id </span>contient l'identifiant présent dans l'URL.
+                    </p>
+                    <p>
+                        Par exemple, l'adresse suivante permet de modifier le livre dont
+                        l'identifiant vaut<span class="comment"> 3 </span>:
+                    </p>
+                    <pre class="console"><code>/books/3/update</code></pre>
+                    <p>
+                        La route accepte deux méthodes :
+                    </p>
+                    <table>
+                        <tr>
+                            <th>Méthode</th>
+                            <th>Rôle</th>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">GET</span></td>
+                            <td>Afficher le formulaire de modification</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">POST</span></td>
+                            <td>Recevoir les nouvelles valeurs</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="get">
+            <h2>Récupérer la donnée à modifier</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        La méthode<span class="comment"> db.session.get() </span>permet de récupérer
+                        le livre à partir de son identifiant.
+                    </p>
+                    <pre class="python"><code>book = db.session.<span class="function">get</span>(
+    Book,
+    book_id
+)</code></pre>
+                    <p>
+                        Si aucun livre ne correspond à cet identifiant, la méthode
+                        renvoie<span class="comment"> None</span>.
+                    </p>
+                    <pre class="python"><code><span class="word">if</span> book <span class="word">is</span> <span class="word">None</span>:
+    <span class="word">return</span> <span class="text">"Livre introuvable"</span>, <span class="number">404</span></code></pre>
+                    <p>
+                        Lorsque le livre existe, il peut être transmis au template contenant le formulaire.
+                    </p>
+                    <pre class="python"><code><span class="word">return</span> render_template(
+    <span class="text">"update-book.html"</span>,
+    book=book
+)</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="form">
+            <h2>Préremplir le formulaire</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Le formulaire de modification doit afficher les valeurs déjà enregistrées.
+                    </p>
+
+                    <h3>Préremplir un champ input</h3>
+                    <p>
+                        L'attribut<span class="comment"> value </span>permet de placer une valeur
+                        dans un champ<span class="comment"> input</span>.
+                    </p>
+                    <pre class="html"><code>&lt;label for="title"&gt;Titre&lt;/label&gt;
+
+&lt;input
+    type="text"
+    id="title"
+    name="title"
+    value="&#123;&#123; book.title &#125;&#125;"
+    maxlength="100"
+    required
+&gt;</code></pre>
+                    <p>
+                        Le champ de l'année est prérempli de la même manière :
+                    </p>
+                    <pre class="html"><code>&lt;label for="year"&gt;Année de parution&lt;/label&gt;
+
+&lt;input
+    type="number"
+    id="year"
+    name="year"
+    value="&#123;&#123; book.year &#125;&#125;"
+    min="0"
+    max="2100"
+    required
+&gt;</code></pre>
+
+                    <h3>Préremplir une zone de texte</h3>
+                    <p>
+                        Une balise<span class="comment"> textarea </span>n'utilise pas
+                        l'attribut<span class="comment"> value</span>. La valeur doit être placée entre les balises
+                        ouvrante et fermante :
+                    </p>
+                    <pre class="html"><code>&lt;label for="synopsis"&gt;Synopsis&lt;/label&gt;
+
+&lt;textarea
+    id="synopsis"
+    name="synopsis"
+    rows="8"
+    required
+&gt;&#123;&#123; book.synopsis &#125;&#125;&lt;/textarea&gt;</code></pre>
+
+                    <h3>Configurer la destination du formulaire</h3>
+
+                    <p>
+                        Le formulaire doit transmettre l'identifiant du livre à la route
+                        de modification.
+                    </p>
+                    <pre class="html"><code>&lt;form
+    action="&#123;&#123; url_for(
+        'update_book',
+        book_id=book.id
+    ) &#125;&#125;"
+    method="post"
+&gt;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="update">
+            <h2>Modifier les valeurs</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Lorsque le formulaire est envoyé, la route reçoit une requête<span class="comment"> POST</span>.
+                        Les nouvelles valeurs sont récupérées avec<span class="comment"> request.form</span>.
+                    </p>
+                    <pre class="python"><code><span class="word">if</span> request.method == <span class="text">"POST"</span>:
+    title = request.form[<span class="text">"title"</span>].<span class="function">strip</span>()
+    synopsis = request.form[<span class="text">"synopsis"</span>].<span class="function">strip</span>()
+
+    <span class="word">try</span>:
+        year = int(request.form[<span class="text">"year"</span>])
+
+    <span class="word">except</span> ValueError:
+        <span class="word">return</span> <span class="text">"L'année doit être un nombre entier."</span></code></pre>
+                    <p>
+                        Les données sont ensuite vérifiées :
+                    </p>
+                    <pre class="python"><code><span class="word">if</span> title == <span class="text">""</span> <span class="word">or</span> synopsis == <span class="text">""</span>:
+    <span class="word">return</span> <span class="text">"Le titre et le synopsis sont obligatoires."</span>
+
+<span class="word">if</span> year &lt; <span class="number">0</span> <span class="word">or</span> year &gt; <span class="number">2100</span>:
+    <span class="word">return</span> <span class="text">"L'année indiquée est incorrecte."</span></code></pre>
+                    <p>
+                        Pour modifier la ligne existante, remplacer directement les attributs de
+                        l'objet<span class="comment"> book</span>.
+                    </p>
+                    <pre class="python"><code>book.title = title
+book.year = year
+book.synopsis = synopsis</code></pre>
+                    <p>
+                        Il ne faut pas créer un nouvel objet<span class="comment"> Book</span>.
+                        Cela ajouterait une nouvelle ligne au lieu de modifier la ligne existante.
+                    </p>
+                    <p>
+                        Il n'est pas non plus nécessaire d'utiliser<span class="comment"> db.session.add()</span>,
+                        car l'objet récupéré appartient déjà à la session.
+                    </p>
+                    <p>
+                        Les modifications sont validées avec :
+                    </p>
+                    <pre class="python"><code>db.session.<span class="function">commit</span>()</code></pre>
+                    <p>
+                        Après la modification, l'utilisateur est redirigé vers la liste des livres :
+                    </p>
+                    <pre class="python"><code><span class="word">return</span> redirect(
+    url_for(<span class="text">"books"</span>)
+)</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="links">
+            <h2>Ajouter le lien de modification</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Dans le template<span class="comment"> books.html</span>, chaque livre
+                        peut comporter un lien vers son formulaire de modification.
+                    </p>
+                    <pre class="html"><code>&#123;% for book in books %&#125;
+    &lt;article&gt;
+        ...
+
+        &lt;a href="&#123;&#123; url_for(
+            'update_book',  <span class="comment">&lt;-- le nom de la fonction de vue --&gt;</span>
+            book_id=book.id  <span class="comment">&lt;-- la valeur de la partie variable --&gt;</span>
+        ) &#125;&#125;"&gt;
+            Modifier
+        &lt;/a&gt;
+    &lt;/article&gt;
+&#123;% endfor %&#125;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="errors">
+            <h2>Erreurs fréquentes</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <ul>
+                        <li>
+                            Oublier l'identifiant dans la route :
+                            <span class="error">l'application ne sait pas quel enregistrement doit être modifié</span>.
+                        </li>
+                        <li>
+                            Ne pas vérifier si<span class="comment"> book </span>
+                            vaut<span class="comment"> None </span>:
+                            <span class="error">l'application tente de modifier un objet qui n'existe pas</span>.
+                        </li>
+                        <li>
+                            Oublier de transmettre<span class="comment"> book </span>au template :
+                            <span class="error">le formulaire ne peut pas afficher les valeurs actuelles</span>.
+                        </li>
+                        <li>
+                            Oublier l'attribut<span class="comment"> value </span>dans les
+                            champs<span class="comment"> input </span>:
+                            <span class="error">les champs ne sont pas préremplis</span>.
+                        </li>
+                        <li>
+                            Utiliser<span class="comment"> value </span>sur une
+                            balise<span class="comment"> textarea </span>:
+                            <span class="error">la donnée n'est pas affiché</span>.
+                        </li>
+                        <li>
+                            Créer un nouvel objet au lieu de le modifier :
+                            <span class="error">une nouvelle ligne est ajoutée au lieu de modifier l'ancienne</span>.
+                        </li>
+                        <li>
+                            Oublier<span class="comment"> db.session.commit() </span>:
+                            <span class="error">les nouvelles valeurs ne sont pas enregistrées</span>.
+                        </li>
+                        <li>
+                            Oublier la partie variable dans<span class="comment"> url_for() </span>:
+                            <span class="error">Flask ne peut pas générer l'adresse de modification</span>.
+                        </li>
+                        <li>
+                            Traiter les données du formulaire lors d'une requête<span class="comment"> GET </span>:
+                            <span class="error">aucune nouvelle valeur n'a encore été envoyée</span>.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ***************************************************************************************************************
+         FOOTER
+    **************************************************************************************************************** -->
+    <footer>
+        <div>© Copyright - Guillaume Peyrard</div>
+    </footer>
+</body>
+</html>

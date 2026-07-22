@@ -79,8 +79,12 @@
 					"text": "Rediriger avec redirect() et url_for()"
 				},
 				{
-					"tag": "crud",
-					"text": "Modifier et supprimer des données"
+					"tag": "update-data",
+					"text": "Modifier des données"
+				},
+				{
+					"tag": "delete-data",
+					"text": "Supprimer des données"
 				},
 				{
 					"tag": "project-notes",

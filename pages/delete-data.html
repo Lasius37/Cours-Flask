@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/normalize.css">
+    <link rel="stylesheet" href="../css/init.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script type="module" src="../js/script.js" defer></script>
+    <title>Modifier et supprimer des données</title>
+</head>
+<body>
+    <!-- ***************************************************************************************************************
+         HEADER
+    **************************************************************************************************************** -->
+    <header>
+        <h1>Modifier et supprimer des données</h1>
+
+        <!-- navbar
+             ======================================================================================================= -->
+        <nav>
+            <ul class="navbar"></ul>
+        </nav>
+    </header>
+
+    <!-- ***************************************************************************************************************
+         ASIDE
+    **************************************************************************************************************** -->
+    <aside>
+
+        <!-- sidebar
+             ======================================================================================================= -->
+        <nav class="sidebar">
+
+            <!-- sidebar group ------------------------------------------------------------------------------------- -->
+            <section class="sidebar__group">
+                <h2>Dans cette page</h2>
+
+                <ul>
+                    <li class="sidebar__element">
+                        <a href="#route">Créer la route de suppression</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#delete">Supprimer la donnée</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#form">Créer le formulaire de suppression</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#confirm">Demander une confirmation</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#errors">Erreurs fréquentes</a>
+                    </li>
+                </ul>
+            </section>
+        </nav>
+    </aside>
+
+    <!-- ***************************************************************************************************************
+         MAIN
+    **************************************************************************************************************** -->
+    <main>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="route">
+            <h2>Créer la route de suppression</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        La route contient l'identifiant de l'enregistrement à supprimer.
+                    </p>
+                    <pre class="python"><code>@app.route(
+<span class="text">"/books/&lt;int:book_id&gt;/delete"</span>,
+methods=[<span class="text">"POST"</span>]
+)
+<span class="word">def</span> <span class="function">delete_book</span>(book_id):
+    <span class="comment"># suppression du livre</span></code></pre>
+                    <p>
+                        La route accepte uniquement la méthode<span class="comment"> POST</span>. Par exemple, l'adresse
+                        suivante concerne le livre dont l'identifiant vaut<span class="comment"> 3 </span>:
+                    </p>
+                    <pre class="console"><code>/books/3/delete</code></pre>
+                    <p>
+                        La valeur<span class="comment"> 3 </span>est transmise à la fonction
+                        sous le nom<span class="comment"> book_id</span>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="delete">
+            <h2>Supprimer la donnée</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Il faut d'abord récupérer l'enregistrement à partir de son identifiant.
+                    </p>
+                    <pre class="python"><code>book = db.session.<span class="function">get</span>(
+    Book,
+    book_id
+)</code></pre>
+                    <p>
+                        Si aucun enregistrement ne correspond, la méthode renvoie<span class="comment"> None</span>.
+                    </p>
+                    <pre class="python"><code><span class="word">if</span> book <span class="word">is</span> <span class="word">None</span>:
+    <span class="word">return</span> <span class="text">"Livre introuvable"</span>, <span class="number">404</span></code></pre>
+                    <p>
+                        La méthode<span class="comment"> db.session.delete() </span>prépare
+                        ensuite la suppression de l'objet.
+                    </p>
+                    <pre class="python"><code>db.session.<span class="function">delete</span>(book)</code></pre>
+                    <p>
+                        La suppression est validée avec :
+                    </p>
+                    <pre class="python"><code>db.session.<span class="function">commit</span>()</code></pre>
+                    <p>
+                        Après la suppression, l'utilisateur est redirigé vers la liste des livres, par exemple.
+                    </p>
+                    <pre class="python"><code><span class="word">return</span> <span class="function">redirect</span>(
+    url_for(<span class="text">"books"</span>)
+)</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="form">
+            <h2>Créer le formulaire de suppression</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Dans le template<span class="comment"> books.html</span>, chaque livre
+                        peut comporter un formulaire de suppression.
+                    </p>
+                    <pre class="html"><code>&#123;% for book in books %&#125;
+    &lt;article&gt;
+        ...
+
+        &lt;form
+            action="&#123;&#123; url_for(
+                'delete_book',
+                book_id=book.id
+            ) &#125;&#125;"
+            method="post"
+        &gt;
+            &lt;button type="submit"&gt;
+                Supprimer
+            &lt;/button&gt;
+        &lt;/form&gt;
+    &lt;/article&gt;
+&#123;% endfor %&#125;</code></pre>
+                    <p>
+                        La fonction<span class="comment"> url_for()</span> construit l'adresse à partir :
+                    </p>
+                    <ul>
+                        <li>du nom de la fonction<span class="comment"> delete_book</span></li>
+                        <li>de l'identifiant<span class="comment"> book.id</span></li>
+                    </ul>
+                    <p>
+                        Le formulaire utilise<span class="comment"> method="post" </span>afin de déclencher la route de
+                        suppression. Il ne faut pas utiliser un simple lien<span class="comment"> &lt;a&gt; </span>:
+                        Un lien envoie une requête<span class="comment"> GET</span>, alors que la route de suppression
+                        accepte uniquement<span class="comment"> POST</span>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="confirm">
+            <h2>Demander une confirmation</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Une suppression est définitive. Il est préférable de demander une confirmation avant l'envoi
+                        du formulaire. L'attribut<span class="comment"> onsubmit </span>peut appeler la fonction
+                        JavaScript<span class="comment"> confirm()</span>.
+                    </p>
+                    <pre class="html"><code>&lt;form
+    action="&#123;&#123; url_for(
+        'delete_book',
+        book_id=book.id
+    ) &#125;&#125;"
+    method="post"
+    onsubmit="return confirm('Supprimer ce livre ?')"
+&gt;
+    &lt;button type="submit"&gt;
+        Supprimer
+    &lt;/button&gt;
+&lt;/form&gt;</code></pre>
+                    <p>
+                        Une boîte de dialogue est affichée avant l'envoi :
+                    </p>
+                    <ul>
+                        <li>
+                            si l'utilisateur confirme, le formulaire est envoyé
+                        </li>
+                        <li>
+                            s'il annule, la requête n'est pas envoyée
+                        </li>
+                    </ul>
+                    <p>
+                        Cette confirmation améliore l'utilisation de l'application, mais elle ne remplace pas les
+                        vérifications réalisées dans la route Flask.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="errors">
+            <h2>Erreurs fréquentes</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <ul>
+                        <li>
+                            Oublier l'identifiant dans la route :
+                            <span class="error">l'application ne sait pas quel livre doit être supprimé</span>.
+                        </li>
+                        <li>
+                            Ne pas vérifier si<span class="comment"> book </span>
+                            vaut<span class="comment"> None </span>:
+                            <span class="error">l'application tente de supprimer un objet inexistant</span>.
+                        </li>
+                        <li>
+                            Utiliser un simple lien pour supprimer :
+                            <span class="error">le navigateur envoie une requête GET au lieu d'une requête POST</span>.
+                        </li>
+                        <li>
+                            Autoriser la méthode<span class="comment"> GET </span>sur la route de suppression :
+                            <span class="error">une simple consultation de l'adresse peut supprimer une donnée</span>.
+                        </li>
+                        <li>
+                            Oublier<span class="comment"> method="post" </span> dans le formulaire :
+                            <span class="error">la route de suppression n'accepte pas la requête reçue</span>.
+                        </li>
+                        <li>
+                            Oublier<span class="comment"> book_id </span>dans<span class="comment"> url_for() </span>:
+                            <span class="error">Flask ne peut pas générer l'adresse de suppression</span>.
+                        </li>
+                        <li>
+                            Oublier<span class="comment"> db.session.delete() </span>:
+                            <span class="error">l'objet reste présent dans la base de données</span>.
+                        </li>
+                        <li>
+                            Oublier<span class="comment"> db.session.commit() </span>:
+                            <span class="error">la suppression n'est pas enregistrée durablement</span>.
+                        </li>
+                        <li>
+                            Rediriger avant<span class="comment"> commit() </span>:
+                            <span class="error">la suppression peut ne pas être enregistrée avant le changement de page</span>.
+                        </li>
+                        <li>
+                            Ne pas demander de confirmation :
+                            <span class="error">l'utilisateur peut supprimer une donnée par erreur</span>.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ***************************************************************************************************************
+         FOOTER
+    **************************************************************************************************************** -->
+    <footer>
+        <div>© Copyright - Guillaume Peyrard</div>
+    </footer>
+</body>
+</html>
