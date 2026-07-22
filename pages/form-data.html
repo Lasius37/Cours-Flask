@@ -29,7 +29,370 @@
         </nav>
     </header>
 
+    <!-- ***************************************************************************************************************
+         ASIDE
+    **************************************************************************************************************** -->
+    <aside>
 
+        <!-- sidebar
+             ======================================================================================================= -->
+        <nav class="sidebar">
+
+            <!-- sidebar group ------------------------------------------------------------------------------------- -->
+            <section class="sidebar__group">
+                <h2>Dans cette page</h2>
+
+                <ul>
+                    <li class="sidebar__element">
+                        <a href="#methods">Autoriser les requêtes POST</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#detect">Identifier la méthode reçue</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#request">Récupérer les données du formulaire</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#convert">Convertir les valeurs</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#validate">Vérifier les données</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#save">Enregistrer les données</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#errors">Erreurs fréquentes</a>
+                    </li>
+                </ul>
+            </section>
+        </nav>
+    </aside>
+
+    <!-- ***************************************************************************************************************
+         MAIN
+    **************************************************************************************************************** -->
+    <main>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="methods">
+            <h2>Autoriser les requêtes POST</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        La route créée précédemment affiche le formulaire lorsqu'elle reçoit une
+                        requête<span class="comment"> GET</span>.
+                    </p>
+                    <pre class="python"><code>@app.route(<span class="text">"/books/create"</span>)
+<span class="word">def</span> <span class="function">create_book</span>():
+    <span class="word">return</span> render_template(<span class="text">"create-book.html"</span>)</code></pre>
+                    <p>
+                        Cependant, le formulaire utilise la méthode<span class="comment"> POST </span> :
+                    </p>
+                    <pre class="html"><code>&lt;form
+    action="&#123;&#123; url_for('create_book') &#125;&#125;"
+    method="post"
+&gt;</code></pre>
+                    <p>
+                        La route doit donc être configurée pour accepter les deux méthodes :
+                    </p>
+                    <pre class="python"><code>@app.route(
+    <span class="text">"/books/create"</span>,
+    methods=[<span class="text">"GET"</span>, <span class="text">"POST"</span>]
+)
+<span class="word">def</span> <span class="function">create_book</span>():
+    <span class="word">return</span> render_template(<span class="text">"create-book.html"</span>)</code></pre>
+                    <table>
+                        <tr>
+                            <th>Méthode</th>
+                            <th>Rôle</th>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">GET</span></td>
+                            <td>Afficher le formulaire</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">POST</span></td>
+                            <td>Recevoir les données envoyées par le formulaire</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="detect">
+            <h2>Identifier la méthode reçue</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        La même fonction de vue peut recevoir une requête<span class="comment"> GET </span>
+                        ou<span class="comment"> POST</span>. Pour connaître la méthode reçue, il faut importer
+                        l'objet<span class="comment"> request</span> :
+                    </p>
+                    <pre class="python"><code><span class="word">from</span> flask <span class="word">import</span> render_template, request</code></pre>
+                    <p>
+                        La propriété<span class="comment"> request.method </span>contient le nom
+                        de la méthode HTTP utilisée.
+                    </p>
+                    <pre class="python"><code><span class="word">if</span> request.method == <span class="text">"POST"</span>:  <span class="comment"># traiter les données envoyées</span></code></pre>
+                    <p>
+                        Lorsque la méthode est<span class="comment"> GET</span>, la condition n'est
+                        pas exécutée et le formulaire est simplement affiché.
+                    </p>
+                    <pre class="python"><code>@app.route(
+    <span class="text">"/books/create"</span>,
+    methods=[<span class="text">"GET"</span>, <span class="text">"POST"</span>]
+)
+<span class="word">def</span> <span class="function">create_book</span>():
+    <span class="word">if</span> request.method == <span class="text">"POST"</span>:
+        <span class="comment"># traitement du formulaire</span>
+
+    <span class="word">return</span> render_template(<span class="text">"create-book.html"</span>)</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="request">
+            <h2>Récupérer les données du formulaire</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Les valeurs envoyées par un formulaire utilisant<span class="comment"> POST </span>sont
+                        accessibles dans<span class="comment"> request.form</span>.
+                    </p>
+                    <p>
+                        Chaque valeur est identifiée par l'attribut<span class="comment"> name </span>de son champ HTML.
+                    </p>
+                    <pre class="html"><code>&lt;input
+    type="text"
+    id="title"
+    name="title"
+&gt;</code></pre>
+                    <p>
+                        La valeur de ce champ peut être récupérée ainsi :
+                    </p>
+                    <pre class="python"><code>title = request.form[<span class="text">"title"</span>]</code></pre>
+                    <p>
+                        Les trois valeurs du formulaire sont donc récupérées avec :
+                    </p>
+                    <pre class="python"><code>title = request.form[<span class="text">"title"</span>]
+year = request.form[<span class="text">"year"</span>]
+synopsis = request.form[<span class="text">"synopsis"</span>]</code></pre>
+                    <p>
+                        Le nom placé entre crochets doit être exactement identique à la valeur
+                        de l'attribut<span class="comment"> name </span>correspondant.
+                    </p>
+                    <table>
+                        <tr>
+                            <th>Champ HTML</th>
+                            <th>Récupération dans Flask</th>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">name="title"</span></td>
+                            <td><span class="comment">request.form["title"]</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">name="year"</span></td>
+                            <td><span class="comment">request.form["year"]</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">name="synopsis"</span></td>
+                            <td><span class="comment">request.form["synopsis"]</span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="convert">
+            <h2>Convertir les valeurs</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Les données récupérées depuis un formulaire sont reçues sous la forme
+                        de chaînes de caractères.
+                    </p>
+                    <p>
+                        Le champ<span class="comment"> year </span>utilise pourtant le
+                        type<span class="comment"> Integer </span>dans le modèle :
+                    </p>
+                    <pre class="python"><code>year = db.Column(
+    db.Integer,
+    nullable=<span class="word">False</span>
+)</code></pre>
+
+                    <p>
+                        Il faut donc convertir la valeur reçue avec<span class="comment"> int() </span>:
+                    </p>
+                    <pre class="python"><code>year = int(request.form[<span class="text">"year"</span>])</code></pre>
+                    <p>
+                        Les valeurs textuelles n'ont pas besoin de conversion :
+                    </p>
+                    <pre class="python"><code>title = request.form[<span class="text">"title"</span>]
+synopsis = request.form[<span class="text">"synopsis"</span>]</code></pre>
+                    <p>
+                        Une conversion incorrecte provoque une erreur. Par exemple, la
+                        fonction<span class="comment">int()</span> ne peut pas convertir un texte qui ne
+                        représente pas un nombre entier.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="validate">
+            <h2>Vérifier les données</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Les attributs HTML comme<span class="comment"> required</span>,<span class="comment"> min </span>
+                        et<span class="comment"> max </span>améliorent la saisie dans le navigateur. Cependant, les
+                        données doivent également être vérifiées dans Flask.
+                    </p>
+                    <h3>Supprimer les espaces inutiles</h3>
+                    <p>
+                        La méthode<span class="comment"> strip() </span>supprime les espaces placés
+                        au début et à la fin d'un texte.
+                    </p>
+                    <pre class="python"><code>title = request.form[<span class="text">"title"</span>].<span class="function">strip</span>()
+synopsis = request.form[<span class="text">"synopsis"</span>].<span class="function">strip</span>()</code></pre>
+
+                    <h3>Vérifier les champs obligatoires</h3>
+                    <pre class="python"><code><span class="word">if</span> title == <span class="text">""</span> <span class="word">or</span> synopsis == <span class="text">""</span>:
+    <span class="word">return</span> <span class="text">"Le titre et le synopsis sont obligatoires."</span></code></pre>
+
+                    <h3>Vérifier l'année</h3>
+                    <pre class="python"><code><span class="word">if</span> year &lt; <span class="number">0</span> <span class="word">or</span> year &gt; <span class="number">2100</span>:
+    <span class="word">return</span> <span class="text">"L'année indiquée est incorrecte."</span></code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="save">
+            <h2>Enregistrer les données</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Après avoir récupéré et vérifié les valeurs, on crée un nouvel
+                        objet<span class="comment"> Book</span>.
+                    </p>
+                    <pre class="python"><code>book = Book(
+    title=title,
+    year=year,
+    synopsis=synopsis
+)</code></pre>
+                    <p>
+                        On ajouter ensuite l'objet à la session :
+                    </p>
+                    <pre class="python"><code>db.session.<span class="function">add</span>(book)</code></pre>
+                    <p>
+                        Enfin, on enregistre définitivement la modification :
+                    </p>
+                    <pre class="python"><code>db.session.<span class="function">commit</span>()</code></pre>
+                    <p>
+                        Le traitement complet de l'enregistrement est donc :
+                    </p>
+                    <pre class="python"><code>book = Book(
+    title=title,
+    year=year,
+    synopsis=synopsis
+)
+
+db.session.<span class="function">add</span>(book)
+db.session.<span class="function">commit</span>()</code></pre>
+                    <p>
+                        Après l'enregistrement, la fonction peut renvoyer un message provisoire :
+                    </p>
+                    <pre class="python"><code><span class="word">return</span> <span class="text">"Le livre a été enregistré."</span></code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="errors">
+            <h2>Erreurs fréquentes</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <ul>
+                        <li>
+                            Oublier d'ajouter<span class="comment"> "POST" </span>dans
+                            l'argument<span class="comment"> methods </span>:
+                            <span class="error">Flask refuse l'envoi du formulaire</span>.
+                        </li>
+                        <li>
+                            Oublier d'importer<span class="comment"> request </span>:
+                            <span class="error">l'application ne peut pas accéder aux informations de la requête</span>.
+                        </li>
+                        <li>
+                            Utiliser une clé différente de l'attribut<span class="comment"> name </span>du champ :
+                            <span class="error">Flask ne trouve pas la valeur attendue dans request.form</span>.
+                        </li>
+                        <li>
+                            Oublier de convertir l'année avec<span class="comment"> int() </span>:
+                            <span class="error">la valeur reste une chaîne de caractères</span>.
+                        </li>
+                        <li>
+                            Convertir directement une valeur incorrecte sans
+                            gérer<span class="comment"> ValueError </span>:
+                            <span class="error">l'application renvoie une erreur serveur</span>.
+                        </li>
+                        <li>
+                            Faire confiance uniquement aux contrôles HTML :
+                            <span class="error">des données incorrectes peuvent tout de même être envoyées à Flask</span>.
+                        </li>
+                        <li>
+                            Créer l'objet<span class="comment"> Book </span>avant d'avoir vérifié les données :
+                            <span class="error">une valeur incorrecte peut être préparée pour l'enregistrement</span>.
+                        </li>
+                        <li>
+                            Oublier<span class="comment"> db.session.add() </span>:
+                            <span class="error">le nouvel objet n'est pas ajouté à la session</span>.
+                        </li>
+                        <li>
+                            Oublier<span class="comment"> db.session.commit() </span>:
+                            <span class="error">le livre n'est pas enregistré durablement</span>.
+                        </li>
+                        <li>
+                            Exécuter le traitement du formulaire pour une requête<span class="comment"> GET </span>:
+                            <span class="error">l'application cherche des valeurs qui n'ont pas encore été envoyées</span>.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <!-- ***************************************************************************************************************
          FOOTER
