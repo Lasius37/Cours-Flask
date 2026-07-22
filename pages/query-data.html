@@ -13,14 +13,14 @@
     <link rel="stylesheet" href="../css/init.css">
     <link rel="stylesheet" href="../css/style.css">
     <script type="module" src="../js/script.js" defer></script>
-    <title>Trouver et afficher des données</title>
+    <title>Rechercher, filtrer, trier et afficher des données</title>
 </head>
 <body>
     <!-- ***************************************************************************************************************
          HEADER
     **************************************************************************************************************** -->
     <header>
-        <h1>Trouver et afficher des données</h1>
+        <h1>Rechercher, filtrer, trier et afficher des données</h1>
 
         <!-- navbar
              ======================================================================================================= -->
@@ -50,6 +50,15 @@
                         <a href="#one">Récupérer une donnée</a>
                     </li>
                     <li class="sidebar__element">
+                        <a href="#filters">Filtrer les données</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#sort">Trier les données</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#combine">Combiner filtres et tris</a>
+                    </li>
+                    <li class="sidebar__element">
                         <a href="#display">Afficher les données</a>
                     </li>
                     <li class="sidebar__element">
@@ -75,31 +84,30 @@
                 <!-- layout element -------------------------------------------------------------------------------- -->
                 <div class="layout__text">
                     <p>
-                        Pour récupérer des données, construire une requête avec<span class="comment"> db.select()</span>.
+                        Pour récupérer des données, on construit une requête
+                        avec<span class="comment"> db.select()</span>.
                     </p>
                     <pre class="python"><code>query = db.<span class="function">select</span>(Book)</code></pre>
                     <p>
                         Cette requête indique que l'application souhaite sélectionner les objets du
-                        modèle<span class="comment">Book</span>.
-                    </p>
-                    <p>
-                        Exécuter ensuite la requête avec la session :
+                        modèle<span class="comment"> Book</span>. On exécute ensuite la requête avec la session :
                     </p>
                     <pre class="python"><code>result = db.session.<span class="function">execute</span>(query)</code></pre>
                     <p>
-                        La méthode<span class="comment"> scalars()</span> récupère les objets
-                        <span class="comment">Book</span>, puis<span class="comment"> all()</span>
-                        les rassemble dans une liste :
+                        La méthode<span class="comment"> scalars() </span>extrait les
+                        objets<span class="comment"> Book </span> du résultat.
+                    </p>
+                    <p>
+                        La méthode<span class="comment"> all() </span>rassemble ensuite tous les objets
+                        dans une liste :
                     </p>
                     <pre class="python"><code>books = db.session.<span class="function">execute</span>(
     db.<span class="function">select</span>(Book)
 ).<span class="function">scalars</span>().<span class="function">all</span>()</code></pre>
                     <p>
-                        Les livres peuvent également être triés (ici, par titre) :
+                        La variable<span class="comment"> books </span>contient désormais une liste
+                        de tous les livres enregistrés dans la table.
                     </p>
-                    <pre class="python"><code>books = db.session.<span class="function">execute</span>(
-    db.<span class="function">select</span>(Book).<span class="function">order_by</span>(Book.title)
-).<span class="function">scalars</span>().<span class="function">all</span>()</code></pre>
                 </div>
             </div>
         </section>
@@ -114,20 +122,19 @@
                 <!-- layout element -------------------------------------------------------------------------------- -->
                 <div class="layout__text">
                     <p>
-                        Une donnée peut être retrouvée à partir de sa clé primaire :
+                        Une donnée peut être retrouvée à partir de sa clé primaire
+                        avec<span class="comment"> db.session.get()</span>.
                     </p>
                     <pre class="python"><code>book = db.session.<span class="function">get</span>(Book, <span class="number">1</span>)</code></pre>
                     <p>
-                        Cette instruction recherche dans la table<span class="comment"> books </span>
-                        le livre dont l'identifiant vaut<span class="comment"> 1</span>.
-                    </p>
-                    <p>
-                        Si aucun livre ne possède cet identifiant, la valeur<span class="comment"> None </span>est renvoyée.
+                        Cette instruction recherche dans la table<span class="comment"> books </span>le livre dont
+                        l'identifiant vaut<span class="comment"> 1</span>. Si aucun livre ne possède cet identifiant,
+                        la valeur <span class="comment"> None </span> est renvoyée.
                     </p>
                     <pre class="python"><code><span class="word">if</span> book <span class="word">is</span> <span class="word">None</span>:
     <span class="word">return</span> <span class="text">"Livre introuvable"</span></code></pre>
                     <p>
-                        Une donnée peut aussi être recherchée à partir de la valeur d'une colonne :
+                        Il est également possible de rechercher un objet à partir de la valeur d'une colonne :
                     </p>
                     <pre class="python"><code>book = db.session.<span class="function">execute</span>(
     db.<span class="function">select</span>(Book).<span class="function">filter_by</span>(
@@ -140,8 +147,231 @@
                     <ul>
                         <li>l'objet trouvé lorsqu'une seule donnée correspond</li>
                         <li><span class="comment">None </span>lorsqu'aucune donnée ne correspond</li>
-                        <li>une erreur si plusieurs données correspondent</li>
+                        <li>une erreur lorsque plusieurs données correspondent</li>
                     </ul>
+                    <p>
+                        Cette méthode est donc adaptée lorsque la requête doit normalement
+                        renvoyer au maximum un seul résultat.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="filters">
+            <h2>Filtrer les données</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+
+                    <h3>Rechercher une valeur précise</h3>
+                    <p>
+                        La méthode<span class="comment"> filter_by() </span>permet de rechercher
+                        une valeur précise dans une colonne.
+                    </p>
+                    <pre class="python"><code>books = db.session.<span class="function">execute</span>(
+    db.<span class="function">select</span>(Book).<span class="function">filter_by</span>(
+        year=<span class="number">1943</span>
+    )
+).<span class="function">scalars</span>().<span class="function">all</span>()</code></pre>
+                    <p>
+                        Cette requête récupère tous les livres dont l'année de parution est
+                        exactement<span class="comment"> 1943</span>.
+                    </p>
+
+                    <h3>Effectuer une comparaison</h3>
+                    <p>
+                        La méthode<span class="comment"> where() </span> permet d'utiliser des
+                        opérateurs de comparaison.
+                    </p>
+                    <pre class="python"><code>books = db.session.<span class="function">execute</span>(
+    db.<span class="function">select</span>(Book).<span class="function">where</span>(
+        Book.year &gt;= <span class="number">1950</span>
+    )
+).<span class="function">scalars</span>().<span class="function">all</span>()</code></pre>
+                    <p>
+                        Cette requête récupère tous les livres publiés à partir de 1950.
+                    </p>
+                    <table>
+                        <tr>
+                            <th>Opérateur</th>
+                            <th>Signification</th>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">==</span></td>
+                            <td>Égal à</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">!=</span></td>
+                            <td>Différent de</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">&gt;</span></td>
+                            <td>Supérieur à</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">&gt;=</span></td>
+                            <td>Supérieur ou égal à</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">&lt;</span></td>
+                            <td>Inférieur à</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">&lt;=</span></td>
+                            <td>Inférieur ou égal à</td>
+                        </tr>
+                    </table>
+
+                    <h3>Utiliser plusieurs conditions</h3>
+                    <p>
+                        Plusieurs conditions peuvent être placées dans la méthode<span class="comment"> where() </span>.
+                    </p>
+                    <pre class="python"><code>books = db.session.<span class="function">execute</span>(
+    db.<span class="function">select</span>(Book).<span class="function">where</span>(
+        Book.year &gt;= <span class="number">1940</span>,
+        Book.year &lt;= <span class="number">1960</span>
+    )
+).<span class="function">scalars</span>().<span class="function">all</span>()</code></pre>
+                    <p>
+                        Cette requête récupère les livres publiés entre 1940 et 1960.
+                        Toutes les conditions doivent être respectées.
+                    </p>
+
+                    <h3>Rechercher dans un texte</h3>
+                    <p>
+                        La méthode<span class="comment"> contains() </span>permet de rechercher
+                        une suite de caractères dans une colonne textuelle.
+                    </p>
+                    <pre class="python"><code>books = db.session.<span class="function">execute</span>(
+    db.<span class="function">select</span>(Book).<span class="function">where</span>(
+        Book.title.<span class="function">contains</span>(<span class="text">"Prince"</span>)
+    )
+).<span class="function">scalars</span>().<span class="function">all</span>()</code></pre>
+                    <p>
+                        Cette requête récupère les livres dont le titre contient
+                        le mot<span class="comment"> Prince</span>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="sort">
+            <h2>Trier les données</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        La méthode<span class="comment"> order_by() </span> permet d'ordonner
+                        les résultats d'une requête.
+                    </p>
+
+                    <h3>Effectuer un tri croissant</h3>
+                    <p>
+                        Pour trier les livres par titre dans l'ordre alphabétique :
+                    </p>
+                    <pre class="python"><code>books = db.session.<span class="function">execute</span>(
+    db.<span class="function">select</span>(Book).<span class="function">order_by</span>(
+        Book.title
+    )
+).<span class="function">scalars</span>().<span class="function">all</span>()</code></pre>
+                    <p>
+                        Par défaut, le tri est croissant. Il est également possible de rendre ce choix explicite
+                        avec<span class="comment"> asc() </span>:
+                    </p>
+                    <pre class="python"><code>books = db.session.<span class="function">execute</span>(
+    db.<span class="function">select</span>(Book).<span class="function">order_by</span>(
+        Book.year.<span class="function">asc</span>()
+    )
+).<span class="function">scalars</span>().<span class="function">all</span>()</code></pre>
+                    <p>
+                        Les livres sont alors classés du plus ancien au plus récent.
+                    </p>
+
+                    <h3>Effectuer un tri décroissant</h3>
+                    <p>
+                        La méthode<span class="comment"> desc() </span>permet d'inverser
+                        l'ordre du tri.
+                    </p>
+                    <pre class="python"><code>books = db.session.<span class="function">execute</span>(
+    db.<span class="function">select</span>(Book).<span class="function">order_by</span>(
+        Book.year.<span class="function">desc</span>()
+    )
+).<span class="function">scalars</span>().<span class="function">all</span>()</code></pre>
+                    <p>
+                        Les livres sont alors classés du plus récent au plus ancien.
+                    </p>
+
+                    <h3>Trier selon plusieurs colonnes</h3>
+                    <p>
+                        Plusieurs critères de tri peuvent être indiqués dans<span class="comment"> order_by()</span>.
+                    </p>
+                    <pre class="python"><code>books = db.session.<span class="function">execute</span>(
+    db.<span class="function">select</span>(Book).<span class="function">order_by</span>(
+        Book.year.<span class="function">asc</span>(),
+        Book.title.<span class="function">asc</span>()
+    )
+).<span class="function">scalars</span>().<span class="function">all</span>()</code></pre>
+                    <p>
+                        Les livres sont d'abord classés par année, puis par titre lorsque
+                        plusieurs livres possèdent la même année.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="combine">
+            <h2>Combiner filtres et tris</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Une requête peut contenir plusieurs opérations successives.
+                    </p>
+                    <pre class="python"><code>books = db.session.<span class="function">execute</span>(
+    db.<span class="function">select</span>(Book)
+        .<span class="function">where</span>(Book.year &gt;= <span class="number">1940</span>)
+        .<span class="function">order_by</span>(Book.year.<span class="function">desc</span>())
+).<span class="function">scalars</span>().<span class="function">all</span>()</code></pre>
+                    <p>
+                        Cette requête :
+                    </p>
+                    <ul>
+                        <li>sélectionne les livres publiés à partir de 1940</li>
+                        <li>les classe du plus récent au plus ancien</li>
+                        <li>renvoie les résultats sous la forme d'une liste d'objets</li>
+                    </ul>
+                    <p>
+                        Il est souvent plus lisible de construire la requête en plusieurs étapes :
+                    </p>
+                    <pre class="python"><code>query = db.<span class="function">select</span>(Book)
+
+query = query.<span class="function">where</span>(
+    Book.year &gt;= <span class="number">1940</span>
+)
+
+query = query.<span class="function">order_by</span>(
+    Book.year.<span class="function">desc</span>()
+)
+
+books = db.session.<span class="function">execute</span>(
+    query
+).<span class="function">scalars</span>().<span class="function">all</span>()</code></pre>
+                    <p>
+                        Cette écriture facilite la lecture et permet d'ajouter progressivement
+                        de nouveaux filtres ou critères de tri.
+                    </p>
                 </div>
             </div>
         </section>
@@ -156,25 +386,30 @@
                 <!-- layout element -------------------------------------------------------------------------------- -->
                 <div class="layout__text">
                     <p>
-                        Pour afficher les livres dans une page, on les récupère dans la vue puis on les transmet
-                        au template avec<span class="comment"> render_template()</span>.
+                        Pour afficher les livres dans une page, les récupérer dans une vue
+                        puis les transmettre au template avec<span class="comment"> render_template()</span>.
                     </p>
                     <pre class="python"><code><span class="word">from</span> flask <span class="word">import</span> Flask, render_template
 
 @app.route(<span class="text">"/books"</span>)
 <span class="word">def</span> <span class="function">books</span>():
     books = db.session.<span class="function">execute</span>(
-        db.<span class="function">select</span>(Book).<span class="function">order_by</span>(Book.title)
+        db.<span class="function">select</span>(Book).<span class="function">order_by</span>(
+            Book.year.<span class="function">desc</span>()
+        )
     ).<span class="function">scalars</span>().<span class="function">all</span>()
 
     <span class="word">return</span> render_template(
-        <span class="text">"books.html"</span>,
-        books=books
+        <span class="text">"books.html"</span>,  <span class="comment"># le template cible</span>
+        books=books  <span class="comment"># Les données transmises</span>
     )</code></pre>
-
                     <p>
-                        Dans le fichier<span class="comment"> templates/books.html</span>, on parcourt
-                        la liste avec une boucle Jinja :
+                        La variable<span class="comment"> books</span> est transmise au template
+                        sous le même nom.
+                    </p>
+                    <p>
+                        Dans le fichier<span class="comment"> templates/books.html</span>,
+                        on pacourt la liste avec une boucle Jinja :
                     </p>
 
                     <pre class="html"><code>&lt;h1&gt;Bibliothèque&lt;/h1&gt;
@@ -182,7 +417,10 @@
 &#123;% if books %&#125;
     &#123;% for book in books %&#125;
         &lt;article&gt;
-            &lt;h2&gt;&#123;&#123; book.title &#125;&#125; (&#123;&#123; book.year &#125;&#125;) &lt;/h2&gt;
+            &lt;h2&gt;
+                &#123;&#123; book.title &#125;&#125; (&#123;&#123; book.year &#125;&#125;)
+            &lt;/h2&gt;
+
             &lt;p&gt;&#123;&#123; book.synopsis &#125;&#125;&lt;/p&gt;
         &lt;/article&gt;
     &#123;% endfor %&#125;
@@ -190,7 +428,8 @@
     &lt;p&gt;Aucun livre enregistré.&lt;/p&gt;
 &#123;% endif %&#125;</code></pre>
                     <p>
-                        Les colonnes du modèle sont accessibles dans le template avec la notation par point :
+                        Les colonnes du modèle sont accessibles dans le template
+                        avec la notation par point :
                     </p>
                     <ul>
                         <li><span class="comment">book.id</span></li>
@@ -198,6 +437,10 @@
                         <li><span class="comment">book.year</span></li>
                         <li><span class="comment">book.synopsis</span></li>
                     </ul>
+                    <p>
+                        Les filtres et les tris sont effectués dans la vue avant l'envoi
+                        des données au template.
+                    </p>
                 </div>
             </div>
         </section>
@@ -213,17 +456,43 @@
                 <div class="layout__text">
                     <ul>
                         <li>
-                            Oublier<span class="comment"> scalars()</span> :
+                            Oublier<span class="comment"> scalars() </span>:
                             <span class="error">le résultat contient des lignes SQL plutôt que directement les objets</span>.
                         </li>
                         <li>
-                            Utiliser un nom de variable différent dans la vue et le template :
-                            <span class="error">la liste ne peut pas être affichée correctement</span>.
+                            Oublier<span class="comment"> all() </span>lors de la récupération de plusieurs données :
+                            <span class="error">le résultat n'est pas transformé en liste</span>.
                         </li>
+
                         <li>
-                            Utiliser<span class="comment"> scalar_one_or_none()</span> alors que plusieurs résultats
+                            Utiliser<span class="comment"> scalar_one_or_none() </span>alors que plusieurs résultats
                             peuvent correspondre :
                             <span class="error">SQLAlchemy signale que plusieurs lignes ont été trouvées</span>.
+                        </li>
+
+                        <li>
+                            Utiliser<span class="comment"> filter_by() </span>pour effectuer une comparaison :
+                            <span class="error">filter_by() est surtout adapté à la recherche d'une valeur précise</span>.
+                        </li>
+
+                        <li>
+                            Oublier d'utiliser les attributs du modèle dans<span class="comment"> where() </span>:
+                            <span class="error">la condition ne correspond pas à une colonne de la table</span>.
+                        </li>
+
+                        <li>
+                            Confondre<span class="comment"> asc() </span>et<span class="comment"> desc() </span>:
+                            <span class="error">les résultats sont affichés dans l'ordre inverse de celui attendu</span>.
+                        </li>
+
+                        <li>
+                            Utiliser un nom de variable différent dans la vue et dans le template :
+                            <span class="error">les données ne peuvent pas être affichées correctement</span>.
+                        </li>
+
+                        <li>
+                            Appliquer les filtres uniquement dans le template :
+                            <span class="error">des données inutiles sont récupérées et la logique devient plus difficile à maintenir</span>.
                         </li>
                     </ul>
                 </div>

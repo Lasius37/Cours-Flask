@@ -50,6 +50,9 @@
                         <a href="#save">Enregistrer une donnée</a>
                     </li>
                     <li class="sidebar__element">
+                        <a href="#multiple">Enregistrer plusieurs données</a>
+                    </li>
+                    <li class="sidebar__element">
                         <a href="#errors">Erreurs fréquentes</a>
                     </li>
                 </ul>
@@ -148,6 +151,48 @@ db.session.<span class="function">commit</span>()  <span class="comment"># enreg
                 </div>
             </div>
         </section>
+
+        <!-- content section
+         ======================================================================================================= -->
+        <section id="multiple">
+            <h2>Enregistrer plusieurs données</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Plusieurs objets peuvent être ajoutés en une seule fois à la session avec
+                        <span class="comment">db.session.add_all()</span>.
+                    </p>
+                    <pre class="python"><code>books = [
+    Book(
+        title=<span class="text">"Le Petit Prince"</span>,
+        year=<span class="number">1943</span>,
+        synopsis=<span class="text">"Un aviateur rencontre un jeune prince venu d'une autre planète."</span>
+    ),
+    Book(
+        title=<span class="text">"1984"</span>,
+        year=<span class="number">1949</span>,
+        synopsis=<span class="text">"Une société placée sous une surveillance permanente."</span>
+    ),
+    Book(
+        title=<span class="text">"Dune"</span>,
+        year=<span class="number">1965</span>,
+        synopsis=<span class="text">"Une lutte politique et écologique sur une planète désertique."</span>
+    )
+]
+
+db.session.<span class="function">add_all</span>(books)
+db.session.<span class="function">commit</span>()</code></pre>
+                    <p>
+                        La méthode<span class="comment"> add_all() </span>reçoit une liste d'objets.
+                        Un seul appel à<span class="comment"> commit() </span>valide ensuite tous les enregistrements.
+                    </p>
+                </div>
+            </div>
+        </section>
+
 
         <!-- content section
              ======================================================================================================= -->
