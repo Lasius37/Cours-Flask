@@ -29,7 +29,351 @@
         </nav>
     </header>
 
+    <!-- ***************************************************************************************************************
+         ASIDE
+    **************************************************************************************************************** -->
+    <aside>
 
+        <!-- sidebar
+             ======================================================================================================= -->
+        <nav class="sidebar">
+
+            <!-- sidebar group ------------------------------------------------------------------------------------- -->
+            <section class="sidebar__group">
+                <h2>Dans cette page</h2>
+
+                <ul>
+                    <li class="sidebar__element">
+                        <a href="#route">Créer la route du formulaire</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#form">Créer la balise form</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#fields">Ajouter les champs</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#attributes">Configurer les champs</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#errors">Erreurs fréquentes</a>
+                    </li>
+                </ul>
+            </section>
+        </nav>
+    </aside>
+
+    <!-- ***************************************************************************************************************
+         MAIN
+    **************************************************************************************************************** -->
+    <main>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="route">
+            <h2>Créer la route du formulaire</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        On crée une route chargée d'afficher le formulaire.
+                    </p>
+                    <pre class="python"><code><span class="word">from</span> flask <span class="word">import</span> render_template
+
+@app.route(<span class="text">"/books/create"</span>)
+<span class="word">def</span> <span class="function">create_book</span>():
+    <span class="word">return</span> render_template(<span class="text">"create-book.html"</span>)</code></pre>
+                    <p>
+                        Lorsque l'utilisateur consulte l'adresse<span class="comment"> /books/create</span>,
+                        Flask affiche le template<span class="comment"> create-book.html</span>.
+                    </p>
+                    <p>
+                        Il faut donc créer ce fichier dans le dossier
+                        <span class="comment">templates</span> :
+                    </p>
+                    <pre class="console"><code>my_flask_project/
+│
+├── templates/
+│   ├── books.html
+│   └── create-book.html
+│
+└── app.py</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="form">
+            <h2>Créer la balise form</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Deux attributs contrôlent l'envoi du formulaire :
+                    </p>
+                    <table>
+                        <tr>
+                            <th>Attribut</th>
+                            <th>Rôle</th>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">action</span></td>
+                            <td>Indique l'adresse qui recevra les données</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">method</span></td>
+                            <td>Indique la méthode HTTP utilisée pour envoyer les données</td>
+                        </tr>
+                    </table>
+                    <p>
+                        Pour envoyer les données à la route<span class="comment"> create_book</span>, on
+                        utilise<span class="comment"> url_for() </span>:
+                    </p>
+                    <pre class="html"><code>&lt;form
+    action="&#123;&#123; url_for('create_book') &#125;&#125;"
+    method="post"
+&gt;
+
+&lt;/form&gt;</code></pre>
+                    <p>
+                        La méthode<span class="comment"> post </span>est utilisée lorsque le formulaire
+                        envoie des données destinées à créer ou modifier une ressource.
+                    </p>
+                    <p>
+                        L'attribut<span class="comment"> action </span>ne contient pas directement
+                        l'adresse de la route. Il est généré à partir du nom de la vue.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="fields">
+            <h2>Ajouter les champs</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Chaque donnée demandée à l'utilisateur correspond à un champ du formulaire.
+                    </p>
+                    <h3>Ajouter un champ de texte</h3>
+                    <p>
+                        Le titre du livre peut être saisi avec un champ<span class="comment"> input </span>
+                        de type<span class="comment"> text </span>.
+                    </p>
+                    <pre class="html"><code>&lt;label for="title"&gt;Titre&lt;/label&gt;
+
+&lt;input
+    type="text"
+    id="title"
+    name="title"
+&gt;</code></pre>
+                    <p>
+                        La balise<span class="comment"> label </span>indique à l'utilisateur
+                        la donnée attendue.
+                    </p>
+                    <p>
+                        Son attribut<span class="comment"> for </span>doit correspondre à
+                        l'attribut<span class="comment"> id </span>du champ.
+                    </p>
+
+                    <h3>Ajouter un champ numérique</h3>
+
+                    <p>
+                        L'année de parution peut être saisie avec un champ de type<span class="comment"> number</span>.
+                    </p>
+                    <pre class="html"><code>&lt;label for="year"&gt;Année de parution&lt;/label&gt;
+
+&lt;input
+    type="number"
+    id="year"
+    name="year"
+&gt;</code></pre>
+
+                    <h3>Ajouter une zone de texte</h3>
+
+                    <p>
+                        Pour une donnée plus longue, comme le synopsis, utiliser la
+                        balise<span class="comment"> &lt;textarea&gt;</span>.
+                    </p>
+                    <pre class="html"><code>&lt;label for="synopsis"&gt;Synopsis&lt;/label&gt;
+
+&lt;textarea
+    id="synopsis"
+    name="synopsis"
+&gt;&lt;/textarea&gt;</code></pre>
+                    <p>
+                        Contrairement à<span class="comment"> input</span>,
+                        la balise<span class="comment"> textarea </span>possède une balise fermante.
+                    </p>
+
+                    <h3>Ajouter le bouton d'envoi</h3>
+
+                    <p>
+                        Un bouton de type<span class="comment"> submit </span> permet d'envoyer le formulaire.
+                    </p>
+                    <pre class="html"><code>&lt;button type="submit"&gt;
+    Ajouter le livre
+&lt;/button&gt;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="attributes">
+            <h2>Configurer les champs</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Plusieurs attributs HTML permettent de préciser les valeurs attendues.
+                    </p>
+
+                    <table>
+                        <tr>
+                            <th>Attribut</th>
+                            <th>Rôle</th>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">name</span></td>
+                            <td>Définit le nom utilisé lors de l'envoi de la valeur</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">required</span></td>
+                            <td>Rend le champ obligatoire dans le navigateur</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">maxlength</span></td>
+                            <td>Limite le nombre de caractères</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">min</span></td>
+                            <td>Définit la plus petite valeur autorisée</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">max</span></td>
+                            <td>Définit la plus grande valeur autorisée</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">placeholder</span></td>
+                            <td>Affiche une indication temporaire dans le champ</td>
+                        </tr>
+                    </table>
+
+                    <h3>Comprendre l'attribut name</h3>
+
+                    <p>
+                        L'attribut<span class="comment"> name </span>est indispensable.
+                        Il identifie la valeur lorsque le formulaire est envoyé à Flask.
+                    </p>
+                    <pre class="html"><code>&lt;input
+    type="text"
+    id="title"
+    name="title"
+&gt;</code></pre>
+                    <p>
+                        Dans cet exemple :
+                    </p>
+                    <ul>
+                        <li>
+                            <span class="comment">id="title" </span>relie le champ à son label
+                        </li>
+                        <li>
+                            <span class="comment">name="title" </span>donne un nom à la valeur envoyée
+                        </li>
+                    </ul>
+
+                    <h3>Rendre les champs obligatoires</h3>
+
+                    <pre class="html"><code>&lt;input
+    type="text"
+    id="title"
+    name="title"
+    maxlength="100"
+    required
+&gt;</code></pre>
+                    <p>
+                        L'attribut<span class="comment"> required </span>empêche l'envoi du formulaire
+                        lorsque le champ est vide.
+                    </p>
+                    <p>
+                        L'attribut<span class="comment"> maxlength="100" </span>correspond ici
+                        à la longueur définie dans le modèle avec<span class="comment"> db.String(100)</span>.
+                    </p>
+
+                    <h3>Limiter l'année de parution</h3>
+
+                    <pre class="html"><code>&lt;input
+    type="number"
+    id="year"
+    name="year"
+    min="0"
+    max="2100"
+    required
+&gt;</code></pre>
+                    <p>
+                        Ces limites contrôlent la saisie dans le navigateur. Elles ne remplacent toutefois pas les
+                        vérifications réalisées dans l'application Flask.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="errors">
+            <h2>Erreurs fréquentes</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <ul>
+                        <li>
+                            Oublier l'attribut<span class="comment"> name </span>:
+                            <span class="error">la valeur du champ n'est pas transmise à Flask</span>.
+                        </li>
+                        <li>
+                            Utiliser des valeurs différentes pour<span class="comment"> for </span>
+                            et<span class="comment"> id </span>:
+                            <span class="error">le label n'est pas correctement associé au champ</span>.
+                        </li>
+                        <li>
+                            Utiliser<span class="comment"> method="get" </span>pour créer une donnée :
+                            <span class="error">les valeurs du formulaire apparaissent dans l'adresse de la page</span>.
+                        </li>
+                        <li>
+                            Oublier<span class="comment"> type="submit" </span>sur le bouton :
+                            <span class="error">le comportement d'envoi peut ne pas être explicite</span>.
+                        </li>
+                        <li>
+                            Oublier la balise fermante de<span class="comment"> textarea </span>:
+                            <span class="error">la structure HTML du formulaire devient incorrecte</span>.
+                        </li>
+                        <li>
+                            Faire confiance uniquement à l'attribut<span class="comment"> required </span>:
+                            <span class="error">les données doivent également être vérifiées dans Flask</span>.
+                        </li>
+                        <li>
+                            Envoyer le formulaire vers une route qui n'accepte pas<span class="comment"> POST </span>:
+                            <span class="error">Flask renvoie une erreur « Method Not Allowed »</span>.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <!-- ***************************************************************************************************************
          FOOTER
