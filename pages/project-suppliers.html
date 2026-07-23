@@ -173,7 +173,7 @@
                                 <li>ajout d'un fournisseur</li>
                                 <li>modification d'un fournisseur</li>
                                 <li>suppression d'un fournisseur</li>
-                                <li>filtre des fournisseurs selon leur ville ou leur préférence de contact</li>
+                                <li>filtre des fournisseurs selon leur nom, leur ville ou leur préférence de contact</li>
                                 <li>tri des fournisseurs par nom ou par ville</li>
                             </ul>
                         </li>
@@ -190,7 +190,6 @@
                     <div class="separator"></div>
 
                     <h3>Templates</h3>
-
                     <ul>
                         <li>
                             Créer un template commun<span class="comment"> base.html</span> contenant :
@@ -241,8 +240,10 @@
                             <ul>
                                 <li>le nom de l'entreprise</li>
                                 <li>l'adresse complète</li>
+                                <li>la ville</li>
                                 <li>le numéro de téléphone</li>
                                 <li>l'adresse électronique</li>
+                                <li>la préférence de contact</li>
                                 <li>un lien de modification</li>
                                 <li>une fonctionnalité de suppression avec confirmation</li>
                                 <li>un lien de retour vers la liste</li>
@@ -279,6 +280,9 @@
                         <li>
                             Utiliser l'attribut<span class="comment"> value</span> pour afficher les données connues.
                         </li>
+                        <li>
+                            Pour la préférence de contact, utiliser l'attribut<span class="comment"> checked</span>.
+                        </li>
                     </ul>
 
                     <div class="separator"></div>
@@ -294,7 +298,7 @@
                             avec<span class="comment"> request.args</span>.
                         </li>
                         <li>
-                            Proposer deux champs de filtre distincts :
+                            Proposer les champs de filtre :
                             <ul>
                                 <li>un champ permettant de rechercher un fournisseur par son nom</li>
                                 <li>un champ pour filtrer selon la ville</li>
