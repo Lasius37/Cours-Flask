@@ -81,10 +81,9 @@
                             <ul>
                                 <li>Nom de l'entreprise</li>
                                 <li>Adresse</li>
-                                <li>Code postal</li>
-                                <li>Ville</li>
                                 <li>Numéro de téléphone</li>
-                                <li>Adresse mail</li>
+                                <li>E-mail</li>
+                                <li>S'il préfère être contacté par téléphone ou par email</li>
                             </ul>
                         </li>
                     </ul>
@@ -131,23 +130,186 @@
 
                 <!-- layout element -------------------------------------------------------------------------------- -->
                 <div class="layout__text">
-                    <h3>Modèles et base de données</h3>
-                    <ul>
+                    <h3>Organisation du projet</h3>
 
+                    <ul>
+                        <li>Structurer l'application.</li>
+                        <li>Configurer une base de données</li>
+                        <li>Créer les dossiers et sous-dossiers nécessaires.</li>
+                        <li>Créer les fichiers statiques nécessaires (style, js, images, etc.).</li>
+                    </ul>
+
+                    <div class="separator"></div>
+
+                    <h3>Modèle et base de données</h3>
+
+                    <ul>
+                        <li>
+                            Créer le modèle<span class="comment"> Supplier</span>, représentant un fournisseur et ses
+                            coordonnées :
+                            <ul>
+                                <li><span class="comment">id </span>: son identifiant unique</li>
+                                <li><span class="comment">name </span>: son nom</li>
+                                <li><span class="comment">address </span>: son adresse</li>
+                                <li><span class="comment">city </span>: sa ville</li>
+                                <li><span class="comment">phone </span>: son numéro de téléphone</li>
+                                <li><span class="comment">email </span>: son email</li>
+                                <li><span class="comment">prefers-email</span>: sa préférence de contact</li>
+                            </ul>
+                        </li>
                     </ul>
 
                     <div class="separator"></div>
 
                     <h3>Vues</h3>
+
                     <ul>
-                        <li></li>
+                        <li>
+                            Développer les fonctionnalités progressivement :
+                            <ul>
+                                <li>affichage de la liste complète des fournisseurs</li>
+                                <li>affichage des informations détaillées d'un fournisseur</li>
+                                <li>ajout d'un fournisseur</li>
+                                <li>modification d'un fournisseur</li>
+                                <li>suppression d'un fournisseur</li>
+                                <li>filtre des fournisseurs selon leur ville ou leur préférence de contact</li>
+                                <li>tri des fournisseurs par nom ou par ville</li>
+                            </ul>
+                        </li>
+                        <li>Pour chacune, penser à :
+                            <ul>
+                                <li>développer sa vue</li>
+                                <li>affecter une route</li>
+                                <li>associer les bonnes méthodes (<span class="comment">GET </span>
+                                    et/ou<span class="comment"> POST</span>)</li>
+                            </ul>
+                        </li>
                     </ul>
 
                     <div class="separator"></div>
 
                     <h3>Templates</h3>
+
                     <ul>
-                        <li></li>
+                        <li>
+                            Créer un template commun<span class="comment"> base.html</span> contenant :
+                            <ul>
+                                <li>la structure générale de la page</li>
+                                <li>un en-tête</li>
+                                <li>un menu de navigation</li>
+                                <li>un bloc destiné au contenu principal</li>
+                                <li>un pied de page</li>
+                                <li>le lien vers la feuille de style</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Les autres templates héritent de cette structure :
+                            <table>
+                                <tr>
+                                    <th>Template</th>
+                                    <th>Contenu attendu</th>
+                                </tr>
+                                <tr>
+                                    <td><span class="comment">suppliers.html</span></td>
+                                    <td>Liste, filtrage et tri des fournisseurs</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="comment">supplier-detail.html</span></td>
+                                    <td>Informations complètes sur un fournisseur</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="comment">create-supplier.html</span></td>
+                                    <td>Formulaire vide de création</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="comment">update-supplier.html</span></td>
+                                    <td>Formulaire prérempli de modification</td>
+                                </tr>
+                            </table>
+                        </li>
+                        <li>
+                            Sur la page<span class="comment"> suppliers.html</span>, pour chaque fournisseur, créer :
+                            <ul>
+                                <li>un lien vers sa page détaillée</li>
+                                <li>un lien vers son formulaire de modification</li>
+                                <li>un formulaire de suppression</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Sur la page<span class="comment"> supplier-detail.html</span>, prévoyez :
+                            <ul>
+                                <li>le nom de l'entreprise</li>
+                                <li>l'adresse complète</li>
+                                <li>le numéro de téléphone</li>
+                                <li>l'adresse électronique</li>
+                                <li>un lien de modification</li>
+                                <li>un formulaire de suppression</li>
+                                <li>un lien de retour vers la liste</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <div class="separator"></div>
+
+                    <h3>Formulaires</h3>
+
+                    <ul>
+                        <li>
+                            Utiliser les mêmes champs pour les formulaires de création et de modification :
+                            <ul>
+                                <li>nom de l'entreprise</li>
+                                <li>adresse</li>
+                                <li>code postal</li>
+                                <li>ville</li>
+                                <li>numéro de téléphone</li>
+                                <li>adresse électronique</li>
+                                <li>préférence de contact</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Paramétrer correctement les champs :
+                            <ul>
+                                <li><span class="comment">type="text" </span>pour les informations générales</li>
+                                <li><span class="comment">type="tel" </span>pour le téléphone</li>
+                                <li><span class="comment">type="email" </span>pour l'adresse électronique</li>
+                                <li><span class="comment">required </span>pour les champs obligatoires</li>
+                                <li><span class="comment">maxlength </span>pour limiter la longueur des textes</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Utiliser l'attribut<span class="comment"> value</span> pour afficher les données connues.
+                        </li>
+                    </ul>
+
+                    <div class="separator"></div>
+
+                    <h3>Filtres et tris</h3>
+
+                    <ul>
+                        <li>
+                            Utiliser la méthode<span class="comment"> GET </span>pour le formulaire de filtre.
+                        </li>
+                        <li>
+                            Récupérer les valeurs envoyées avec<span class="comment"> GET </span>
+                            avec<span class="comment"> request.args</span>.
+                        </li>
+                        <li>
+                            Proposer deux champs de filtre distincts :
+                            <ul>
+                                <li>un champ pour filtrer selon la ville</li>
+                                <li>un champ pour filtrer selon la préférence de contact</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Permettre à l'utilisateur de choisir le tri :
+                            <ul>
+                                <li>par nom de l'entreprise</li>
+                                <li>par ville</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Vérifier le choix effectué avant de filtrer ou de trier.
+                        </li>
                     </ul>
                 </div>
             </div>
