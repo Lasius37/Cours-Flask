@@ -98,9 +98,10 @@
                                         <li>un temps de préparation</li>
                                         <li>un niveau de difficulté</li>
                                         <li>une estimation du coût</li>
+                                        <li>le nombre de personnes pour lesquelles elle est conçue</li>
                                         <li>une liste d'ingrédients</li>
                                         <li>une série d'étapes de préparation</li>
-                                        <li>une photo</li>
+                                        <li>une photo facultative</li>
                                         <li>une catégorie</li>
                                         <li>un marqueur pour les recettes végétariennes</li>
                                     </ul>
@@ -166,7 +167,7 @@
                                     La liste des recettes permet :
                                     <ul>
                                         <li>de rechercher une recette par son nom</li>
-                                        <li>de filtrer les recettes par catégorie, par coût, niveau de difficulté, par durée de préparation</li>
+                                        <li>de filtrer les recettes par catégorie, par coût, niveau de difficulté ou par durée de préparation</li>
                                     </ul>
                                 </li>
                                 <li>
@@ -174,7 +175,11 @@
                                     <ul>
                                         <li>sa catégorie</li>
                                         <li>son nom</li>
-                                        <li>sa photo</li>
+                                        <li>sa photo si elle est donnée</li>
+                                        <li>son temps de préparation</li>
+                                        <li>son niveau de difficulté</li>
+                                        <li>son coût estimé</li>
+                                        <li>le nombre de personnes pour lesquelles la recette est pensée</li>
                                         <li>la liste de ses ingrédients</li>
                                         <li>la liste de ses étapes de préparation</li>
                                         <li>si elle est végétarienne</li>
@@ -189,20 +194,16 @@
                             <h3>Gestion des catégories</h3>
 
                             <ul>
+                                <li>La liste des catégories permet de rechercher une catégorie par son nom.</li>
                                 <li>
-                                    La liste des catégories permet :
-                                    <ul>
-                                        <li>de rechercher une catégorie par son nom</li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    La page détaillée d'un produit affiche :
+                                    La page détaillée d'une catégorie affiche :
                                     <ul>
                                         <li>son nom</li>
                                         <li>la couleur qui lui est associée</li>
                                         <li>la liste des recettes qui en font partie</li>
                                     </ul>
                                 </li>
+                                <li>Une catégorie ne peut être supprimée que si elle ne contient aucune recette.</li>
                             </ul>
                         </li>
 
@@ -257,46 +258,41 @@
                     <h3>Organisation de l'application</h3>
 
                     <ul>
-                        <li>Séparer les grandes fonctionnalités de l'application afin de rendre le projet plus facile à lire et à faire évoluer.</li>
-                        <li>Prévoir une partie dédiée à l'accueil, une partie consacrée aux clients, une autre aux produits et une dernière aux commandes.</li>
+                        <li>Séparer les principales fonctionnalités de l'application.</li>
+                        <li>Prévoir un blueprint consacré aux pages générales, un pour les recettes et un pour les catégories.</li>
                         <li>Distinguer les responsabilités liées aux routes, aux formulaires, aux modèles et aux templates.</li>
-                        <li>Conserver une structure commune pour toutes les pages.</li>
-                        <li>Organiser progressivement le projet avant de développer toutes les fonctionnalités.</li>
+                        <li>Conserver une structure commune pour toutes les pages grâce à un template principal.</li>
+                        <li>Construire progressivement l'application avant d'ajouter la recherche, les filtres et l'envoi des images.</li>
                     </ul>
 
                     <div class="separator"></div>
 
-                    <h3>Modèles et relations</h3>
+                    <h3>Modèles et relation</h3>
 
                     <ul>
-                        <li>Identifier clairement les données propres aux clients, aux produits, aux commandes et aux lignes de commande.</li>
-                        <li>Construire les dépendances entre les classes en fonction des relations décrites dans l'énoncé.</li>
-                        <li>Distinguer les relations directes des relations qui nécessitent des informations complémentaires.</li>
-                        <li>Comprendre que la relation entre une commande et un produit doit également conserver une quantité et un prix.</li>
-                        <li>Réfléchir au comportement attendu lorsqu'un élément possède encore des données associées.</li>
-                        <li>Déterminer les champs qui doivent être obligatoires, facultatifs ou uniques.</li>
-                        <li>Prévoir des représentations lisibles des différents objets dans l'application.</li>
+                        <li>Créer les modèles représentant les catégories et les recettes.</li>
+                        <li>Déterminer les champs obligatoires, facultatifs ou uniques avant de créer la première migration.</li>
+                        <li>Associer chaque recette à une catégorie avec une clé étrangère.</li>
+                        <li>Prévoir une relation permettant d'accéder aux recettes appartenant à une catégorie.</li>
+                        <li>Utiliser des noms explicites pour les modèles, leurs attributs et la relation qui les relie.</li>
+                        <li>Prévoir une représentation lisible de chaque objet pour faciliter son identification.</li>
+                        <li>Définir le comportement attendu lorsqu'une catégorie contient encore des recettes.</li>
                     </ul>
 
                     <div class="separator"></div>
 
-                    <h3>Gestion des commandes</h3>
+                    <h3>Progression conseillée</h3>
 
                     <ul>
-                        <li>
-                            Construire une commande en plusieurs étapes :
-                            <ul>
-                                <li>créer d'abord la commande et sélectionner le client</li>
-                                <li>ajouter ensuite les différentes lignes</li>
-                                <li>vérifier enfin les montants et les quantités</li>
-                            </ul>
-                        </li>
-                        <li>Conserver le prix du produit au moment de la commande afin qu'une modification ultérieure du catalogue ne change pas les anciennes commandes.</li>
-                        <li>Calculer le montant d'une ligne à partir de sa quantité et de son prix unitaire.</li>
-                        <li>Calculer le montant total d'une commande à partir de l'ensemble de ses lignes.</li>
-                        <li>Vérifier que les quantités commandées sont compatibles avec le stock disponible.</li>
-                        <li>Déterminer à quel moment le stock doit être modifié selon le fonctionnement choisi pour l'application.</li>
-                        <li>Prévoir le comportement attendu lorsqu'une commande est annulée ou supprimée.</li>
+                        <li>Créer la structure générale de l'application et enregistrer les blueprints.</li>
+                        <li>Configurer la base de données et les extensions utilisées par l'application.</li>
+                        <li>Créer les modèles et appliquer les premières migrations.</li>
+                        <li>Développer l'affichage des listes et des pages détaillées.</li>
+                        <li>Ajouter les formulaires de création et de modification.</li>
+                        <li>Ajouter la suppression avec une demande de confirmation.</li>
+                        <li>Mettre en place la recherche et les différents filtres.</li>
+                        <li>Ajouter l'envoi et l'affichage des photos.</li>
+                        <li>Vérifier la configuration et préparer le projet pour son déploiement.</li>
                     </ul>
 
                     <div class="separator"></div>
@@ -304,137 +300,93 @@
                     <h3>Formulaires et validations</h3>
 
                     <ul>
-                        <li>Prévoir un formulaire adapté à chaque type de donnée.</li>
-                        <li>Réutiliser autant que possible les mêmes formulaires pour la création et la modification.</li>
+                        <li>Prévoir un formulaire adapté aux recettes et un autre aux catégories.</li>
+                        <li>Réutiliser autant que possible le même formulaire pour la création et la modification d'un objet.</li>
                         <li>Choisir les types de champs en fonction des données attendues.</li>
-                        <li>Alimenter les listes de choix à partir des données existantes lorsque l'utilisateur doit sélectionner un client, un produit ou un état.</li>
-                        <li>Vérifier la cohérence des nombres, des quantités, des prix et des références.</li>
-                        <li>Prévoir des validations dépendant de plusieurs données lorsque cela est nécessaire.</li>
+                        <li>Alimenter la liste des catégories à partir des catégories enregistrées dans la base de données.</li>
+                        <li>Vérifier que le temps de préparation et l'estimation du coût contiennent des valeurs cohérentes.</li>
+                        <li>Limiter les valeurs possibles pour le niveau de difficulté.</li>
+                        <li>Vérifier que le nom d'une catégorie n'est pas déjà utilisé.</li>
                         <li>Afficher les erreurs à proximité des champs concernés.</li>
-                        <li>Ne pas enregistrer de données tant que le formulaire n'est pas valide.</li>
+                        <li>Conserver les données déjà saisies lorsque le formulaire contient une erreur.</li>
                     </ul>
 
                     <div class="separator"></div>
 
-                    <h3>Listes, filtres et tris</h3>
+                    <h3>Création et modification des données</h3>
 
                     <ul>
-                        <li>Choisir des critères de recherche adaptés à chaque type de donnée.</li>
-                        <li>Construire progressivement les requêtes selon les critères réellement renseignés par l'utilisateur.</li>
-                        <li>Prévoir des filtres portant sur les relations entre les données.</li>
-                        <li>Limiter les possibilités de tri à une liste de choix définie par l'application.</li>
-                        <li>Conserver les critères choisis après l'affichage des résultats.</li>
-                        <li>Vérifier que les filtres et les tris peuvent fonctionner ensemble.</li>
+                        <li>Créer quelques catégories avant les premières recettes afin que l'utilisateur puisse les sélectionner dans le formulaire.</li>
+                        <li>Utiliser les données validées par le formulaire avant de créer ou de modifier un objet.</li>
+                        <li>Préremplir le formulaire lorsqu'une recette ou une catégorie est modifiée.</li>
+                        <li>Enregistrer les modifications uniquement lorsque toutes les données sont valides.</li>
+                        <li>Rediriger l'utilisateur après une création ou une modification réussie afin d'éviter un nouvel envoi du formulaire.</li>
                     </ul>
 
                     <div class="separator"></div>
 
-                    <h3>Pages et navigation</h3>
+                    <h3>Suppression des données</h3>
 
                     <ul>
-                        <li>Prévoir pour chaque type de donnée une liste, une page détaillée et les formulaires nécessaires.</li>
-                        <li>Utiliser une présentation commune pour conserver une interface cohérente.</li>
-                        <li>
-                            Afficher les relations directement dans les pages détaillées :
-                            <ul>
-                                <li>les commandes d'un client</li>
-                                <li>les lignes d'une commande</li>
-                                <li>les informations du produit associé à chaque ligne</li>
-                            </ul>
-                        </li>
-                        <li>Permettre de passer facilement d'un élément à un autre élément lié.</li>
-                        <li>Prévoir une confirmation pour les actions irréversibles.</li>
-                        <li>Distinguer clairement les actions de consultation, de création, de modification et de suppression.</li>
+                        <li>Afficher une page de confirmation avant toute suppression.</li>
+                        <li>Indiquer clairement l'élément qui va être supprimé.</li>
+                        <li>Empêcher la suppression d'une catégorie à laquelle des recettes sont associées.</li>
+                        <li>Prévoir un message compréhensible lorsque la suppression est impossible.</li>
+                        <li>Supprimer également la photo associée à une recette si elle n'est plus utilisée.</li>
                     </ul>
 
                     <div class="separator"></div>
 
-                    <h3>Fichiers envoyés</h3>
+                    <h3>Recherche et filtres</h3>
 
                     <ul>
-                        <li>Permettre l'ajout facultatif d'une image pour un produit.</li>
-                        <li>Vérifier que le fichier envoyé correspond à un format autorisé.</li>
-                        <li>Ne pas utiliser directement le nom transmis par l'utilisateur.</li>
-                        <li>Prévoir un nom évitant les collisions entre plusieurs fichiers.</li>
+                        <li>Afficher toutes les recettes avant d'ajouter les critères de sélection.</li>
+                        <li>Récupérer les critères de recherche et de filtrage depuis les paramètres de l'adresse.</li>
+                        <li>Construire progressivement la requête en ajoutant uniquement les filtres sélectionnés.</li>
+                        <li>Permettre de combiner une recherche par nom avec un ou plusieurs filtres.</li>
+                        <li>Prévoir une option permettant de réinitialiser les critères et de retrouver la liste complète.</li>
+                        <li>Conserver les critères choisis dans le formulaire après l'affichage des résultats.</li>
+                        <li>Afficher un message lorsque aucune recette ne correspond aux critères.</li>
+                    </ul>
+
+                    <div class="separator"></div>
+
+                    <h3>Gestion des photos</h3>
+
+                    <ul>
+                        <li>Rendre l'ajout d'une photo facultatif.</li>
+                        <li>Limiter les extensions autorisées aux formats d'image prévus par l'application.</li>
+                        <li>Vérifier le fichier avant son enregistrement.</li>
+                        <li>Générer un nom de fichier sûr afin d'éviter les noms invalides ou dangereux.</li>
+                        <li>Éviter qu'un nouveau fichier remplace accidentellement une image existante.</li>
                         <li>Enregistrer uniquement le nom du fichier dans la base de données.</li>
-                        <li>Réfléchir au remplacement et à la suppression des fichiers lorsqu'un produit est modifié ou supprimé.</li>
+                        <li>Prévoir une image ou une présentation par défaut lorsqu'une recette ne possède pas de photo.</li>
+                        <li>Lors d'une modification, conserver l'ancienne photo si aucune nouvelle image n'est envoyée.</li>
                     </ul>
 
                     <div class="separator"></div>
 
-                    <h3>Tableau de bord</h3>
+                    <h3>Templates et navigation</h3>
 
                     <ul>
-                        <li>Sélectionner quelques informations réellement utiles pour résumer l'activité.</li>
-                        <li>Prévoir des indicateurs calculés à partir des données enregistrées.</li>
-                        <li>Définir ce qui caractérise une commande récente.</li>
-                        <li>Définir un seuil permettant d'identifier les produits dont le stock est faible.</li>
-                        <li>Réfléchir à la manière de déterminer les produits les plus vendus.</li>
-                        <li>Présenter les informations de manière synthétique sans reproduire toutes les listes.</li>
+                        <li>Créer un template principal contenant la structure générale, le menu et les fichiers statiques communs.</li>
+                        <li>Créer des templates distincts pour les listes, les pages détaillées et les formulaires.</li>
+                        <li>Réutiliser le même template de formulaire pour la création et la modification lorsque cela est possible.</li>
+                        <li>Permettre de passer facilement d'une catégorie à ses recettes et d'une recette à sa catégorie.</li>
+                        <li>Rendre clairement visibles les actions d'ajout, de modification et de suppression.</li>
                     </ul>
 
                     <div class="separator"></div>
 
-                    <h3>Configuration et données locales</h3>
+                    <h3>Configuration et sécurité</h3>
 
                     <ul>
-                        <li>Regrouper les paramètres de l'application afin de ne pas les disperser dans le projet.</li>
-                        <li>Distinguer les paramètres généraux des paramètres propres à l'installation.</li>
-                        <li>Identifier les informations qui ne doivent pas être publiées.</li>
-                        <li>
-                            Séparer le code de l'application des données locales :
-                            <ul>
-                                <li>base de données</li>
-                                <li>images envoyées</li>
-                                <li>configuration locale</li>
-                            </ul>
-                        </li>
-                        <li>Vérifier que les dossiers nécessaires existent au démarrage de l'application.</li>
-                    </ul>
-
-                    <div class="separator"></div>
-
-                    <h3>Base de données et migrations</h3>
-
-                    <ul>
-                        <li>Créer les modèles et leurs relations avant de développer toutes les pages.</li>
-                        <li>Faire évoluer progressivement la structure de la base.</li>
-                        <li>Créer une migration après chaque modification cohérente des modèles.</li>
-                        <li>Vérifier que la base peut être reconstruite à partir des migrations.</li>
-                        <li>Créer des données de test suffisamment variées pour vérifier les relations, les filtres, les tris et les calculs.</li>
-                    </ul>
-
-                    <div class="separator"></div>
-
-                    <h3>Données de test</h3>
-
-                    <ul>
-                        <li>Créer plusieurs clients avec des villes et des préférences de contact différentes.</li>
-                        <li>Créer plusieurs produits avec des prix et des stocks variés.</li>
-                        <li>Prévoir des produits disponibles, presque épuisés et indisponibles.</li>
-                        <li>Créer plusieurs commandes pour certains clients.</li>
-                        <li>Ajouter plusieurs produits à certaines commandes.</li>
-                        <li>Utiliser plusieurs états de commande.</li>
-                        <li>Vérifier les calculs avec des quantités et des prix simples avant d'utiliser des données plus complexes.</li>
-                    </ul>
-
-                    <div class="separator"></div>
-
-                    <h3>Ordre de réalisation conseillé</h3>
-
-                    <ul>
-                        <li>Définir les données et les relations nécessaires.</li>
-                        <li>Créer la structure générale de l'application.</li>
-                        <li>Mettre en place les modèles et la base de données.</li>
-                        <li>Développer la gestion complète des clients.</li>
-                        <li>Développer la gestion complète des produits.</li>
-                        <li>Créer les commandes et leur relation avec les clients.</li>
-                        <li>Ajouter les lignes de commande et leur relation avec les produits.</li>
-                        <li>Mettre en place les calculs et les contrôles de stock.</li>
-                        <li>Ajouter les filtres, les tris et les recherches.</li>
-                        <li>Ajouter la gestion des images.</li>
-                        <li>Créer le tableau de bord.</li>
-                        <li>Finaliser la configuration et préparer le déploiement.</li>
+                        <li>Regrouper les principaux paramètres de l'application dans une configuration dédiée.</li>
+                        <li>Ne pas écrire directement une clé secrète définitive dans le code publié.</li>
+                        <li>Configurer séparément l'adresse de la base de données et le dossier utilisé pour les images.</li>
+                        <li>Ne pas publier la base de données locale, les fichiers envoyés par les utilisateurs ou les informations sensibles.</li>
+                        <li>Ajouter les fichiers et dossiers concernés au fichier <span class="comment">.gitignore</span>.</li>
+                        <li>Vérifier le comportement de l'application lorsque les données ou les fichiers attendus sont absents.</li>
                     </ul>
 
                     <div class="separator"></div>
@@ -442,21 +394,14 @@
                     <h3>Vérifications finales</h3>
 
                     <ul>
-                        <li>Toutes les pages sont accessibles.</li>
-                        <li>Tous les liens de navigation fonctionnent.</li>
-                        <li>Les formulaires refusent les données incorrectes.</li>
-                        <li>Les relations entre les modèles sont correctement enregistrées.</li>
-                        <li>Les commandes affichent toutes leurs lignes.</li>
-                        <li>Les montants des lignes sont corrects.</li>
-                        <li>Le montant total des commandes est correct.</li>
-                        <li>Les quantités commandées respectent le stock disponible.</li>
-                        <li>Les filtres et les tris fonctionnent seuls et en combinaison.</li>
-                        <li>Les suppressions respectent les données associées.</li>
-                        <li>Les images sont enregistrées, remplacées et supprimées correctement.</li>
-                        <li>Les pages utilisent toutes la structure commune.</li>
-                        <li>La base peut être reconstruite à partir des migrations.</li>
-                        <li>Les données locales et les secrets ne sont pas publiés.</li>
-                        <li>L'application peut fonctionner sans le mode de débogage.</li>
+                        <li>Tester la création, la consultation, la modification et la suppression des deux types de données.</li>
+                        <li>Tester les formulaires avec des données valides et invalides.</li>
+                        <li>Vérifier qu'une recette reste toujours associée à une catégorie existante.</li>
+                        <li>Tester séparément puis simultanément la recherche et les différents filtres.</li>
+                        <li>Tester l'ajout d'une recette avec et sans photo.</li>
+                        <li>Vérifier les liens entre les listes, les pages détaillées et les formulaires.</li>
+                        <li>Tester le projet avec une base de données nouvellement créée.</li>
+                        <li>Vérifier que le dépôt ne contient aucune donnée locale ou information sensible avant sa publication.</li>
                     </ul>
                 </div>
             </div>
@@ -469,6 +414,5 @@
     <footer>
         <div>© Copyright - Guillaume Peyrard</div>
     </footer>
-
 </body>
 </html>
