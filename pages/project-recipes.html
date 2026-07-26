@@ -14,14 +14,14 @@
     <link rel="stylesheet" href="../css/init.css">
     <link rel="stylesheet" href="../css/style.css">
     <script type="module" src="../js/script.js" defer></script>
-    <title>Projet : la gestion des ventes d'une petite entreprise</title>
+    <title>Projet : le carnet de recettes</title>
 </head>
 <body>
     <!-- ***************************************************************************************************************
          HEADER
     **************************************************************************************************************** -->
     <header>
-            <h1>Projet : la gestion des ventes d'une petite entreprise</h1>
+            <h1>Projet : le carnet de recettes</h1>
 
         <!-- navbar
              ======================================================================================================= -->
@@ -70,25 +70,18 @@
                 <!-- layout element -------------------------------------------------------------------------------- -->
                 <div class="layout__text">
                     <p>
-                        Vous devez réaliser une application Flask permettant de gérer les ventes d'une petite
-                        entreprise.
+                        Vous devez réaliser une application Flask permettant de gérer un carnet de recettes personnel.
                     </p>
                     <ol>
                         <li>
                             <h3>Objectif général</h3>
 
                             <ul>
-                                <li>L'application permet de gérer les clients de l'entreprise.</li>
-                                <li>L'application permet de gérer les produits proposés à la vente et les stocks.</li>
-                                <li>Chaque client peut passer plusieurs commandes.</li>
-                                <li>Chaque commande peut contenir plusieurs produits.</li>
-                                <li>
-                                    L'utilisateur peut consulter les clients, les produits, les commandes et les
-                                    différentes lignes de commande.
-                                </li>
-                                <li>
-                                    L'utilisateur peut ajouter, modifier et supprimer les différentes données.
-                                </li>
+                                <li>L'application permet de gérer les recettes et leur catégorie.</li>
+                                <li>Chaque recette fait partie d'une seule catégorie.</li>
+                                <li>Chaque catégorie peut contenir plusieurs recettes.</li>
+                                <li>L'utilisateur peut consulter les recettes ou les filtrer.</li>
+                                <li>L'utilisateur peut ajouter, modifier et supprimer les différentes données.</li>
                             </ul>
                         </li>
 
@@ -99,42 +92,24 @@
 
                             <ul>
                                 <li>
-                                    Un client est caractérisé par :
-                                    <ul>
-                                        <li>un nom ou une raison sociale</li>
-                                        <li>une adresse</li>
-                                        <li>une ville</li>
-                                        <li>un numéro de téléphone</li>
-                                        <li>une adresse électronique</li>
-                                        <li>une préférence de contact</li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    Un produit est caractérisé par :
+                                    Une recette est caractérisée par :
                                     <ul>
                                         <li>un nom</li>
-                                        <li>une description</li>
-                                        <li>un prix unitaire</li>
-                                        <li>une quantité disponible</li>
-                                        <li>une photo facultative</li>
+                                        <li>un temps de préparation</li>
+                                        <li>un niveau de difficulté</li>
+                                        <li>une estimation du coût</li>
+                                        <li>une liste d'ingrédients</li>
+                                        <li>une série d'étapes de préparation</li>
+                                        <li>une photo</li>
+                                        <li>une catégorie</li>
+                                        <li>un marqueur pour les recettes végétariennes</li>
                                     </ul>
                                 </li>
                                 <li>
-                                    Une commande est caractérisée par :
+                                    Une catégorie est caractérisée par :
                                     <ul>
-                                        <li>une référence</li>
-                                        <li>une date</li>
-                                        <li>un état</li>
-                                        <li>le client qui l'a passée</li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    Une ligne de commande est caractérisée par :
-                                    <ul>
-                                        <li>la commande à laquelle elle appartient</li>
-                                        <li>le produit commandé</li>
-                                        <li>la quantité commandée</li>
-                                        <li>le prix unitaire enregistré au moment de la commande</li>
+                                        <li>un nom</li>
+                                        <li>une couleur</li>
                                     </ul>
                                 </li>
                             </ul>
@@ -146,16 +121,8 @@
                             <h3>Relations entre les données</h3>
 
                             <ul>
-                                <li>Un client peut passer plusieurs commandes.</li>
-                                <li>Une commande concerne un seul client.</li>
-                                <li>Une commande peut contenir plusieurs lignes de commande.</li>
-                                <li>Une ligne de commande est contenue dans une seule commande.</li>
-                                <li>Une ligne de commande concerne un seul produit.</li>
-                                <li>Un même produit peut apparaître dans plusieurs commandes.</li>
-                                <li>
-                                    La ligne de commande permet d'associer une quantité et un prix à un produit dans une
-                                    commande donnée.
-                                </li>
+                                <li>Une catégorie peut contenir plusieurs recettes.</li>
+                                <li>Une recette fait partie d'une seule catégorie.</li>
                             </ul>
                         </li>
 
@@ -168,10 +135,9 @@
                                 <li>
                                     L'application comporte plusieurs parties :
                                     <ul>
-                                        <li>une page d'accueil présentant un tableau de bord</li>
-                                        <li>une partie consacrée aux clients</li>
-                                        <li>une partie consacrée aux produits</li>
-                                        <li>une partie consacrée aux commandes</li>
+                                        <li>une page d'accueil présentant la liste des recettes</li>
+                                        <li>une partie consacrée aux catégories</li>
+                                        <li>une partie consacrée aux recettes</li>
                                     </ul>
                                 </li>
                                 <li>
@@ -193,26 +159,25 @@
                         <div class="separator"></div>
 
                         <li>
-                            <h3>Gestion des clients</h3>
+                            <h3>Gestion des recettes</h3>
 
                             <ul>
                                 <li>
-                                    La liste des clients permet :
+                                    La liste des recettes permet :
                                     <ul>
-                                        <li>de rechercher un client par son nom</li>
-                                        <li>de filtrer les clients par ville</li>
-                                        <li>de filtrer les clients selon leur préférence de contact</li>
-                                        <li>de trier les clients par nom ou par ville</li>
+                                        <li>de rechercher une recette par son nom</li>
+                                        <li>de filtrer les recettes par catégorie, par coût, niveau de difficulté, par durée de préparation</li>
                                     </ul>
                                 </li>
                                 <li>
-                                    La page détaillée d'un client affiche :
+                                    La page détaillée d'une recette affiche :
                                     <ul>
-                                        <li>ses coordonnées complètes</li>
-                                        <li>sa préférence de contact</li>
-                                        <li>la liste de ses commandes</li>
-                                        <li>le montant total de ses commandes</li>
-                                        <li>les liens permettant de modifier ou de supprimer le client</li>
+                                        <li>sa catégorie</li>
+                                        <li>son nom</li>
+                                        <li>sa photo</li>
+                                        <li>la liste de ses ingrédients</li>
+                                        <li>la liste de ses étapes de préparation</li>
+                                        <li>si elle est végétarienne</li>
                                     </ul>
                                 </li>
                             </ul>
@@ -221,116 +186,23 @@
                         <div class="separator"></div>
 
                         <li>
-                            <h3>Gestion des produits</h3>
+                            <h3>Gestion des catégories</h3>
 
                             <ul>
                                 <li>
-                                    La liste des produits permet :
+                                    La liste des catégories permet :
                                     <ul>
-                                        <li>de rechercher un produit par son nom</li>
-                                        <li>de filtrer les produits disponibles ou indisponibles</li>
-                                        <li>de repérer les produits dont le stock est faible</li>
-                                        <li>de trier les produits par nom, par prix ou par quantité disponible</li>
+                                        <li>de rechercher une catégorie par son nom</li>
                                     </ul>
                                 </li>
                                 <li>
                                     La page détaillée d'un produit affiche :
                                     <ul>
                                         <li>son nom</li>
-                                        <li>sa description</li>
-                                        <li>son prix unitaire</li>
-                                        <li>sa quantité disponible</li>
-                                        <li>son image si elle existe</li>
-                                        <li>les liens permettant de modifier ou de supprimer le produit</li>
+                                        <li>la couleur qui lui est associée</li>
+                                        <li>la liste des recettes qui en font partie</li>
                                     </ul>
                                 </li>
-                            </ul>
-                        </li>
-
-                        <div class="separator"></div>
-
-                        <li>
-                            <h3>Gestion des commandes</h3>
-
-                            <ul>
-                                <li>Une commande est créée pour un client existant.</li>
-                                <li>
-                                    Une commande peut avoir l'un des états suivants :
-                                    <ul>
-                                        <li>en préparation</li>
-                                        <li>validée</li>
-                                        <li>expédiée</li>
-                                        <li>livrée</li>
-                                        <li>annulée</li>
-                                    </ul>
-                                </li>
-                                <li>Après la création d'une commande, l'utilisateur peut lui ajouter plusieurs lignes.</li>
-                                <li>
-                                    Pour chaque ligne, l'utilisateur sélectionne :
-                                    <ul>
-                                        <li>un produit</li>
-                                        <li>une quantité</li>
-                                    </ul>
-                                </li>
-                                <li>Le prix unitaire du produit est enregistré dans la ligne de commande.</li>
-                                <li>Le montant d'une ligne correspond au produit de la quantité par le prix unitaire.</li>
-                                <li>Le montant total d'une commande correspond à la somme des montants de ses lignes.</li>
-                                <li>La quantité commandée ne peut pas dépasser la quantité disponible.</li>
-                                <li>
-                                    La page détaillée d'une commande affiche :
-                                    <ul>
-                                        <li>sa référence</li>
-                                        <li>sa date</li>
-                                        <li>son état</li>
-                                        <li>les informations principales sur le client</li>
-                                        <li>la liste des produits commandés</li>
-                                        <li>la quantité et le prix de chaque ligne</li>
-                                        <li>le montant de chaque ligne</li>
-                                        <li>le montant total de la commande</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <div class="separator"></div>
-
-                        <li>
-                            <h3>Liste des commandes</h3>
-
-                            <ul>
-                                <li>
-                                    La liste des commandes permet :
-                                    <ul>
-                                        <li>de rechercher une commande par sa référence</li>
-                                        <li>de filtrer les commandes par client</li>
-                                        <li>de filtrer les commandes selon leur état</li>
-                                        <li>de les trier par date ou par montant total</li>
-                                    </ul>
-                                </li>
-                                <li>Chaque commande donne accès à sa page détaillée.</li>
-                                <li>Les commandes récentes doivent être facilement identifiables.</li>
-                            </ul>
-                        </li>
-
-                        <div class="separator"></div>
-
-                        <li>
-                            <h3>Tableau de bord</h3>
-
-                            <ul>
-                                <li>
-                                    La page d'accueil présente un résumé de l'activité de l'entreprise :
-                                    <ul>
-                                        <li>nombre total de clients</li>
-                                        <li>nombre total de produits</li>
-                                        <li>nombre total de commandes</li>
-                                        <li>montant total des commandes validées</li>
-                                    </ul>
-                                </li>
-                                <li>Elle affiche les dernières commandes enregistrées.</li>
-                                <li>Elle affiche les produits dont le stock est faible.</li>
-                                <li>Elle affiche éventuellement les produits les plus vendus.</li>
-                                <li>Elle propose des liens directs vers les principales fonctionnalités de l'application.</li>
                             </ul>
                         </li>
 
@@ -341,10 +213,10 @@
 
                             <ul>
                                 <li>Les pages utilisent une structure générale commune.</li>
-                                <li>Le menu permet d'accéder aux clients, aux produits et aux commandes.</li>
+                                <li>Le menu permet d'accéder aux catégories et aux recettes.</li>
                                 <li>Chaque liste donne accès aux pages détaillées correspondantes.</li>
-                                <li>La page d'un client donne accès à ses commandes.</li>
-                                <li>La page d'une commande donne accès au client et aux produits associés.</li>
+                                <li>La page d'une catégorie donne accès à ses recettes.</li>
+                                <li>La page d'une recette donne accès à la catégorie associée.</li>
                                 <li>Des liens permettent de revenir facilement aux listes précédentes.</li>
                                 <li>Les actions principales sont clairement identifiables.</li>
                                 <li>Les messages d'erreur sont compréhensibles.</li>
