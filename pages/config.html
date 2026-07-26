@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/normalize.css">
+    <link rel="stylesheet" href="../css/init.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script type="module" src="../js/script.js" defer></script>
+    <title>Configurer l'application</title>
+</head>
+<body>
+    <!-- ***************************************************************************************************************
+         HEADER
+    **************************************************************************************************************** -->
+    <header>
+        <h1>Configurer l'application</h1>
+
+        <!-- navbar
+             ======================================================================================================= -->
+        <nav>
+            <ul class="navbar"></ul>
+        </nav>
+    </header>
+
+    <!-- ***************************************************************************************************************
+         ASIDE
+    **************************************************************************************************************** -->
+    <aside>
+
+        <!-- sidebar
+             ======================================================================================================= -->
+        <nav class="sidebar">
+
+            <!-- sidebar group ------------------------------------------------------------------------------------- -->
+            <section class="sidebar__group">
+                <h2>Dans cette page</h2>
+
+                <ul>
+                    <li class="sidebar__element">
+                        <a href="#principle">Comprendre la configuration</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#config-object">Utiliser app.config</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#defaults">Définir les valeurs par défaut</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#config-file">Créer un fichier de configuration</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#instance">Utiliser le dossier instance</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#access">Accéder à la configuration</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#secret-key">Gérer la clé secrète</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#factory">Organiser la fabrique d'application</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#gitignore">Protéger les fichiers locaux</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#errors">Erreurs fréquentes</a>
+                    </li>
+                </ul>
+            </section>
+        </nav>
+    </aside>
+
+    <!-- ***************************************************************************************************************
+         MAIN
+    **************************************************************************************************************** -->
+    <main>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="principle">
+            <h2>Comprendre la configuration</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Une application utilise différents paramètres pour adapter son fonctionnement. Les pages
+                        précédentes ont déjà employé plusieurs paramètres :
+                    </p>
+                    <table>
+                        <tr>
+                            <th>Paramètre</th>
+                            <th>Utilisation</th>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">SECRET_KEY</span></td>
+                            <td>Signer les données sensibles et protéger les formulaires</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">SQLALCHEMY_DATABASE_URI</span></td>
+                            <td>Indiquer l'emplacement de la base de données</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">UPLOAD_FOLDER</span></td>
+                            <td>Indiquer le dossier des fichiers envoyés</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">MAX_CONTENT_LENGTH</span></td>
+                            <td>Limiter la taille des requêtes</td>
+                        </tr>
+                    </table>
+                    <p>
+                        Ces valeurs peuvent varier selon l'endroit où l'application est exécutée. Par exemple :
+                    </p>
+                    <ul>
+                        <li>la base de développement peut être différente de celle utilisée après le déploiement</li>
+                        <li>la clé secrète doit être propre à chaque installation</li>
+                        <li>certains paramètres peuvent être activés uniquement pendant le développement</li>
+                    </ul>
+                    <p>
+                        La configuration permet donc de séparer les paramètres du reste du code de l'application.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="config-object">
+            <h2>Utiliser app.config</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Chaque application Flask possède un objet<span class="comment"> config</span>. Il se comporte
+                        comme un dictionnaire Python :
+                    </p>
+                    <pre class="python"><code>app.config[<span class="text">"SECRET_KEY"</span>] = <span class="text">"development-key"</span>
+
+app.config[<span class="text">"MAX_CONTENT_LENGTH"</span>] = <span class="number">2</span> * <span class="number">1024</span> * <span class="number">1024</span></code></pre>
+                    <p>
+                        Une valeur peut ensuite être récupérée avec sa clé :
+                    </p>
+                    <pre class="python"><code>max_size = app.config[<span class="text">"MAX_CONTENT_LENGTH"</span>]</code></pre>
+                    <p>
+                        Les noms des paramètres de configuration sont généralement écrits en majuscules. Flask ne
+                        charge dans sa configuration que les variables dont le nom est écrit en majuscules
+                        lorsqu'elles proviennent d'un fichier Python.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="defaults">
+            <h2>Définir les valeurs par défaut</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        La méthode<span class="comment"> from_mapping() </span>permet de définir plusieurs valeurs par
+                        défaut en une seule instruction.
+                    </p>
+                    <pre class="python"><code>app.config.<span class="function">from_mapping</span>(
+    SECRET_KEY=<span class="text">"development-key"</span>,
+    SQLALCHEMY_DATABASE_URI=<span class="text">"sqlite:///database.db"</span>,
+    MAX_CONTENT_LENGTH=<span class="number">2</span> * <span class="number">1024</span> * <span class="number">1024</span>
+)</code></pre>
+                    <p>
+                        Cette écriture équivaut à plusieurs affectations
+                        avec<span class="comment"> app.config["..."]</span>.
+                    </p>
+                    <p>
+                        Les valeurs par défaut permettent à l'application de fonctionner immédiatement pendant le
+                        développement. Une valeur sensible utilisée par défaut doit être remplacée avant le déploiement.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="config-file">
+            <h2>Créer un fichier de configuration</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Les paramètres généraux peuvent être regroupés dans un
+                        fichier<span class="comment"> config.py</span>.
+                    </p>
+                    <pre class="console"><code>project/
+│
+├── app/
+│   ├── __init__.py
+│   ├── config.py
+│   ├── extensions.py
+│   └── models.py
+│
+├── instance/
+└── run.py</code></pre>
+                    <p>
+                        Dans<span class="comment"> app/config.py </span>:
+                    </p>
+                    <pre class="python"><code><span class="word">class</span> <span class="function">Config</span>:
+    SECRET_KEY = <span class="text">"development-key"</span>
+
+    SQLALCHEMY_DATABASE_URI = <span class="text">"sqlite:///database.db"</span>
+
+    MAX_CONTENT_LENGTH = (
+        <span class="number">2</span> * <span class="number">1024</span> * <span class="number">1024</span>
+    )</code></pre>
+                    <p>
+                        La classe est ensuite chargée dans la fabrique :
+                    </p>
+                    <pre class="python"><code><span class="word">from</span> .config <span class="word">import</span> Config
+
+
+<span class="word">def</span> <span class="function">create_app</span>():
+    app = Flask(__name__)
+
+    app.config.<span class="function">from_object</span>(Config)
+
+    <span class="comment"># Suite de l'initialisation</span>
+
+    <span class="word">return</span> app</code></pre>
+                    <p>
+                        La méthode<span class="comment"> from_object() </span>charge les attributs en majuscules de la
+                        classe dans<span class="comment"> app.config</span>. Ce fichier peut contenir les valeurs
+                        communes au projet, mais pas les secrets propres à l'installation lorsqu'il est ajouté au
+                        dépôt Git.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="instance">
+            <h2>Utiliser le dossier instance</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Le dossier<span class="comment"> instance </span>peut contenir les données et paramètres propres à
+                        une installation.
+                    </p>
+                    <pre class="console"><code>project/
+│
+├── app/
+├── instance/
+│   ├── config.py
+│   ├── database.db
+│   └── uploads/
+│
+└── run.py</code></pre>
+                    <p>
+                        Lors de la création de l'application, le
+                        paramètre<span class="comment"> instance_relative_config=True</span> permet de charger les
+                        fichiers de configuration relativement à ce dossier.
+                    </p>
+                    <pre class="python"><code><span class="word">def</span> <span class="function">create_app</span>():
+    app = Flask(
+        __name__,
+        instance_relative_config=<span class="word">True</span>
+    )
+
+    app.config.<span class="function">from_mapping</span>(
+        SECRET_KEY=<span class="text">"development-key"</span>,
+        SQLALCHEMY_DATABASE_URI=<span class="text">"sqlite:///database.db"</span>
+    )
+
+    app.config.<span class="function">from_pyfile</span>(
+        <span class="text">"config.py"</span>,
+        silent=<span class="word">True</span>
+    )
+
+    <span class="word">return</span> app</code></pre>
+                    <p>
+                        La méthode<span class="comment"> from_pyfile() </span>charge ici le
+                        fichier<span class="comment"> instance/config.py</span>. Le
+                        paramètre<span class="comment"> silent=True </span>évite une erreur si le fichier n'existe pas.
+                        Les valeurs du fichier local remplacent les valeurs par défaut déjà chargées.
+                        Par exemple, dans<span class="comment"> instance/config.py </span>:
+                    </p>
+                    <pre class="python"><code>SECRET_KEY = <span class="text">"une-cle-propre-a-cette-installation"</span>
+
+SQLALCHEMY_DATABASE_URI = <span class="text">"sqlite:///production.db"</span></code></pre>
+                    <p>
+                        Ce fichier ne doit pas être ajouté au dépôt Git lorsqu'il contient des informations sensibles.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="access">
+            <h2>Accéder à la configuration</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <h3>Dans la fabrique d'application</h3>
+                    <p>
+                        L'objet<span class="comment"> app </span>est directement accessible :
+                    </p>
+                    <pre class="python"><code>upload_folder = app.config[<span class="text">"UPLOAD_FOLDER"</span>]</code></pre>
+
+                    <h3>Dans une fonction de vue</h3>
+                    <p>
+                        La fabrique ne doit pas être importée pour retrouver l'application en cours. Flask
+                        fournit<span class="comment"> current_app </span>:
+                    </p>
+                    <pre class="python"><code><span class="word">from</span> flask <span class="word">import</span> current_app
+
+
+upload_folder = current_app.config[<span class="text">"UPLOAD_FOLDER"</span>]</code></pre>
+
+                    <p>
+                        <span class="comment">current_app </span>représente l'application active pendant le traitement
+                        de la requête. Importer directement l'objet application dans les blueprints peut provoquer des
+                        imports circulaires. Il faut utiliser<span class="comment"> current_app </span>lorsque
+                        l'application est créée avec une fabrique.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="secret-key">
+            <h2>Gérer la clé secrète</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        La clé<span class="comment"> SECRET_KEY </span>est utilisée pour signer certaines données
+                        produites par Flask et ses extensions. Elle intervient notamment dans :
+                    </p>
+                    <ul>
+                        <li>les sessions</li>
+                        <li>les messages temporaires</li>
+                        <li>la protection CSRF des formulaires Flask-WTF</li>
+                    </ul>
+                    <p>
+                        Une clé de développement peut être écrite dans la configuration par défaut :
+                    </p>
+                    <pre class="python"><code>SECRET_KEY = <span class="text">"development-key"</span></code></pre>
+                    <p>
+                        Pour une application déployée, elle doit être remplacée par une valeur longue et imprévisible,
+                        propre à l'installation. Python peut générer une valeur aléatoire :
+                    </p>
+                    <pre class="console"><code>python -c "import secrets; print(secrets.token_hex())"</code></pre>
+                    <p>
+                        Attention, une clé secrète ne doit pas être publiée dans le dépôt Git, affichée dans une page
+                        ou envoyée au navigateur.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="factory">
+            <h2>Organiser la fabrique d'application</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        La configuration doit être chargée avant l'initialisation des extensions qui l'utilisent.
+                        Une fabrique complète peut suivre cet ordre :
+                    </p>
+                    <pre class="python"><code><span class="word">from</span> pathlib <span class="word">import</span> Path
+
+<span class="word">from</span> flask <span class="word">import</span> Flask
+
+<span class="word">from</span> .config <span class="word">import</span> Config
+<span class="word">from</span> .extensions <span class="word">import</span> db, migrate
+
+
+<span class="word">def</span> <span class="function">create_app</span>():
+    app = Flask(
+        __name__,
+        instance_relative_config=<span class="word">True</span>
+    )
+
+    <span class="comment"># 1. Charger la configuration générale</span>
+    app.config.<span class="function">from_object</span>(Config)
+
+    <span class="comment"># 2. Charger la configuration locale</span>
+    app.config.<span class="function">from_pyfile</span>(
+        <span class="text">"config.py"</span>,
+        silent=<span class="word">True</span>
+    )
+
+    <span class="comment"># 3. Préparer les dossiers nécessaires</span>
+    upload_folder = Path(app.instance_path) / <span class="text">"uploads"</span>
+
+    app.config[<span class="text">"UPLOAD_FOLDER"</span>] = upload_folder
+
+    upload_folder.<span class="function">mkdir</span>(
+        parents=<span class="word">True</span>,
+        exist_ok=<span class="word">True</span>
+    )
+
+    <span class="comment"># 4. Initialiser les extensions</span>
+    db.<span class="function">init_app</span>(app)
+    migrate.<span class="function">init_app</span>(app, db)
+
+    <span class="comment"># 5. Importer les modèles</span>
+    <span class="word">from</span> . <span class="word">import</span> models
+
+    <span class="comment"># 6. Enregistrer les blueprints</span>
+    <span class="word">from</span> .books <span class="word">import</span> books_bp
+    <span class="word">from</span> .main <span class="word">import</span> main_bp
+
+    app.<span class="function">register_blueprint</span>(main_bp)
+    app.<span class="function">register_blueprint</span>(books_bp)
+
+    <span class="word">return</span> app</code></pre>
+                    <p>
+                        Lorsqu'une même clé est chargée plusieurs fois, la dernière valeur chargée remplace la
+                        précédente. L'ordre retenu est donc :
+                    </p>
+                    <ul>
+                        <li>configuration générale</li>
+                        <li>configuration propre à l'installation</li>
+                        <li>création des dossiers nécessaires</li>
+                        <li>initialisation des extensions</li>
+                        <li>import des modèles</li>
+                        <li>enregistrement des blueprints</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="gitignore">
+            <h2>Protéger les fichiers locaux</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Les fichiers propres à une installation ne doivent pas être ajoutés au dépôt Git. Le
+                        fichier<span class="comment"> .gitignore </span>peut contenir :
+                    </p>
+                    <pre class="console"><code>instance/
+.venv/
+__pycache__/</code></pre>
+                    <table>
+                        <tr>
+                            <th>Élément</th>
+                            <th>Contenu possible</th>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">instance/</span></td>
+                            <td>Base locale, fichiers envoyés et configuration locale</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">.venv/</span></td>
+                            <td>Environnement virtuel Python</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">__pycache__/</span></td>
+                            <td>Fichiers temporaires créés par Python</td>
+                        </tr>
+                    </table>
+                    <p>
+                        Ajouter un fichier au<span class="comment"> .gitignore </span>ne le retire pas de l'historique
+                        s'il a déjà été enregistré dans un commit.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="errors">
+            <h2>Erreurs fréquentes</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <ul>
+                        <li>
+                            Écrire tous les paramètres directement dans la fabrique :
+                            <span class="error">
+                                la configuration devient difficile à lire et à adapter
+                            </span>.
+                        </li>
+                        <li>
+                            Écrire une clé secrète de production dans un fichier partagé :
+                            <span class="error">
+                                toute personne ayant accès au dépôt peut la consulter
+                            </span>.
+                        </li>
+                        <li>
+                            Utiliser une clé secrète courte ou prévisible :
+                            <span class="error">
+                                les données signées par l'application sont moins bien protégées
+                            </span>.
+                        </li>
+                        <li>
+                            Donner un nom en minuscules à un paramètre chargé depuis un fichier Python :
+                            <span class="error">
+                                Flask ne l'ajoute pas à la configuration
+                            </span>.
+                        </li>
+                        <li>
+                            Charger la configuration après l'initialisation des extensions :
+                            <span class="error">
+                                certaines extensions peuvent utiliser des valeurs incorrectes
+                            </span>.
+                        </li>
+                        <li>
+                            Importer directement l'objet application dans un blueprint :
+                            <span class="error">
+                                cela peut provoquer un import circulaire
+                            </span>.
+                        </li>
+                        <li>
+                            Oublier<span class="comment"> instance_relative_config=True </span>:
+                            <span class="error">
+                                le fichier passé à from_pyfile() n'est pas recherché relativement au dossier instance
+                            </span>.
+                        </li>
+                        <li>
+                            Utiliser<span class="comment"> silent=True </span>pour un fichier obligatoire :
+                            <span class="error">
+                                l'absence du fichier est ignorée et peut passer inaperçue
+                            </span>.
+                        </li>
+                        <li>
+                            Ajouter<span class="comment"> instance/config.py </span>au dépôt Git :
+                            <span class="error">
+                                des paramètres propres à l'installation peuvent être publiés
+                            </span>.
+                        </li>
+                        <li>
+                            Croire qu'un fichier ajouté au<span class="comment"> .gitignore </span>est supprimé de
+                            l'historique :
+                            <span class="error">
+                                les anciennes versions restent présentes dans les commits
+                            </span>.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ***************************************************************************************************************
+         FOOTER
+    **************************************************************************************************************** -->
+    <footer>
+        <div>© Copyright - Guillaume Peyrard</div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,696 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/normalize.css">
+    <link rel="stylesheet" href="../css/init.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script type="module" src="../js/script.js" defer></script>
+    <title>Structurer l'application avec les blueprints</title>
+</head>
+<body>
+    <!-- ***************************************************************************************************************
+         HEADER
+    **************************************************************************************************************** -->
+    <header>
+        <h1>Structurer l'application avec les blueprints</h1>
+
+        <!-- navbar
+             ======================================================================================================= -->
+        <nav>
+            <ul class="navbar"></ul>
+        </nav>
+    </header>
+
+    <!-- ***************************************************************************************************************
+         ASIDE
+    **************************************************************************************************************** -->
+    <aside>
+
+        <!-- sidebar
+             ======================================================================================================= -->
+        <nav class="sidebar">
+
+            <!-- sidebar group ------------------------------------------------------------------------------------- -->
+            <section class="sidebar__group">
+                <h2>Dans cette page</h2>
+
+                <ul>
+                    <li class="sidebar__element">
+                        <a href="#structure">Organiser le projet</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#factory">Créer une fabrique d'application</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#extensions">Séparer les extensions</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#blueprint">Créer un blueprint</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#routes">Associer des routes au blueprint</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#register">Enregistrer un blueprint</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#templates">Organiser les templates</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#urls">Adapter les liens</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#models">Séparer les modèles</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#run">Lancer l'application</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#errors">Erreurs fréquentes</a>
+                    </li>
+                </ul>
+            </section>
+        </nav>
+    </aside>
+
+    <!-- ***************************************************************************************************************
+         MAIN
+    **************************************************************************************************************** -->
+    <main>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="structure">
+            <h2>Organiser le projet</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        L'application peut être placée dans un package principal nommé<span class="comment"> app</span>.
+                        Chaque grande fonctionnalité peut ensuite être placée dans son propre sous-package. Par exemple :
+                    </p>
+                    <pre class="console"><code>project/
+│
+├── app/
+│   ├── __init__.py
+│   ├── extensions.py
+│   ├── models.py
+│   │
+│   ├── main/
+│   │   ├── __init__.py
+│   │   └── routes.py
+│   │
+│   ├── first_functionality/
+│   │   ├── __init__.py
+│   │   ├── routes.py
+│   │   └── templates/
+│   │       └── first_functionality/
+│   │           ├── list.html
+│   │           ├── detail.html
+│   │           ├── create.html
+│   │           └── update.html
+│   │
+│   ├── second_functionality/
+│   │   ├── __init__.py
+│   │   ├── routes.py
+│   │   └── templates/
+│   │       └── second_functionality/
+│   │           ├── list.html
+│   │           ├── detail.html
+│   │           ├── create.html
+│   │           └── update.html
+│   │
+│   ├── static/
+│   │   ├── css/
+│   │   ├── js/
+│   │   └── images/
+│   │
+│   └── templates/
+│       └── base.html
+│
+├── instance/
+│   └── database.db
+│
+├── run.py
+└── requirements.txt</code></pre>
+                    <p>
+                        Chaque fichier ou dossier possède une responsabilité précise :
+                    </p>
+                    <table>
+                        <tr>
+                            <th>Élément</th>
+                            <th>Rôle</th>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">app/__init__.py</span></td>
+                            <td>Créer et configurer l'application</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">app/extensions.py</span></td>
+                            <td>Créer les extensions utilisées par l'application</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">app/models.py</span></td>
+                            <td>Contenir les modèles de la base de données</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">app/main</span></td>
+                            <td>Contenir les routes générales de l'application (ex : accueil, ...)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">app/first_functionality</span></td>
+                            <td>Contenir les routes consacrées à la première fonctionnalité</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">app/second_functionality</span></td>
+                            <td>Contenir les routes consacrées à la deuxième fonctionnalité</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">app/templates</span></td>
+                            <td>Contenir les templates communs</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">app/static</span></td>
+                            <td>Contenir les fichiers statiques communs</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">run.py</span></td>
+                            <td>Créer l'application et lancer le serveur</td>
+                        </tr>
+                    </table>
+                    <p>
+                        Les fichiers<span class="comment"> __init__.py </span>indiquent que les
+                        dossiers concernés sont des packages Python.
+                    </p>
+                    <p>
+                        Le package<span class="comment"> main </span>contient lui aussi un blueprint. Il rergoupe les
+                        pages générales de l'application, comme l'accueil. Sa création et son enregistrement suivent
+                        les mêmes principes que les autres fonctionnalités plus spécifiques.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="factory">
+            <h2>Créer une fabrique d'application</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Jusqu'à présent, l'application était généralement créée directement :
+                    </p>
+                    <pre class="python"><code>app = Flask(__name__)</code></pre>
+                    <p>
+                        Dans une application structurée, cette création est placée dans une fonction.
+                    </p>
+                    <p>
+                        Cette fonction est appelée une<span class="comment"> fabrique d'application</span>,
+                        ou<span class="comment"> application factory</span>.
+                    </p>
+                    <p>
+                        Dans le fichier<span class="comment"> app/__init__.py </span>:
+                    </p>
+                    <pre class="python"><code><span class="word">from</span> flask <span class="word">import</span> Flask
+
+<span class="word">def</span> <span class="function">create_app</span>():
+    app = Flask(__name__)
+
+    <span class="word">return</span> app</code></pre>
+                    <p>
+                        La fonction<span class="comment"> create_app() </span>permet de :
+                    </p>
+                    <ul>
+                        <li>créer l'application</li>
+                        <li>charger sa configuration</li>
+                        <li>initialiser les extensions</li>
+                        <li>enregistrer les blueprints</li>
+                        <li>renvoyer l'application prête à être utilisée</li>
+                    </ul>
+                    <p>
+                        Cette organisation évite de dépendre d'une unique application créée
+                        automatiquement au moment des imports.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="extensions">
+            <h2>Séparer les extensions</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Les extensions utilisées par l'application peuvent être créées dans un fichier séparé.
+                    </p>
+                    <p>
+                        Dans<span class="comment"> app/extensions.py</span> :
+                    </p>
+                    <pre class="python"><code><span class="word">from</span> flask_sqlalchemy <span class="word">import</span> SQLAlchemy
+
+db = SQLAlchemy()</code></pre>
+                    <p>
+                        L'objet<span class="comment"> db </span>est créé sans être immédiatement associé à une
+                        application.
+                    </p>
+                    <p>
+                        Il est ensuite initialisé dans la fabrique :
+                    </p>
+                    <pre class="python"><code><span class="word">from</span> flask <span class="word">import</span> Flask
+
+<span class="word">from</span> .extensions <span class="word">import</span> db
+
+<span class="word">def</span> <span class="function">create_app</span>():
+    app = Flask(__name__)
+
+    app.config[<span class="text">"SQLALCHEMY_DATABASE_URI"</span>] = \
+        <span class="text">"sqlite:///database.db"</span>
+
+    db.<span class="function">init_app</span>(app)
+
+    <span class="word">return</span> app</code></pre>
+                    <p>
+                        La méthode<span class="comment"> init_app() </span>associe l'extension
+                        à l'application créée par<span class="comment"> create_app()</span>.
+                    </p>
+
+                    <p>
+                        Cette méthode permet à plusieurs modules d'importer le même
+                        objet<span class="comment"> db </span> sans recréer SQLAlchemy.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="blueprint">
+            <h2>Créer un blueprint</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Un<span class="comment"> blueprint </span>est un ensemble de routes
+                        regroupées autour d'une fonctionnalité.
+                    </p>
+                    <p>
+                        Il ne constitue pas une application Flask autonome. Il doit être enregistré
+                        dans une application pour que ses routes deviennent disponibles.
+                    </p>
+                    <p>
+                        Le blueprint consacré à une fonctionnalité peut être créé dans :
+                    </p>
+                    <pre class="console"><code>app/my_functionality/__init__.py</code></pre>
+                    <pre class="python"><code><span class="word">from</span> flask <span class="word">import</span> Blueprint
+
+my_functionality_bp = Blueprint(
+    <span class="text">"my_functionality"</span>,
+    __name__,
+    template_folder=<span class="text">"templates"</span>
+)</code></pre>
+                    <p>
+                        Le premier argument correspond au nom interne du blueprint :
+                    </p>
+                    <pre class="python"><code><span class="text">"my_functionality"</span></code></pre>
+                    <p>
+                        Ce nom sera notamment utilisé dans<span class="comment"> url_for()</span>.
+                    </p>
+                    <p>
+                        L'argument<span class="comment"> __name__ </span>permet à Flask de repérer
+                        les ressources associées au blueprint.
+                    </p>
+                    <p>
+                        L'argument<span class="comment"> template_folder </span>indique le dossier
+                        contenant ses templates.
+                    </p>
+                    <p>On procède de même pour chaque fonctionnalité afin de séparer clairement les différentes
+                        parties de l'application.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="routes">
+            <h2>Associer des routes au blueprint</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Les routes consacrées à cette fonctionnalité sont placées dans :
+                    </p>
+                    <pre class="console"><code>app/my_functionality/routes.py</code></pre>
+                    <p>
+                        Le blueprint est importé depuis le package actuel :
+                    </p>
+                    <pre class="python"><code><span class="word">from</span> flask <span class="word">import</span> render_template
+
+<span class="word">from</span> . <span class="word">import</span> my_functionality_bp
+
+@my_functionality_bp.route(<span class="text">"/"</span>)
+<span class="word">def</span> <span class="function">my_view</span>():
+    <span class="word">return</span> <span class="function">render_template</span>(
+        <span class="text">"my_functionality/my_template.html"</span>
+    )</code></pre>
+                    <p>
+                        La route est associée à<span class="comment"> my_functionality_bp </span>et non
+                        directement à l'application.
+                    </p>
+                    <p>
+                        Il faut ensuite importer le fichier contenant les routes à la fin du
+                        fichier<span class="comment"> app/my_functionality/__init__.py</span> :
+                    </p>
+                    <pre class="python"><code><span class="word">from</span> . <span class="word">import</span> routes</code></pre>
+                    <p>
+                        Cet import permet d'exécuter les décorateurs présents
+                        dans<span class="comment"> routes.py</span> et donc d'associer les routes au blueprint.
+                        Il est placé après la création du blueprint afin d'éviter un import circulaire.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="register">
+            <h2>Enregistrer un blueprint</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Le blueprint doit être enregistré dans la fabrique d'application.
+                    </p>
+                    <p>
+                        Dans<span class="comment"> app/__init__.py</span> :
+                    </p>
+                    <pre class="python"><code><span class="word">from</span> flask <span class="word">import</span> Flask
+
+<span class="word">from</span> .extensions <span class="word">import</span> db
+
+<span class="word">def</span> <span class="function">create_app</span>():
+    app = Flask(__name__)
+
+    app.config[<span class="text">"SQLALCHEMY_DATABASE_URI"</span>] = \
+        <span class="text">"sqlite:///database.db"</span>
+
+    db.<span class="function">init_app</span>(app)
+
+    <span class="word">from</span> .my_functionality <span class="word">import</span> my_functionality_bp
+
+    app.<span class="function">register_blueprint</span>(
+        my_functionality_bp,
+        url_prefix=<span class="text">"/my_functionality"</span>
+    )
+
+    <span class="word">return</span> app</code></pre>
+                    <p>
+                        Le paramètre<span class="comment"> url_prefix </span>ajoute un préfixe
+                        commun à toutes les routes du blueprint. Avec le préfixe suivant :
+                    </p>
+                    <pre class="python"><code>url_prefix=<span class="text">"/my_functionality"</span></code></pre>
+                    <p>
+                        la route<span class="comment"> "/" </span>définie dans le blueprint devient :
+                    </p>
+                    <pre class="console"><code>/my_functionality/</code></pre>
+                    <p>
+                        Une autre route définie ainsi :
+                    </p>
+                    <pre class="python"><code>@my_functionality_bp.route(<span class="text">"/create"</span>)</code></pre>
+                    <p>
+                        devient :
+                    </p>
+                    <pre class="console"><code>/my_functionality/create</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="templates">
+            <h2>Organiser les templates</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Les templates propres à un blueprint peuvent être placés dans son package.
+                    </p>
+
+                    <pre class="console"><code>app/
+└── my_functionality/
+    └── templates/
+        └── my_functionality/
+            ├── list.html
+            ├── detail.html
+            ├── create.html
+            └── update.html</code></pre>
+                    <p>
+                        Le second dossier<span class="comment"> my_functionality </span>évite les conflits
+                        entre des templates portant le même nom.
+                    </p>
+                    <p>
+                        Par exemple, plusieurs blueprints pourraient contenir un fichier
+                        <span class="comment">detail.html</span>.
+                    </p>
+                    <p>
+                        Pour afficher le bon template :
+                    </p>
+                    <pre class="python"><code><span class="word">return</span> <span class="function">render_template</span>(
+    <span class="text">"my_functionality/detail.html"</span>
+)</code></pre>
+                    <p>
+                        Le template commun<span class="comment"> base.html </span>peut rester dans
+                        le dossier principal :
+                    </p>
+                    <pre class="console"><code>app/templates/base.html</code></pre>
+                    <p>
+                        Les templates du blueprint peuvent alors en hériter normalement :
+                    </p>
+                    <pre class="html"><code>&#123;% extends "base.html" %&#125;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="urls">
+            <h2>Adapter les liens</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Lorsqu'une fonction de vue appartient à un blueprint, son nom complet
+                        contient :
+                    </p>
+                    <ul>
+                        <li>le nom du blueprint</li>
+                        <li>le nom de la fonction de vue</li>
+                    </ul>
+                    <p>
+                        Ces deux éléments sont séparés par un point :
+                    </p>
+                    <pre class="console"><code>my_functionality.my_view</code></pre>
+                    <p>
+                        Un lien vers ce template s'écrit donc :
+                    </p>
+                    <pre class="html"><code>&lt;a href="&#123;&#123; url_for('my_functionality.my_view') &#125;&#125;"&gt;
+    Lien
+&lt;/a&gt;</code></pre>
+                    <p>
+                        Pour une route dynamique :
+                    </p>
+                    <pre class="python"><code>@my_functionality_bp.route(
+    <span class="text">"/&lt;int:my_id&gt;"</span>
+)
+<span class="word">def</span> <span class="function">my_view</span>(my_id):
+    <span class="word">pass</span></code></pre>
+                    <p>
+                        le lien devient :
+                    </p>
+                    <pre class="html"><code>&lt;a href="&#123;&#123; url_for(
+    'my_functionality.my_view',
+    my_id=my.id
+) &#125;&#125;"&gt;
+    Afficher
+&lt;/a&gt;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="models">
+            <h2>Séparer les modèles</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Les modèles peuvent être placés dans le fichier<span class="comment"> app/models.py</span>.
+                    </p>
+                    <pre class="python"><code><span class="word">from</span> .extensions <span class="word">import</span> db
+
+<span class="word">class</span> <span class="function">MyModel</span>(db.Model):
+    id = db.Column(
+        db.Integer,
+        primary_key=<span class="word">True</span>
+    )
+
+    name = db.Column(
+        db.String(<span class="number">150</span>),
+        nullable=<span class="word">False</span>
+    )</code></pre>
+                    <p>
+                        Le point placé devant<span class="comment"> extensions </span>correspond à un import relatif.
+                    </p>
+                    <p>
+                        Il indique que le fichier<span class="comment"> extensions.py </span>se
+                        trouve dans le même package que<span class="comment"> models.py</span>.
+                    </p>
+                    <p>
+                        Les fonctions de vue peuvent ensuite importer les modèles :
+                    </p>
+                    <pre class="python"><code><span class="word">from</span> ..models <span class="word">import</span> MyModel</code></pre>
+                    <p>
+                        Les deux points indiquent qu'il faut remonter du
+                        package<span class="comment"> my_functionality </span>vers le
+                        package<span class="comment"> app</span>.
+                    </p>
+                    <p>
+                        Les modèles doivent être importés avant l'appel à<span class="comment"> db.create_all()</span>.
+                    </p>
+                    <pre class="python"><code><span class="word">with</span> app.<span class="function">app_context</span>():
+    <span class="word">from</span> . <span class="word">import</span> models
+
+    db.<span class="function">create_all</span>()</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="run">
+            <h2>Lancer l'application</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Le fichier<span class="comment"> run.py </span>est placé à la racine du projet. Il importe
+                        la fabrique et crée l'application :
+                    </p>
+                    <pre class="python"><code><span class="word">from</span> app <span class="word">import</span> create_app
+
+app = <span class="function">create_app</span>()
+
+<span class="word">if</span> __name__ == <span class="text">"__main__"</span>:
+    app.<span class="function">run</span>(
+        debug=<span class="word">True</span>
+    )</code></pre>
+                    <p>
+                        L'application peut ensuite être lancée depuis la racine du projet :
+                    </p>
+                    <pre class="console"><code>python run.py</code></pre>
+                    <p>
+                        Python importe la fonction<span class="comment"> create_app() </span>depuis
+                        le fichier<span class="comment"> app/__init__.py</span>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="errors">
+            <h2>Erreurs fréquentes</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <ul>
+                        <li>
+                            Oublier un fichier<span class="comment"> __init__.py </span>:
+                            <span class="error">le package n'est pas organisé comme prévu</span>.
+                        </li>
+                        <li>
+                            Créer plusieurs objets<span class="comment"> db </span>:
+                            <span class="error">les modèles et l'application n'utilisent pas la même instance
+                                de SQLAlchemy</span>.
+                        </li>
+                        <li>
+                            Oublier<span class="comment"> db.init_app(app) </span>:
+                            <span class="error">SQLAlchemy n'est pas associé à l'application</span>.
+                        </li>
+                        <li>
+                            Définir une route avec<span class="comment"> @app.route </span>dans
+                            un blueprint :<span class="error">le fichier ne possède pas directement l'application
+                            </span>.
+                        </li>
+                        <li>
+                            Oublier d'importer<span class="comment"> routes </span>dans le
+                            fichier<span class="comment"> __init__.py </span>du blueprint :
+                            <span class="error">les routes ne sont pas associées au blueprint</span>.
+                        </li>
+                        <li>
+                            Oublier d'enregistrer un blueprint :
+                            <span class="error">ses routes n'existent pas dans l'application</span>.
+                        </li>
+                        <li>
+                            Oublier le nom du blueprint dans<span class="comment"> url_for() </span>:
+                            <span class="error">Flask ne trouve pas la fonction de vue demandée</span>.
+                        </li>
+                        <li>
+                            Utiliser un mauvais chemin de template :
+                            <span class="error">une erreur TemplateNotFound apparaît</span>.
+                        </li>
+                        <li>
+                            Importer les modules dans un ordre incorrect :
+                            <span class="error">un import circulaire peut apparaître</span>.
+                        </li>
+                        <li>
+                            Lancer<span class="comment"> run.py </span>depuis un mauvais dossier :
+                            <span class="error">Python ne trouve pas le package app</span>.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ***************************************************************************************************************
+         FOOTER
+    **************************************************************************************************************** -->
+    <footer>
+        <div>© Copyright - Guillaume Peyrard</div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,819 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/normalize.css">
+    <link rel="stylesheet" href="../css/init.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script type="module" src="../js/script.js" defer></script>
+    <title>Créer des formulaires avancés</title>
+</head>
+<body>
+    <!-- ***************************************************************************************************************
+         HEADER
+    **************************************************************************************************************** -->
+    <header>
+        <h1>Créer des formulaires avancés</h1>
+
+        <!-- navbar
+             ======================================================================================================= -->
+        <nav>
+            <ul class="navbar"></ul>
+        </nav>
+    </header>
+
+    <!-- ***************************************************************************************************************
+         ASIDE
+    **************************************************************************************************************** -->
+    <aside>
+
+        <!-- sidebar
+             ======================================================================================================= -->
+        <nav class="sidebar">
+
+            <!-- sidebar group ------------------------------------------------------------------------------------- -->
+            <section class="sidebar__group">
+                <h2>Dans cette page</h2>
+
+                <ul>
+                    <li class="sidebar__element">
+                        <a href="#principle">Comprendre les formulaires avancés</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#install">Installer Flask-WTF</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#secret-key">Configurer la clé secrète</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#create-form">Créer une classe de formulaire</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#fields">Choisir les champs</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#validators">Valider les données</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#route">Traiter le formulaire</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#template">Afficher le formulaire</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#errors-display">Afficher les erreurs</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#select">Créer une liste de sélection</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#update">Préremplir un formulaire</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#custom-validator">Créer une validation personnalisée</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#errors">Erreurs fréquentes</a>
+                    </li>
+                </ul>
+            </section>
+        </nav>
+    </aside>
+
+    <!-- ***************************************************************************************************************
+         MAIN
+    **************************************************************************************************************** -->
+    <main>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="principle">
+            <h2>Comprendre les formulaires avancés</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Jusqu'à présent, les formulaires ont été écrits directement en HTML, puis leurs données ont été
+                        récupérées avec<span class="comment"> request.form</span>.
+                    </p>
+                    <p>
+                        Cette méthode convient à des formulaires simples, mais elle oblige à gérer manuellement :
+                    </p>
+                    <ul>
+                        <li>la création des champs HTML</li>
+                        <li>la récupération des données</li>
+                        <li>la conversion des valeurs</li>
+                        <li>la validation des données</li>
+                        <li>l'affichage des messages d'erreur</li>
+                        <li>la protection contre certaines requêtes malveillantes</li>
+                    </ul>
+                    <p>
+                        Flask-WTF permet de définir le formulaire dans une classe Python. Cette classe contient les champs,
+                        leurs propriétés et leurs règles de validation.
+                    </p>
+                    <table>
+                        <tr>
+                            <th>Formulaire HTML classique</th>
+                            <th>Formulaire Flask-WTF</th>
+                        </tr>
+                        <tr>
+                            <td>Champs écrits directement dans le template</td>
+                            <td>Champs définis dans une classe Python</td>
+                        </tr>
+                        <tr>
+                            <td>Données lues avec<span class="comment"> request.form</span></td>
+                            <td>Données accessibles avec<span class="comment"> form.field.data</span></td>
+                        </tr>
+                        <tr>
+                            <td>Validation écrite manuellement</td>
+                            <td>Validation assurée par des validateurs</td>
+                        </tr>
+                        <tr>
+                            <td>Messages d'erreur créés manuellement</td>
+                            <td>Erreurs associées automatiquement aux champs</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="install">
+            <h2>Installer Flask-WTF</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Installer Flask-WTF dans l'environnement virtuel du projet :
+                    </p>
+                    <pre class="console"><code>pip install Flask-WTF</code></pre>
+                    <p>
+                        Ajouter ensuite la dépendance au fichier<span class="comment"> requirements.txt</span> :
+                    </p>
+                    <pre class="console"><code>pip freeze &gt; requirements.txt</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="secret-key">
+            <h2>Configurer la clé secrète</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Flask-WTF utilise une clé secrète pour protéger les formulaires contre les requêtes falsifiées.
+                    </p>
+                    <p>
+                        Dans la fabrique d'application :
+                    </p>
+                    <pre class="python"><code><span class="word">def</span> <span class="function">create_app</span>():
+    app = Flask(__name__)
+
+    app.config[<span class="text">"SECRET_KEY"</span>] = <span class="text">"development-key"</span>
+
+    <span class="word">return</span> app</code></pre>
+                    <p>
+                        Cette clé permet notamment de créer et de vérifier le jeton<span class="comment"> CSRF </span>associé au formulaire.
+                    </p>
+                    <p>
+                        La valeur utilisée dans cet exemple convient uniquement au développement. Dans une véritable
+                        application, la clé doit être longue, imprévisible et ne pas être écrite directement dans le
+                        code partagé.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="create-form">
+            <h2>Créer une classe de formulaire</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Les classes de formulaires peuvent être placées dans un
+                        fichier<span class="comment"> forms.py</span> à l'intérieur du package correspondant à la
+                        fonctionnalité.
+                    </p>
+                    <pre class="console"><code>app/
+└── books/
+    ├── __init__.py
+    ├── forms.py
+    ├── routes.py
+    └── templates/
+        └── books/
+            └── form.html</code></pre>
+                    <p>
+                        Dans<span class="comment"> app/books/forms.py </span>:
+                    </p>
+                    <pre class="python"><code><span class="word">from</span> flask_wtf <span class="word">import</span> FlaskForm
+<span class="word">from</span> wtforms <span class="word">import</span> IntegerField, StringField, SubmitField
+<span class="word">from</span> wtforms.validators <span class="word">import</span> DataRequired, Length, NumberRange
+
+
+<span class="word">class</span> BookForm(FlaskForm):
+    title = StringField(
+        <span class="text">"Titre"</span>,
+        validators=[
+            DataRequired(),
+            Length(max=<span class="number">200</span>)
+        ]
+    )
+
+    publication_year = IntegerField(
+        <span class="text">"Année de publication"</span>,
+        validators=[
+            DataRequired(),
+            NumberRange(
+                min=<span class="number">1000</span>,
+                max=<span class="number">2100</span>
+            )
+        ]
+    )
+
+    submit = SubmitField(<span class="text">"Enregistrer"</span>)</code></pre>
+                    <p>
+                        La classe<span class="comment"> BookForm </span>hérite
+                        de<span class="comment"> FlaskForm</span>. Chaque attribut de la classe représente un champ.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="fields">
+            <h2>Choisir les champs</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        WTForms fournit plusieurs classes correspondant aux principaux champs d'un formulaire.
+                    </p>
+                    <table>
+                        <tr>
+                            <th>Classe</th>
+                            <th>Utilisation</th>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">StringField</span></td>
+                            <td>Saisir un texte court</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">TextAreaField</span></td>
+                            <td>Saisir un texte long</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">IntegerField</span></td>
+                            <td>Saisir un nombre entier</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">DecimalField</span></td>
+                            <td>Saisir un nombre décimal</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">DateField</span></td>
+                            <td>Saisir une date</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">BooleanField</span></td>
+                            <td>Créer une case à cocher</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">SelectField</span></td>
+                            <td>Créer une liste de sélection</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">RadioField</span></td>
+                            <td>Créer un groupe de boutons radio</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">SubmitField</span></td>
+                            <td>Créer le bouton d'envoi</td>
+                        </tr>
+                    </table>
+                    <p>
+                        Le premier argument d'un champ correspond généralement à son libellé :
+                    </p>
+                    <pre class="python"><code>title = StringField(<span class="text">"Titre"</span>)</code></pre>
+                    <p>
+                        Les données saisies sont ensuite accessibles avec :
+                    </p>
+                    <pre class="python"><code>form.title.data</code></pre>
+                    <p>
+                        WTForms convertit les valeurs selon le type de champ. Par
+                        exemple,<span class="comment"> IntegerField</span> fournit une valeur entière lorsque la saisie
+                        est valide.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="validators">
+            <h2>Valider les données</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Un<span class="comment"> validateur </span>vérifie qu'une valeur respecte une règle. Les
+                        validateurs sont placés dans une liste associée au champ :
+                    </p>
+                    <pre class="python"><code>title = StringField(
+    <span class="text">"Titre"</span>,
+    validators=[
+        DataRequired(),
+        Length(min=<span class="number">2</span>, max=<span class="number">200</span>)
+    ]
+)</code></pre>
+                    <table>
+                        <tr>
+                            <th>Validateur</th>
+                            <th>Vérification</th>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">DataRequired()</span></td>
+                            <td>La valeur ne doit pas être vide après sa conversion</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">InputRequired()</span></td>
+                            <td>Une valeur doit avoir été envoyée par le formulaire</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">Length()</span></td>
+                            <td>La longueur du texte respecte les limites indiquées</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">NumberRange()</span></td>
+                            <td>Le nombre appartient à l'intervalle indiqué</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">Optional()</span></td>
+                            <td>Le champ peut rester vide</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">EqualTo()</span></td>
+                            <td>La valeur correspond à celle d'un autre champ</td>
+                        </tr>
+                    </table>
+
+                    <p>
+                        Un message personnalisé peut être fourni au validateur :
+                    </p>
+
+                    <pre class="python"><code>DataRequired(
+    message=<span class="text">"Le titre est obligatoire."</span>
+)</code></pre>
+                    <p>
+                        Plusieurs validateurs peuvent être appliqués successivement au même champ.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="route">
+            <h2>Traiter le formulaire</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        La classe de formulaire est importée dans le fichier contenant les routes.
+                    </p>
+                    <pre class="python"><code><span class="word">from</span> flask <span class="word">import</span> redirect, render_template, url_for
+
+<span class="word">from</span> ..extensions <span class="word">import</span> db
+<span class="word">from</span> ..models <span class="word">import</span> Book
+<span class="word">from</span> . <span class="word">import</span> books_bp
+<span class="word">from</span> .forms <span class="word">import</span> BookForm
+
+
+@books_bp.route(<span class="text">"/create"</span>, methods=[<span class="text">"GET"</span>, <span class="text">"POST"</span>])
+<span class="word">def</span> <span class="function">create_book</span>():
+    form = BookForm()
+
+    <span class="word">if</span> form.<span class="function">validate_on_submit</span>():
+        book = Book(
+            title=form.title.data,
+            publication_year=form.publication_year.data
+        )
+
+        db.session.<span class="function">add</span>(book)
+        db.session.<span class="function">commit</span>()
+
+        <span class="word">return</span> redirect(
+            url_for(<span class="text">"books.list_books"</span>)
+        )
+
+    <span class="word">return</span> <span class="function">render_template</span>(
+        <span class="text">"books/form.html"</span>,
+        form=form
+    )</code></pre>
+                    <p>
+                        La méthode<span class="comment"> validate_on_submit() </span>
+                        renvoie<span class="comment"> True </span>uniquement lorsque :
+                    </p>
+                    <ul>
+                        <li>le formulaire a été envoyé</li>
+                        <li>les données respectent tous les validateurs</li>
+                        <li>le jeton CSRF est valide</li>
+                    </ul>
+                    <p>
+                        Si le formulaire est simplement affiché ou s'il contient une erreur, le template est de nouveau
+                        rendu avec le même objet<span class="comment"> form</span>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="template">
+            <h2>Afficher le formulaire</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Dans<span class="comment"> app/books/templates/books/form.html </span>:
+                    </p>
+                    <pre class="html"><code>&lt;form method="post"&gt;
+    &#123;&#123; form.hidden_tag() &#125;&#125;
+
+    &lt;div&gt;
+        &#123;&#123; form.title.label &#125;&#125;
+        &#123;&#123; form.title() &#125;&#125;
+    &lt;/div&gt;
+
+    &lt;div&gt;
+        &#123;&#123; form.publication_year.label &#125;&#125;
+        &#123;&#123; form.publication_year() &#125;&#125;
+    &lt;/div&gt;
+
+    &#123;&#123; form.submit() &#125;&#125;
+&lt;/form&gt;</code></pre>
+                    <p>
+                        Chaque champ fournit plusieurs éléments :
+                    </p>
+                    <table>
+                        <tr>
+                            <th>Instruction</th>
+                            <th>Résultat</th>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">form.title.label</span></td>
+                            <td>Afficher la balise<span class="comment"> &lt;label&gt;</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">form.title()</span></td>
+                            <td>Afficher le champ HTML</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">form.title.data</span></td>
+                            <td>Accéder à la valeur du champ</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">form.title.errors</span></td>
+                            <td>Accéder aux erreurs du champ</td>
+                        </tr>
+                    </table>
+
+                    <p>
+                        Des attributs HTML peuvent être ajoutés lors de l'affichage :
+                    </p>
+
+                    <pre class="html"><code>&#123;&#123; form.title(
+    class="form__input",
+    placeholder="Titre du livre"
+) &#125;&#125;</code></pre>
+
+                    <p>
+                        La méthode<span class="comment"> hidden_tag() </span>affiche les champs cachés du formulaire,
+                        notamment le jeton CSRF.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="errors-display">
+            <h2>Afficher les erreurs</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Lorsqu'un champ est invalide, ses messages sont disponibles dans sa
+                        propriété<span class="comment"> errors</span>.
+                    </p>
+
+                    <pre class="html"><code>&lt;div&gt;
+    &#123;&#123; form.title.label &#125;&#125;
+    &#123;&#123; form.title() &#125;&#125;
+
+    &#123;% for error in form.title.errors %&#125;
+        &lt;p class="error"&gt;&#123;&#123; error &#125;&#125;&lt;/p&gt;
+    &#123;% endfor %&#125;
+&lt;/div&gt;</code></pre>
+                    <p>
+                        Le même principe doit être appliqué à chaque champ susceptible de produire une erreur.
+                    </p>
+                    <p>
+                        Il est également possible d'afficher toutes les erreurs du formulaire :
+                    </p>
+                    <pre class="html"><code>&#123;% for field_name, errors in form.errors.items() %&#125;
+    &#123;% for error in errors %&#125;
+        &lt;p class="error"&gt;&#123;&#123; error &#125;&#125;&lt;/p&gt;
+    &#123;% endfor %&#125;
+&#123;% endfor %&#125;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="select">
+            <h2>Créer une liste de sélection</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Un champ<span class="comment"> SelectField </span>permet de choisir une valeur dans une liste.
+                    </p>
+                    <p>
+                        Il peut notamment servir à associer un livre à un auteur.
+                    </p>
+                    <p>
+                        Dans<span class="comment"> forms.py </span>:
+                    </p>
+                    <pre class="python"><code><span class="word">from</span> wtforms <span class="word">import</span> SelectField
+
+
+<span class="word">class</span> <span class="function">BookForm</span>(FlaskForm):
+    <span class="comment"># Autres champs</span>
+
+    author_id = SelectField(
+        <span class="text">"Auteur"</span>,
+        coerce=int,
+        validators=[
+            DataRequired()
+        ]
+    )</code></pre>
+                    <p>
+                        Les données envoyées par un formulaire HTML sont normalement des chaînes de caractères. Le
+                        paramètre<span class="comment"> coerce=int </span>convertit la valeur sélectionnée en entier.
+                    </p>
+                    <p>
+                        Les choix sont définis dans la fonction de vue à partir des auteurs présents dans la base :
+                    </p>
+                    <pre class="python"><code>form = BookForm()
+
+authors = db.session.<span class="function">execute</span>(
+    db.<span class="function">select</span>(Author).<span class="function">order_by</span>(Author.name)
+).<span class="function">scalars</span>().<span class="function">all</span>()
+
+form.author_id.choices = [
+    (author.id, author.name)
+    <span class="word">for</span> author <span class="word">in</span> authors
+]</code></pre>
+                    <p>
+                        Chaque choix contient :
+                    </p>
+                    <ul>
+                        <li>la valeur envoyée au serveur :<span class="comment"> author.id</span></li>
+                        <li>le texte affiché à l'utilisateur :<span class="comment"> author.name</span></li>
+                    </ul>
+                    <p>
+                        Lors de la création du livre :
+                    </p>
+                    <pre class="python"><code>book = Book(
+    title=form.title.data,
+    publication_year=form.publication_year.data,
+    author_id=form.author_id.data
+)</code></pre>
+                    <p>
+                        Les choix doivent être définis avant l'appel
+                        à<span class="comment"> validate_on_submit()</span>, afin que WTForms puisse vérifier que
+                        la valeur envoyée appartient bien à la liste.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="update">
+            <h2>Préremplir un formulaire</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Un même formulaire peut être utilisé pour créer et modifier un objet.
+                    </p>
+                    <p>
+                        La fonction<span class="comment"> get_or_404() </span>permet d'abord de récupérer le livre :
+                    </p>
+                    <pre class="python"><code>@books_bp.route(
+    <span class="text">"/&lt;int:book_id&gt;/update"</span>,
+    methods=[<span class="text">"GET"</span>, <span class="text">"POST"</span>]
+)
+<span class="word">def</span> <span class="function">update_book</span>(book_id):
+    book = db.<span class="function">get_or_404</span>(Book, book_id)
+
+    form = BookForm(obj=book)
+
+    authors = db.session.<span class="function">execute</span>(
+        db.<span class="function">select</span>(Author).<span class="function">order_by</span>(Author.name)
+    ).<span class="function">scalars</span>().<span class="function">all</span>()
+
+    form.author_id.choices = [
+        (author.id, author.name)
+        <span class="word">for</span> author <span class="word">in</span> authors
+    ]
+
+    <span class="word">if</span> form.<span class="function">validate_on_submit</span>():
+        book.title = form.title.data
+        book.publication_year = form.publication_year.data
+        book.author_id = form.author_id.data
+
+        db.session.<span class="function">commit</span>()
+
+        <span class="word">return</span> redirect(
+            url_for(
+                <span class="text">"books.book_detail"</span>,
+                book_id=book.id
+            )
+        )
+
+    <span class="word">return</span> render_template(
+        <span class="text">"books/form.html"</span>,
+        form=form
+    )</code></pre>
+                    <p>
+                        Le paramètre<span class="comment"> obj=book </span>utilise les propriétés de l'objet pour
+                        fournir les valeurs initiales des champs.
+                    </p>
+                    <p>
+                        Après l'envoi, les nouvelles valeurs sont récupérées dans les
+                        propriétés<span class="comment"> data</span> du formulaire.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="custom-validator">
+            <h2>Créer une validation personnalisée</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Les validateurs fournis par WTForms couvrent les besoins les plus fréquents. Une règle propre à
+                        l'application peut toutefois nécessiter une validation personnalisée.
+                    </p>
+                    <p>
+                        Une méthode dont le nom commence par<span class="comment"> validate_ </span>et se termine par le
+                        nom du champ est automatiquement utilisée pour valider ce champ.
+                    </p>
+                    <pre class="python"><code><span class="word">from</span> wtforms.validators <span class="word">import</span> ValidationError
+
+
+<span class="word">class</span> <span class="function">BookForm</span>(FlaskForm):
+    title = StringField(
+        <span class="text">"Titre"</span>,
+        validators=[
+            DataRequired(),
+            Length(max=<span class="number">200</span>)
+        ]
+    )
+
+    <span class="word">def</span> <span class="function">validate_title</span>(self, field):
+        <span class="word">if</span> field.data.lower() == <span class="text">"livre sans titre"</span>:
+            <span class="word">raise</span> ValidationError(
+                <span class="text">"Ce titre n'est pas autorisé."</span>
+            )</code></pre>
+                    <p>
+                        La méthode reçoit le champ à vérifier. Si la valeur est invalide, elle lève une
+                        exception<span class="comment"> ValidationError </span> contenant le message à afficher.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="errors">
+            <h2>Erreurs fréquentes</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <ul>
+                        <li>
+                            Oublier de configurer<span class="comment"> SECRET_KEY </span>:
+                            <span class="error">
+                                Flask-WTF ne peut pas sécuriser correctement le formulaire
+                            </span>.
+                        </li>
+                        <li>
+                            Oublier<span class="comment"> methods=["GET", "POST"] </span>sur la route :
+                            <span class="error">
+                                Flask refuse l'envoi du formulaire avec la méthode POST
+                            </span>.
+                        </li>
+                        <li>
+                            Oublier<span class="comment"> form.hidden_tag() </span>dans le template :
+                            <span class="error">
+                                le jeton CSRF n'est pas envoyé
+                            </span>.
+                        </li>
+                        <li>
+                            Utiliser directement<span class="comment"> request.form </span>après avoir validé un
+                            formulaire Flask-WTF :
+                            <span class="error">
+                                les conversions effectuées par les champs WTForms ne sont pas utilisées
+                            </span>.
+                        </li>
+                        <li>
+                            Enregistrer les données sans appeler<span class="comment"> validate_on_submit() </span>:
+                            <span class="error">
+                                des données invalides peuvent être enregistrées
+                            </span>.
+                        </li>
+                        <li>
+                            Oublier d'afficher les erreurs dans le template :
+                            <span class="error">
+                                l'utilisateur ne comprend pas pourquoi le formulaire est refusé
+                            </span>.
+                        </li>
+                        <li>
+                            Oublier<span class="comment"> coerce=int </span>dans
+                            un<span class="comment"> SelectField </span>contenant des identifiants :
+                            <span class="error">
+                                la valeur reste une chaîne de caractères
+                            </span>.
+                        </li>
+                        <li>
+                            Définir les choix d'un<span class="comment"> SelectField </span>après la validation :
+                            <span class="error">
+                                WTForms ne peut pas vérifier correctement la valeur envoyée
+                            </span>.
+                        </li>
+                        <li>
+                            Donner à une validation personnalisée un nom incorrect :
+                            <span class="error">
+                                la méthode n'est pas automatiquement exécutée
+                            </span>.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ***************************************************************************************************************
+         FOOTER
+    **************************************************************************************************************** -->
+    <footer>
+        <div>© Copyright - Guillaume Peyrard</div>
+    </footer>
+</body>
+</html>

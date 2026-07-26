@@ -1,0 +1,602 @@
+<!doctype html>
+
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/normalize.css">
+    <link rel="stylesheet" href="../css/init.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script type="module" src="../js/script.js" defer></script>
+    <title>Projet : la gestion des ventes d'une petite entreprise</title>
+</head>
+<body>
+    <!-- ***************************************************************************************************************
+         HEADER
+    **************************************************************************************************************** -->
+    <header>
+            <h1>Projet : la gestion des ventes d'une petite entreprise</h1>
+
+        <!-- navbar
+             ======================================================================================================= -->
+        <nav>
+            <ul class="navbar"></ul>
+        </nav>
+    </header>
+
+    <!-- ***************************************************************************************************************
+         ASIDE
+    **************************************************************************************************************** -->
+    <aside>
+
+        <!-- sidebar
+             ======================================================================================================= -->
+        <nav class="sidebar">
+
+            <!-- sidebar group ------------------------------------------------------------------------------------- -->
+            <section class="sidebar__group">
+                <h2>Dans cette page</h2>
+
+                <ul>
+                    <li class="sidebar__element">
+                        <a href="#questions">Énoncé</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#help">Conseils de réalisation</a>
+                    </li>
+                </ul>
+            </section>
+        </nav>
+    </aside>
+
+    <!-- ***************************************************************************************************************
+         MAIN
+    **************************************************************************************************************** -->
+    <main>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="questions">
+            <h2>Énoncé</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Vous devez réaliser une application Flask permettant de gérer les ventes d'une petite
+                        entreprise.
+                    </p>
+                    <ol>
+                        <li>
+                            <h3>Objectif général</h3>
+
+                            <ul>
+                                <li>L'application permet de gérer les clients de l'entreprise.</li>
+                                <li>L'application permet de gérer les produits proposés à la vente et les stocks.</li>
+                                <li>Chaque client peut passer plusieurs commandes.</li>
+                                <li>Chaque commande peut contenir plusieurs produits.</li>
+                                <li>
+                                    L'utilisateur peut consulter les clients, les produits, les commandes et les
+                                    différentes lignes de commande.
+                                </li>
+                                <li>
+                                    L'utilisateur peut ajouter, modifier et supprimer les différentes données.
+                                </li>
+                            </ul>
+                        </li>
+
+                        <div class="separator"></div>
+
+                        <li>
+                            <h3>Données à gérer</h3>
+
+                            <ul>
+                                <li>
+                                    Un client est caractérisé par :
+                                    <ul>
+                                        <li>un nom ou une raison sociale</li>
+                                        <li>une adresse</li>
+                                        <li>une ville</li>
+                                        <li>un numéro de téléphone</li>
+                                        <li>une adresse électronique</li>
+                                        <li>une préférence de contact</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    Un produit est caractérisé par :
+                                    <ul>
+                                        <li>un nom</li>
+                                        <li>une description</li>
+                                        <li>un prix unitaire</li>
+                                        <li>une quantité disponible</li>
+                                        <li>une photo facultative</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    Une commande est caractérisée par :
+                                    <ul>
+                                        <li>une référence</li>
+                                        <li>une date</li>
+                                        <li>un état</li>
+                                        <li>le client qui l'a passée</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    Une ligne de commande est caractérisée par :
+                                    <ul>
+                                        <li>la commande à laquelle elle appartient</li>
+                                        <li>le produit commandé</li>
+                                        <li>la quantité commandée</li>
+                                        <li>le prix unitaire enregistré au moment de la commande</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <div class="separator"></div>
+
+                        <li>
+                            <h3>Relations entre les données</h3>
+
+                            <ul>
+                                <li>Un client peut passer plusieurs commandes.</li>
+                                <li>Une commande concerne un seul client.</li>
+                                <li>Une commande peut contenir plusieurs lignes de commande.</li>
+                                <li>Une ligne de commande est contenue dans une seule commande.</li>
+                                <li>Une ligne de commande concerne un seul produit.</li>
+                                <li>Un même produit peut apparaître dans plusieurs commandes.</li>
+                                <li>
+                                    La ligne de commande permet d'associer une quantité et un prix à un produit dans une
+                                    commande donnée.
+                                </li>
+                            </ul>
+                        </li>
+
+                        <div class="separator"></div>
+
+                        <li>
+                            <h3>Fonctionnement général</h3>
+
+                            <ul>
+                                <li>
+                                    L'application comporte plusieurs parties :
+                                    <ul>
+                                        <li>une page d'accueil présentant un tableau de bord</li>
+                                        <li>une partie consacrée aux clients</li>
+                                        <li>une partie consacrée aux produits</li>
+                                        <li>une partie consacrée aux commandes</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    Pour chaque type de donnée, l'application permet au minimum :
+                                    <ul>
+                                        <li>d'afficher la liste complète des éléments</li>
+                                        <li>d'afficher les informations détaillées d'un élément</li>
+                                        <li>d'ajouter un nouvel élément</li>
+                                        <li>de modifier un élément existant</li>
+                                        <li>de supprimer un élément après confirmation</li>
+                                    </ul>
+                                </li>
+                                <li>Les formulaires doivent vérifier les données avant leur enregistrement.</li>
+                                <li>Les formulaires de modification doivent afficher les données déjà enregistrées.</li>
+                                <li>Les différentes pages doivent permettre de naviguer entre les éléments liés.</li>
+                            </ul>
+                        </li>
+
+                        <div class="separator"></div>
+
+                        <li>
+                            <h3>Gestion des clients</h3>
+
+                            <ul>
+                                <li>
+                                    La liste des clients permet :
+                                    <ul>
+                                        <li>de rechercher un client par son nom</li>
+                                        <li>de filtrer les clients par ville</li>
+                                        <li>de filtrer les clients selon leur préférence de contact</li>
+                                        <li>de trier les clients par nom ou par ville</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    La page détaillée d'un client affiche :
+                                    <ul>
+                                        <li>ses coordonnées complètes</li>
+                                        <li>sa préférence de contact</li>
+                                        <li>la liste de ses commandes</li>
+                                        <li>le montant total de ses commandes</li>
+                                        <li>les liens permettant de modifier ou de supprimer le client</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <div class="separator"></div>
+
+                        <li>
+                            <h3>Gestion des produits</h3>
+
+                            <ul>
+                                <li>
+                                    La liste des produits permet :
+                                    <ul>
+                                        <li>de rechercher un produit par son nom</li>
+                                        <li>de filtrer les produits disponibles ou indisponibles</li>
+                                        <li>de repérer les produits dont le stock est faible</li>
+                                        <li>de trier les produits par nom, par prix ou par quantité disponible</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    La page détaillée d'un produit affiche :
+                                    <ul>
+                                        <li>son nom</li>
+                                        <li>sa description</li>
+                                        <li>son prix unitaire</li>
+                                        <li>sa quantité disponible</li>
+                                        <li>son image si elle existe</li>
+                                        <li>les liens permettant de modifier ou de supprimer le produit</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <div class="separator"></div>
+
+                        <li>
+                            <h3>Gestion des commandes</h3>
+
+                            <ul>
+                                <li>Une commande est créée pour un client existant.</li>
+                                <li>
+                                    Une commande peut avoir l'un des états suivants :
+                                    <ul>
+                                        <li>en préparation</li>
+                                        <li>validée</li>
+                                        <li>expédiée</li>
+                                        <li>livrée</li>
+                                        <li>annulée</li>
+                                    </ul>
+                                </li>
+                                <li>Après la création d'une commande, l'utilisateur peut lui ajouter plusieurs lignes.</li>
+                                <li>
+                                    Pour chaque ligne, l'utilisateur sélectionne :
+                                    <ul>
+                                        <li>un produit</li>
+                                        <li>une quantité</li>
+                                    </ul>
+                                </li>
+                                <li>Le prix unitaire du produit est enregistré dans la ligne de commande.</li>
+                                <li>Le montant d'une ligne correspond au produit de la quantité par le prix unitaire.</li>
+                                <li>Le montant total d'une commande correspond à la somme des montants de ses lignes.</li>
+                                <li>La quantité commandée ne peut pas dépasser la quantité disponible.</li>
+                                <li>
+                                    La page détaillée d'une commande affiche :
+                                    <ul>
+                                        <li>sa référence</li>
+                                        <li>sa date</li>
+                                        <li>son état</li>
+                                        <li>les informations principales sur le client</li>
+                                        <li>la liste des produits commandés</li>
+                                        <li>la quantité et le prix de chaque ligne</li>
+                                        <li>le montant de chaque ligne</li>
+                                        <li>le montant total de la commande</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <div class="separator"></div>
+
+                        <li>
+                            <h3>Liste des commandes</h3>
+
+                            <ul>
+                                <li>
+                                    La liste des commandes permet :
+                                    <ul>
+                                        <li>de rechercher une commande par sa référence</li>
+                                        <li>de filtrer les commandes par client</li>
+                                        <li>de filtrer les commandes selon leur état</li>
+                                        <li>de les trier par date ou par montant total</li>
+                                    </ul>
+                                </li>
+                                <li>Chaque commande donne accès à sa page détaillée.</li>
+                                <li>Les commandes récentes doivent être facilement identifiables.</li>
+                            </ul>
+                        </li>
+
+                        <div class="separator"></div>
+
+                        <li>
+                            <h3>Tableau de bord</h3>
+
+                            <ul>
+                                <li>
+                                    La page d'accueil présente un résumé de l'activité de l'entreprise :
+                                    <ul>
+                                        <li>nombre total de clients</li>
+                                        <li>nombre total de produits</li>
+                                        <li>nombre total de commandes</li>
+                                        <li>montant total des commandes validées</li>
+                                    </ul>
+                                </li>
+                                <li>Elle affiche les dernières commandes enregistrées.</li>
+                                <li>Elle affiche les produits dont le stock est faible.</li>
+                                <li>Elle affiche éventuellement les produits les plus vendus.</li>
+                                <li>Elle propose des liens directs vers les principales fonctionnalités de l'application.</li>
+                            </ul>
+                        </li>
+
+                        <div class="separator"></div>
+
+                        <li>
+                            <h3>Présentation et navigation</h3>
+
+                            <ul>
+                                <li>Les pages utilisent une structure générale commune.</li>
+                                <li>Le menu permet d'accéder aux clients, aux produits et aux commandes.</li>
+                                <li>Chaque liste donne accès aux pages détaillées correspondantes.</li>
+                                <li>La page d'un client donne accès à ses commandes.</li>
+                                <li>La page d'une commande donne accès au client et aux produits associés.</li>
+                                <li>Des liens permettent de revenir facilement aux listes précédentes.</li>
+                                <li>Les actions principales sont clairement identifiables.</li>
+                                <li>Les messages d'erreur sont compréhensibles.</li>
+                                <li>L'affichage reste cohérent dans toute l'application.</li>
+                            </ul>
+                        </li>
+
+                        <div class="separator"></div>
+
+                        <li>
+                            <h3>Contraintes générales</h3>
+
+                            <ul>
+                                <li>L'application doit être structurée avec plusieurs blueprints.</li>
+                                <li>Les données doivent être enregistrées dans une base de données.</li>
+                                <li>Les modifications de la base doivent être gérées avec des migrations.</li>
+                                <li>Les formulaires doivent être réalisés avec Flask-WTF.</li>
+                                <li>Les fichiers envoyés doivent être vérifiés et enregistrés correctement.</li>
+                                <li>Les paramètres de l'application doivent être regroupés dans une configuration.</li>
+                                <li>Les données locales et les informations sensibles ne doivent pas être publiées.</li>
+                                <li>L'application doit pouvoir être préparée pour un déploiement.</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="help">
+            <h2>Conseils de réalisation</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <h3>Organisation de l'application</h3>
+
+                    <ul>
+                        <li>Séparer les grandes fonctionnalités de l'application afin de rendre le projet plus facile à lire et à faire évoluer.</li>
+                        <li>Prévoir une partie dédiée à l'accueil, une partie consacrée aux clients, une autre aux produits et une dernière aux commandes.</li>
+                        <li>Distinguer les responsabilités liées aux routes, aux formulaires, aux modèles et aux templates.</li>
+                        <li>Conserver une structure commune pour toutes les pages.</li>
+                        <li>Organiser progressivement le projet avant de développer toutes les fonctionnalités.</li>
+                    </ul>
+
+                    <div class="separator"></div>
+
+                    <h3>Modèles et relations</h3>
+
+                    <ul>
+                        <li>Identifier clairement les données propres aux clients, aux produits, aux commandes et aux lignes de commande.</li>
+                        <li>Construire les dépendances entre les classes en fonction des relations décrites dans l'énoncé.</li>
+                        <li>Distinguer les relations directes des relations qui nécessitent des informations complémentaires.</li>
+                        <li>Comprendre que la relation entre une commande et un produit doit également conserver une quantité et un prix.</li>
+                        <li>Réfléchir au comportement attendu lorsqu'un élément possède encore des données associées.</li>
+                        <li>Déterminer les champs qui doivent être obligatoires, facultatifs ou uniques.</li>
+                        <li>Prévoir des représentations lisibles des différents objets dans l'application.</li>
+                    </ul>
+
+                    <div class="separator"></div>
+
+                    <h3>Gestion des commandes</h3>
+
+                    <ul>
+                        <li>
+                            Construire une commande en plusieurs étapes :
+                            <ul>
+                                <li>créer d'abord la commande et sélectionner le client</li>
+                                <li>ajouter ensuite les différentes lignes</li>
+                                <li>vérifier enfin les montants et les quantités</li>
+                            </ul>
+                        </li>
+                        <li>Conserver le prix du produit au moment de la commande afin qu'une modification ultérieure du catalogue ne change pas les anciennes commandes.</li>
+                        <li>Calculer le montant d'une ligne à partir de sa quantité et de son prix unitaire.</li>
+                        <li>Calculer le montant total d'une commande à partir de l'ensemble de ses lignes.</li>
+                        <li>Vérifier que les quantités commandées sont compatibles avec le stock disponible.</li>
+                        <li>Déterminer à quel moment le stock doit être modifié selon le fonctionnement choisi pour l'application.</li>
+                        <li>Prévoir le comportement attendu lorsqu'une commande est annulée ou supprimée.</li>
+                    </ul>
+
+                    <div class="separator"></div>
+
+                    <h3>Formulaires et validations</h3>
+
+                    <ul>
+                        <li>Prévoir un formulaire adapté à chaque type de donnée.</li>
+                        <li>Réutiliser autant que possible les mêmes formulaires pour la création et la modification.</li>
+                        <li>Choisir les types de champs en fonction des données attendues.</li>
+                        <li>Alimenter les listes de choix à partir des données existantes lorsque l'utilisateur doit sélectionner un client, un produit ou un état.</li>
+                        <li>Vérifier la cohérence des nombres, des quantités, des prix et des références.</li>
+                        <li>Prévoir des validations dépendant de plusieurs données lorsque cela est nécessaire.</li>
+                        <li>Afficher les erreurs à proximité des champs concernés.</li>
+                        <li>Ne pas enregistrer de données tant que le formulaire n'est pas valide.</li>
+                    </ul>
+
+                    <div class="separator"></div>
+
+                    <h3>Listes, filtres et tris</h3>
+
+                    <ul>
+                        <li>Choisir des critères de recherche adaptés à chaque type de donnée.</li>
+                        <li>Construire progressivement les requêtes selon les critères réellement renseignés par l'utilisateur.</li>
+                        <li>Prévoir des filtres portant sur les relations entre les données.</li>
+                        <li>Limiter les possibilités de tri à une liste de choix définie par l'application.</li>
+                        <li>Conserver les critères choisis après l'affichage des résultats.</li>
+                        <li>Vérifier que les filtres et les tris peuvent fonctionner ensemble.</li>
+                    </ul>
+
+                    <div class="separator"></div>
+
+                    <h3>Pages et navigation</h3>
+
+                    <ul>
+                        <li>Prévoir pour chaque type de donnée une liste, une page détaillée et les formulaires nécessaires.</li>
+                        <li>Utiliser une présentation commune pour conserver une interface cohérente.</li>
+                        <li>
+                            Afficher les relations directement dans les pages détaillées :
+                            <ul>
+                                <li>les commandes d'un client</li>
+                                <li>les lignes d'une commande</li>
+                                <li>les informations du produit associé à chaque ligne</li>
+                            </ul>
+                        </li>
+                        <li>Permettre de passer facilement d'un élément à un autre élément lié.</li>
+                        <li>Prévoir une confirmation pour les actions irréversibles.</li>
+                        <li>Distinguer clairement les actions de consultation, de création, de modification et de suppression.</li>
+                    </ul>
+
+                    <div class="separator"></div>
+
+                    <h3>Fichiers envoyés</h3>
+
+                    <ul>
+                        <li>Permettre l'ajout facultatif d'une image pour un produit.</li>
+                        <li>Vérifier que le fichier envoyé correspond à un format autorisé.</li>
+                        <li>Ne pas utiliser directement le nom transmis par l'utilisateur.</li>
+                        <li>Prévoir un nom évitant les collisions entre plusieurs fichiers.</li>
+                        <li>Enregistrer uniquement le nom du fichier dans la base de données.</li>
+                        <li>Réfléchir au remplacement et à la suppression des fichiers lorsqu'un produit est modifié ou supprimé.</li>
+                    </ul>
+
+                    <div class="separator"></div>
+
+                    <h3>Tableau de bord</h3>
+
+                    <ul>
+                        <li>Sélectionner quelques informations réellement utiles pour résumer l'activité.</li>
+                        <li>Prévoir des indicateurs calculés à partir des données enregistrées.</li>
+                        <li>Définir ce qui caractérise une commande récente.</li>
+                        <li>Définir un seuil permettant d'identifier les produits dont le stock est faible.</li>
+                        <li>Réfléchir à la manière de déterminer les produits les plus vendus.</li>
+                        <li>Présenter les informations de manière synthétique sans reproduire toutes les listes.</li>
+                    </ul>
+
+                    <div class="separator"></div>
+
+                    <h3>Configuration et données locales</h3>
+
+                    <ul>
+                        <li>Regrouper les paramètres de l'application afin de ne pas les disperser dans le projet.</li>
+                        <li>Distinguer les paramètres généraux des paramètres propres à l'installation.</li>
+                        <li>Identifier les informations qui ne doivent pas être publiées.</li>
+                        <li>
+                            Séparer le code de l'application des données locales :
+                            <ul>
+                                <li>base de données</li>
+                                <li>images envoyées</li>
+                                <li>configuration locale</li>
+                            </ul>
+                        </li>
+                        <li>Vérifier que les dossiers nécessaires existent au démarrage de l'application.</li>
+                    </ul>
+
+                    <div class="separator"></div>
+
+                    <h3>Base de données et migrations</h3>
+
+                    <ul>
+                        <li>Créer les modèles et leurs relations avant de développer toutes les pages.</li>
+                        <li>Faire évoluer progressivement la structure de la base.</li>
+                        <li>Créer une migration après chaque modification cohérente des modèles.</li>
+                        <li>Vérifier que la base peut être reconstruite à partir des migrations.</li>
+                        <li>Créer des données de test suffisamment variées pour vérifier les relations, les filtres, les tris et les calculs.</li>
+                    </ul>
+
+                    <div class="separator"></div>
+
+                    <h3>Données de test</h3>
+
+                    <ul>
+                        <li>Créer plusieurs clients avec des villes et des préférences de contact différentes.</li>
+                        <li>Créer plusieurs produits avec des prix et des stocks variés.</li>
+                        <li>Prévoir des produits disponibles, presque épuisés et indisponibles.</li>
+                        <li>Créer plusieurs commandes pour certains clients.</li>
+                        <li>Ajouter plusieurs produits à certaines commandes.</li>
+                        <li>Utiliser plusieurs états de commande.</li>
+                        <li>Vérifier les calculs avec des quantités et des prix simples avant d'utiliser des données plus complexes.</li>
+                    </ul>
+
+                    <div class="separator"></div>
+
+                    <h3>Ordre de réalisation conseillé</h3>
+
+                    <ul>
+                        <li>Définir les données et les relations nécessaires.</li>
+                        <li>Créer la structure générale de l'application.</li>
+                        <li>Mettre en place les modèles et la base de données.</li>
+                        <li>Développer la gestion complète des clients.</li>
+                        <li>Développer la gestion complète des produits.</li>
+                        <li>Créer les commandes et leur relation avec les clients.</li>
+                        <li>Ajouter les lignes de commande et leur relation avec les produits.</li>
+                        <li>Mettre en place les calculs et les contrôles de stock.</li>
+                        <li>Ajouter les filtres, les tris et les recherches.</li>
+                        <li>Ajouter la gestion des images.</li>
+                        <li>Créer le tableau de bord.</li>
+                        <li>Finaliser la configuration et préparer le déploiement.</li>
+                    </ul>
+
+                    <div class="separator"></div>
+
+                    <h3>Vérifications finales</h3>
+
+                    <ul>
+                        <li>Toutes les pages sont accessibles.</li>
+                        <li>Tous les liens de navigation fonctionnent.</li>
+                        <li>Les formulaires refusent les données incorrectes.</li>
+                        <li>Les relations entre les modèles sont correctement enregistrées.</li>
+                        <li>Les commandes affichent toutes leurs lignes.</li>
+                        <li>Les montants des lignes sont corrects.</li>
+                        <li>Le montant total des commandes est correct.</li>
+                        <li>Les quantités commandées respectent le stock disponible.</li>
+                        <li>Les filtres et les tris fonctionnent seuls et en combinaison.</li>
+                        <li>Les suppressions respectent les données associées.</li>
+                        <li>Les images sont enregistrées, remplacées et supprimées correctement.</li>
+                        <li>Les pages utilisent toutes la structure commune.</li>
+                        <li>La base peut être reconstruite à partir des migrations.</li>
+                        <li>Les données locales et les secrets ne sont pas publiés.</li>
+                        <li>L'application peut fonctionner sans le mode de débogage.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ***************************************************************************************************************
+         FOOTER
+    **************************************************************************************************************** -->
+    <footer>
+        <div>© Copyright - Guillaume Peyrard</div>
+    </footer>
+
+</body>
+</html>

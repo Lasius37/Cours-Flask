@@ -1,0 +1,681 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/normalize.css">
+    <link rel="stylesheet" href="../css/init.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script type="module" src="../js/script.js" defer></script>
+    <title>Gérer les fichiers envoyés</title>
+</head>
+<body>
+    <!-- ***************************************************************************************************************
+         HEADER
+    **************************************************************************************************************** -->
+    <header>
+        <h1>Gérer les fichiers envoyés</h1>
+
+        <!-- navbar
+             ======================================================================================================= -->
+        <nav>
+            <ul class="navbar"></ul>
+        </nav>
+    </header>
+
+    <!-- ***************************************************************************************************************
+         ASIDE
+    **************************************************************************************************************** -->
+    <aside>
+
+        <!-- sidebar
+             ======================================================================================================= -->
+        <nav class="sidebar">
+
+            <!-- sidebar group ------------------------------------------------------------------------------------- -->
+            <section class="sidebar__group">
+                <h2>Dans cette page</h2>
+
+                <ul>
+                    <li class="sidebar__element">
+                        <a href="#principle">Comprendre l'envoi de fichiers</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#folder">Configurer le dossier de destination</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#size">Limiter la taille des fichiers</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#model">Enregistrer le nom du fichier</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#form">Créer le champ de fichier</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#template">Afficher le champ dans le formulaire</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#save">Enregistrer un fichier</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#filename">Créer un nom de fichier unique</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#display">Afficher un fichier envoyé</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#replace">Remplacer un fichier</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#delete">Supprimer un fichier</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#errors">Erreurs fréquentes</a>
+                    </li>
+                </ul>
+            </section>
+        </nav>
+    </aside>
+
+    <!-- ***************************************************************************************************************
+         MAIN
+    **************************************************************************************************************** -->
+    <main>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="principle">
+            <h2>Comprendre l'envoi de fichiers</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Un formulaire peut permettre à l'utilisateur de déposer un fichier présent sur son
+                        appareil. Lors de l'envoi, le navigateur transmet à l'application :
+                    </p>
+                    <ul>
+                        <li>le contenu du fichier</li>
+                        <li>son nom d'origine</li>
+                        <li>certaines informations comme son type déclaré</li>
+                    </ul>
+                    <p>
+                        L'application doit ensuite :
+                    </p>
+                    <ul>
+                        <li>vérifier que le fichier est autorisé</li>
+                        <li>sécuriser son nom</li>
+                        <li>l'enregistrer dans un dossier prévu à cet effet</li>
+                        <li>enregistrer son nom dans la base de données si nécessaire</li>
+                    </ul>
+                    <p>
+                        Il est généralement préférable de ne pas enregistrer directement le contenu du fichier dans la
+                        base de données. La base conserve seulement son nom.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="folder">
+            <h2>Configurer le dossier de destination</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Les fichiers envoyés peuvent être placés dans un dossier<span class="comment"> uploads </span>
+                        situé dans le dossier<span class="comment"> instance</span>.
+                    </p>
+                    <pre class="console"><code>project/
+│
+├── app/
+├── instance/
+│   ├── database.db
+│   └── uploads/
+│
+└── run.py</code></pre>
+                    <p>
+                        Dans la fabrique d'application :
+                    </p>
+                    <pre class="python"><code><span class="word">from</span> pathlib <span class="word">import</span> Path
+
+<span class="word">from</span> flask <span class="word">import</span> Flask
+
+
+<span class="word">def</span> <span class="function">create_app</span>():
+    app = Flask(__name__)
+
+    upload_folder = Path(app.instance_path) / <span class="text">"uploads"</span>
+
+    app.config[<span class="text">"UPLOAD_FOLDER"</span>] = upload_folder
+
+    upload_folder.<span class="function">mkdir</span>(  <span class="comment"># crée le dossier</span>
+        parents=<span class="word">True</span>,  <span class="comment"># et ses dossiers parents</span>
+        exist_ok=<span class="word">True</span>  <span class="comment"># s'il n'existe pas déjà</span>
+    )
+
+    <span class="comment"># Autres configurations</span>
+
+    <span class="word">return</span> app</code></pre>
+                    <p>
+                        Le dossier<span class="comment"> instance </span>convient aux données propres à l'installation
+                        de l'application et ne doit pas être ajouté au dépôt Git. Il faut donc l'ajouter au
+                        fichier<span class="comment"> .gitignore</span>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="size">
+            <h2>Limiter la taille des fichiers</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        La taille maximale des requêtes contenant un fichier peut être limitée
+                        avec<span class="comment"> MAX_CONTENT_LENGTH</span>.
+                    </p>
+                    <p>
+                        Pour autoriser au maximum 2 Mio :
+                    </p>
+                    <pre class="python"><code>app.config[<span class="text">"MAX_CONTENT_LENGTH"</span>] = <span class="number">2</span> * <span class="number">1024</span> * <span class="number">1024</span></code></pre>
+                    <p>
+                        Soit un total de 2 097 152 octets. Si la requête dépasse cette limite, Flask la refuse avec une
+                        erreur<span class="comment"> 413 Request Entity Too Large</span>. Attention, la limite concerne
+                        la taille totale de la requête et pas uniquement celle du fichier.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="model">
+            <h2>Enregistrer le nom du fichier</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Le modèle peut contenir une colonne destinée au nom du fichier enregistré.
+                    </p>
+                    <p>
+                        Dans<span class="comment"> app/models.py </span>:
+                    </p>
+                    <pre class="python"><code><span class="word">class</span> <span class="function">Book</span>(db.Model):
+    id = db.Column(...)
+
+    title = db.Column(...)
+
+    cover = db.Column(
+        db.String(<span class="number">255</span>),
+        nullable=<span class="word">True</span>
+    )</code></pre>
+                    <p>
+                        La colonne est facultative afin qu'un livre puisse être enregistré sans image.
+                        La base contient uniquement le nom du fichier. Le fichier lui-même reste dans le
+                        dossier<span class="comment"> uploads/ </span>configuré pour les envois.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="form">
+            <h2>Créer le champ de fichier</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Flask-WTF fournit un champ et des validateurs adaptés aux fichiers.
+                        Dans<span class="comment"> app/books/forms.py</span> :
+                    </p>
+                    <pre class="python"><code><span class="word">from</span> flask_wtf <span class="word">import</span> FlaskForm
+<span class="word">from</span> flask_wtf.file <span class="word">import</span> FileAllowed, FileField
+<span class="word">from</span> wtforms <span class="word">import</span> StringField, SubmitField
+<span class="word">from</span> wtforms.validators <span class="word">import</span> DataRequired
+
+
+<span class="word">class</span> <span class="function">BookForm</span>(FlaskForm):
+    title = StringField(
+        <span class="text">"Titre"</span>,
+        validators=[
+            DataRequired()
+        ]
+    )
+
+    cover = FileField(
+        <span class="text">"Image de couverture"</span>,
+        validators=[
+            FileAllowed(
+                [<span class="text">"jpg"</span>, <span class="text">"jpeg"</span>, <span class="text">"png"</span>, <span class="text">"webp"</span>],
+                <span class="text">"Formats autorisés : JPG, PNG ou WebP."</span>
+            )
+        ]
+    )
+
+    submit = SubmitField(<span class="text">"Enregistrer"</span>)</code></pre>
+                    <p>
+                        Le validateur<span class="comment"> FileAllowed </span>vérifie que l'extension du fichier
+                        appartient à la liste autorisée. Comme<span class="comment"> FileRequired </span>n'est pas
+                        utilisé, l'image reste facultative. Pour rendre le fichier obligatoire :
+                    </p>
+                    <pre class="python"><code><span class="word">from</span> flask_wtf.file <span class="word">import</span> FileRequired
+
+
+cover = FileField(
+    <span class="text">"Image de couverture"</span>,
+    validators=[
+        FileRequired(),
+        FileAllowed(
+            [<span class="text">"jpg"</span>, <span class="text">"jpeg"</span>, <span class="text">"png"</span>, <span class="text">"webp"</span>]
+        )
+    ]
+)</code></pre>
+                    <p>
+                        Une extension autorisée ne garantit pas à elle seule que le contenu du fichier est réellement
+                        une image valide.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="template">
+            <h2>Afficher le champ dans le formulaire</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Le formulaire HTML doit utiliser l'encodage<span class="comment"> multipart/form-data</span>.
+                    </p>
+                    <pre class="html"><code>&lt;form
+    method="post"
+    enctype="multipart/form-data"
+&gt;
+    &#123;&#123; form.hidden_tag() &#125;&#125;
+
+    &lt;div&gt;
+        &#123;&#123; form.title.label &#125;&#125;
+        &#123;&#123; form.title() &#125;&#125;
+    &lt;/div&gt;
+
+    &lt;div&gt;
+        &#123;&#123; form.cover.label &#125;&#125;
+        &#123;&#123; form.cover() &#125;&#125;
+
+        &#123;% for error in form.cover.errors %&#125;
+            &lt;p class="error"&gt;&#123;&#123; error &#125;&#125;&lt;/p&gt;
+        &#123;% endfor %&#125;
+    &lt;/div&gt;
+
+    &#123;&#123; form.submit() &#125;&#125;
+&lt;/form&gt;</code></pre>
+                    <p>
+                        Sans<span class="comment"> enctype="multipart/form-data"</span>, le navigateur n'envoie pas le
+                        contenu du fichier. Le fichier validé est ensuite accessible
+                        avec<span class="comment"> form.cover.data</span>.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="save">
+            <h2>Enregistrer un fichier</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Après la validation du formulaire, le fichier peut être enregistré avec sa
+                        méthode<span class="comment"> save()</span>.
+                    </p>
+                    <pre class="python"><code><span class="word">from</span> flask <span class="word">import</span> current_app, redirect, render_template, url_for
+<span class="word">from</span> werkzeug.utils <span class="word">import</span> secure_filename
+
+<span class="word">from</span> ..extensions <span class="word">import</span> db
+<span class="word">from</span> ..models <span class="word">import</span> Book
+<span class="word">from</span> . <span class="word">import</span> books_bp
+<span class="word">from</span> .forms <span class="word">import</span> BookForm
+
+
+@books_bp.route(
+    <span class="text">"/create"</span>,
+    methods=[<span class="text">"GET"</span>, <span class="text">"POST"</span>]
+)
+<span class="word">def</span> <span class="function">create_book</span>():
+    form = BookForm()
+
+    <span class="word">if</span> form.<span class="function">validate_on_submit</span>():
+        cover = form.cover.data
+        filename = <span class="word">None</span>
+
+        <span class="word">if</span> cover:
+            filename = <span class="function">secure_filename</span>(
+                cover.filename
+            )
+
+            destination = (
+                current_app.config[<span class="text">"UPLOAD_FOLDER"</span>]
+                / filename
+            )
+
+            cover.<span class="function">save</span>(destination)
+
+        book = Book(
+            title=form.title.data,
+            cover=filename
+        )
+
+        db.session.<span class="function">add</span>(book)
+        db.session.<span class="function">commit</span>()
+
+        <span class="word">return</span> <span class="function">redirect</span>(
+            <span class="function">url_for</span>(<span class="text">"books.list_books"</span>)
+        )
+
+    <span class="word">return</span> <span class="function">render_template</span>(
+        <span class="text">"books/form.html"</span>,
+        form=form
+    )</code></pre>
+
+                    <p>
+                        La fonction<span class="comment"> secure_filename() </span>transforme le nom fourni par
+                        l'utilisateur afin de retirer les parties dangereuses ou incompatibles. Un nom
+                        comme<span class="comment"> ../../images/mon image.jpg </span>peut par exemple
+                        devenir<span class="comment">images_mon_image.jpg</span>. Le nom transmis par l'utilisateur
+                        ne doit jamais être utilisé directement pour construire un chemin sur le serveur.
+                        </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="filename">
+            <h2>Créer un nom de fichier unique</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Deux utilisateurs peuvent envoyer des fichiers portant le même nom. Le second fichier risquerait
+                        alors de remplacer le premier. Une fonction peut générer un nom unique tout en conservant
+                        l'extension :
+                    </p>
+                    <pre class="python"><code><span class="word">from</span> pathlib <span class="word">import</span> Path
+<span class="word">from</span> uuid <span class="word">import</span> uuid4
+
+<span class="word">from</span> werkzeug.utils <span class="word">import</span> secure_filename
+
+
+<span class="word">def</span> <span class="function">create_unique_filename</span>(original_filename):
+    safe_filename = <span class="function">secure_filename</span>(
+        original_filename
+    )
+
+    extension = Path(safe_filename).suffix.<span class="function">lower</span>()
+
+    <span class="word">return</span> <span class="text">f"&#123;uuid4().hex&#125;&#123;extension&#125;"</span></code></pre>
+                    <p>
+                        La propriété<span class="comment"> suffix </span>récupère l'extension avec son point. Par
+                        exemple, le fichier transmis par l'utilisateur<span class="comment"> couverture.jpg </span>
+                        devient <span class="comment"> 29df1c88d3544f4d879973bf7a0da64e.jpg</span>. La route peut alors
+                        utiliser cette fonction :
+                    </p>
+                    <pre class="python"><code><span class="word">if</span> cover:
+    filename = <span class="function">create_unique_filename</span>(
+        cover.filename
+    )
+
+    destination = (
+        current_app.config[<span class="text">"UPLOAD_FOLDER"</span>]
+        / filename
+    )
+
+    cover.<span class="function">save</span>(destination)</code></pre>
+                    <p>
+                        Le nom d'origine peut être affiché à l'utilisateur avant l'envoi, mais le serveur utilise son
+                        propre nom pour conserver le fichier.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="display">
+            <h2>Afficher un fichier envoyé</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Les fichiers situés dans le dossier<span class="comment"> instance/uploads </span>ne sont pas
+                        accessibles directement par une URL. Une route peut transmettre le fichier
+                        avec<span class="comment"> send_from_directory()</span>.
+                    </p>
+                    <pre class="python"><code><span class="word">from</span> flask <span class="word">import</span> current_app, send_from_directory
+
+
+@books_bp.route(<span class="text">"/uploads/&lt;filename&gt;"</span>)
+<span class="word">def</span> <span class="function">uploaded_file</span>(filename):
+    <span class="word">return</span> <span class="function">send_from_directory</span>(
+        current_app.config[<span class="text">"UPLOAD_FOLDER"</span>],
+        filename
+    )</code></pre>
+                    <p>
+                        Dans le template :
+                    </p>
+                    <pre class="html"><code>&#123;% if book.cover %&#125;
+    &lt;img
+        src="&#123;&#123; url_for(
+            'books.uploaded_file',
+            filename=book.cover
+        ) &#125;&#125;"
+        alt="Couverture de &#123;&#123; book.title &#125;&#125;"
+    &gt;
+&#123;% endif %&#125;</code></pre>
+                    <p>
+                        La fonction<span class="comment"> send_from_directory() </span>sert un fichier à partir d'un
+                        dossier défini par l'application. Cette route pourra plus tard être protégée si certains
+                        fichiers ne doivent être accessibles qu'à des utilisateurs autorisés.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="replace">
+            <h2>Remplacer un fichier</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Lors de la modification d'un livre, le champ de fichier reste généralement facultatif. Si
+                        aucun nouveau fichier n'est envoyé, l'ancien nom est conservé.
+                    </p>
+                    <pre class="python"><code>new_cover = form.cover.data
+
+<span class="word">if</span> new_cover:
+    old_filename = book.cover
+
+    new_filename = <span class="function">create_unique_filename</span>(
+        new_cover.filename
+    )
+
+    new_destination = (
+        current_app.config[<span class="text">"UPLOAD_FOLDER"</span>]
+        / new_filename
+    )
+
+    new_cover.<span class="function">save</span>(new_destination)
+
+    book.cover = new_filename
+
+    <span class="word">if</span> old_filename:
+        old_path = (
+            current_app.config[<span class="text">"UPLOAD_FOLDER"</span>]
+            / old_filename
+        )
+
+        <span class="word">if</span> old_path.<span class="function">exists</span>():
+            old_path.<span class="function">unlink</span>()</code></pre>
+                    <p>
+                        Le nouveau fichier est enregistré, puis son nom est enregistré dans la base de données.
+                        L'ancien fichier n'est supprimé qu'après la réussite de l'opération. Cela réduit le risque
+                        de perdre l'image existante si l'enregistrement du nouveau fichier échoue. Il faut ensuite
+                        enregistrer la modification du modèle<span class="comment"> db.session.commit()</span>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="delete">
+            <h2>Supprimer un fichier</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        La suppression d'un objet de la base ne supprime pas automatiquement le fichier enregistré sur le
+                        disque. Avant de supprimer un livre :
+                    </p>
+                    <pre class="python"><code>cover_path = <span class="word">None</span>
+
+<span class="word">if</span> book.cover:
+    cover_path = (
+        current_app.config[<span class="text">"UPLOAD_FOLDER"</span>]
+        / book.cover
+    )
+
+db.session.<span class="function">delete</span>(book)
+db.session.<span class="function">commit</span>()
+
+<span class="word">if</span> cover_path <span class="word">and</span> cover_path.<span class="function">exists</span>():
+    cover_path.<span class="function">unlink</span>()</code></pre>
+                    <p>
+                        La méthode<span class="comment"> unlink() </span>supprime le fichier correspondant au chemin.
+                        Il faut vérifier que le chemin utilisé provient bien du dossier configuré par l'application et
+                        d'un nom enregistré par celle-ci.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="errors">
+            <h2>Erreurs fréquentes</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <ul>
+                        <li>
+                            Oublier<span class="comment"> enctype="multipart/form-data" </span>:
+                            <span class="error">
+                                le navigateur n'envoie pas le contenu du fichier
+                            </span>.
+                        </li>
+                        <li>
+                            Utiliser directement le nom fourni par l'utilisateur :
+                            <span class="error">
+                                le nom peut contenir un chemin dangereux ou des caractères inadaptés
+                            </span>.
+                        </li>
+                        <li>
+                            Ne pas limiter les extensions autorisées :
+                            <span class="error">
+                                des types de fichiers non prévus peuvent être enregistrés
+                            </span>.
+                        </li>
+                        <li>
+                            Ne pas limiter la taille des requêtes :
+                            <span class="error">
+                                des fichiers trop volumineux peuvent consommer inutilement les ressources du serveur
+                            </span>.
+                        </li>
+                        <li>
+                            Réutiliser uniquement le nom d'origine :
+                            <span class="error">
+                                un fichier peut en remplacer un autre portant le même nom
+                            </span>.
+                        </li>
+                        <li>
+                            Enregistrer le fichier avant la validation du formulaire :
+                            <span class="error">
+                                un fichier associé à des données invalides peut rester sur le serveur
+                            </span>.
+                        </li>
+                        <li>
+                            Ajouter le contenu complet du fichier dans une colonne texte :
+                            <span class="error">
+                                la base de données ne contient pas le type de donnée attendu
+                            </span>.
+                        </li>
+                        <li>
+                            Supprimer un objet sans supprimer son fichier :
+                            <span class="error">
+                                des fichiers inutilisés restent sur le serveur
+                            </span>.
+                        </li>
+                        <li>
+                            Supprimer l'ancien fichier avant d'avoir enregistré le nouveau :
+                            <span class="error">
+                                l'application peut perdre le fichier existant si l'enregistrement échoue
+                            </span>.
+                        </li>
+                        <li>
+                            Placer les fichiers envoyés dans le dépôt Git :
+                            <span class="error">
+                                les données produites par les utilisateurs sont mélangées au code de l'application
+                            </span>.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ***************************************************************************************************************
+         FOOTER
+    **************************************************************************************************************** -->
+    <footer>
+        <div>© Copyright - Guillaume Peyrard</div>
+    </footer>
+</body>
+</html>

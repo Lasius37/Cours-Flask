@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/normalize.css">
+    <link rel="stylesheet" href="../css/init.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script type="module" src="../js/script.js" defer></script>
+    <title>Modifier la structure de la base de données</title>
+</head>
+<body>
+    <!-- ***************************************************************************************************************
+         HEADER
+    **************************************************************************************************************** -->
+    <header>
+        <h1>Modifier la structure de la base de données</h1>
+
+        <!-- navbar
+             ======================================================================================================= -->
+        <nav>
+            <ul class="navbar"></ul>
+        </nav>
+    </header>
+
+    <!-- ***************************************************************************************************************
+         ASIDE
+    **************************************************************************************************************** -->
+    <aside>
+
+        <!-- sidebar
+             ======================================================================================================= -->
+        <nav class="sidebar">
+
+            <!-- sidebar group ------------------------------------------------------------------------------------- -->
+            <section class="sidebar__group">
+                <h2>Dans cette page</h2>
+
+                <ul>
+                    <li class="sidebar__element">
+                        <a href="#principle">Comprendre les migrations</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#install">Installer et configurer Flask-Migrate</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#init">Initialiser les migrations</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#create">Créer et appliquer une migration</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#history">Consulter l'état des migrations</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#downgrade">Annuler une migration</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#existing">Utiliser une base existante</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#errors">Erreurs fréquentes</a>
+                    </li>
+                </ul>
+            </section>
+        </nav>
+    </aside>
+
+    <!-- ***************************************************************************************************************
+         MAIN
+    **************************************************************************************************************** -->
+    <main>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="principle">
+            <h2>Comprendre les migrations</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        La structure d'une base de données dépend des modèles définis dans l'application. Lorsqu'un
+                        modèle est modifié, la base de données existante n'est pas mise à jour automatiquement.
+                        Par exemple, le modèle suivant peut initialement contenir deux colonnes :
+                    </p>
+                    <pre class="python"><code><span class="word">class</span> <span class="function">Book</span>(db.Model):
+    id = db.Column(...)
+    title = db.Column(...)</code></pre>
+                    <p>
+                        Si une nouvelle colonne est ensuite ajoutée :
+                    </p>
+                    <pre class="python"><code><span class="word">class</span> <span class="function">Book</span>(db.Model):
+    id = db.Column(...)
+    title = db.Column(...)
+    publication_year = db.Column(...)</code></pre>
+                    <p>
+                        la table déjà présente dans la base ne contient toujours que les anciennes
+                        colonnes.
+                    </p>
+                    <p>
+                        Une<span class="comment"> migration </span>décrit une évolution de la structure de la base de
+                        données. Elle peut notamment permettre :
+                    </p>
+                    <ul>
+                        <li>d'ajouter ou de supprimer une table</li>
+                        <li>d'ajouter ou de supprimer une colonne</li>
+                        <li>de modifier certaines propriétés d'une colonne</li>
+                        <li>d'ajouter une clé étrangère</li>
+                        <li>de créer une table d'association</li>
+                    </ul>
+                    <p>
+                        Pour cela, il est nécessaire d'utiliser<span class="comment"> Flask-Migrate</span>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="install">
+            <h2>Installer et configurer Flask-Migrate</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Installer Flask-Migrate dans l'environnement virtuel du projet :
+                    </p>
+                    <pre class="console"><code>pip install Flask-Migrate</code></pre>
+                    <p>
+                        Ajouter ensuite la dépendance au fichier
+                        <span class="comment">requirements.txt</span> :
+                    </p>
+                    <pre class="console"><code>pip freeze &gt; requirements.txt</code></pre>
+                    <p>
+                        On peut alors créer l'extension dans le fichier<span class="comment"> app/extensions.py</span>.
+                    </p>
+                    <pre class="python"><code><span class="word">from</span> flask_migrate <span class="word">import</span> Migrate
+<span class="word">from</span> flask_sqlalchemy <span class="word">import</span> SQLAlchemy
+
+
+db = SQLAlchemy()
+migrate = Migrate()</code></pre>
+                    <p>
+                        Les deux extensions sont ensuite initialisées dans<span class="comment"> create_app()</span>.
+                        Dans<span class="comment"> app/__init__.py </span>:
+                    </p>
+                    <pre class="python"><code><span class="word">from</span> flask <span class="word">import</span> Flask
+
+<span class="word">from</span> .extensions <span class="word">import</span> db, migrate
+
+
+<span class="word">def</span> <span class="function">create_app</span>():
+    app = Flask(__name__)
+
+    app.config[<span class="text">"SQLALCHEMY_DATABASE_URI"</span>] = \
+        <span class="text">"sqlite:///database.db"</span>
+
+    db.<span class="function">init_app</span>(app)
+
+    <span class="word">from</span> . <span class="word">import</span> models
+
+    migrate.<span class="function">init_app</span>(app, db)
+
+    <span class="comment"># Enregistrement des blueprints</span>
+
+    <span class="word">return</span> app</code></pre>
+                    <p>
+                        Flask-Migrate reçoit :
+                    </p>
+                    <ul>
+                        <li>l'application Flask à utiliser</li>
+                        <li>l'objet SQLAlchemy contenant les modèles</li>
+                    </ul>
+                    <p>
+                        L'import des modèles permet à SQLAlchemy et à Flask-Migrate de connaître les
+                        tables attendues.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="init">
+            <h2>Initialiser les migrations</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        L'initialisation ne doit être réalisée qu'une seule fois pour le projet. Depuis la racine du
+                        projet :
+                    </p>
+                    <pre class="console"><code>flask --app app db init</code></pre>
+                    <p>
+                        L'option<span class="comment"> --app app </span>indique à Flask que
+                        l'application se trouve dans le package<span class="comment"> app</span>.
+                    </p>
+                    <p>
+                        Flask détecte alors la fonction<span class="comment"> create_app()</span>. La commande crée un
+                        dossier<span class="comment"> migrations </span>à la racine du projet. Il contient la
+                        configuration et l'historique des évolutions de la base de données.
+                    </p>
+                    <pre class="console"><code>project/
+│
+├── app/
+├── instance/
+├── migrations/
+│   ├── versions/
+│   ├── env.py
+│   ├── README
+│   └── script.py.mako
+│
+├── run.py
+└── requirements.txt</code></pre>
+                    <p>
+                        Le dossier<span class="comment"> migrations </span>fait partie du projet.
+                        Il doit être conservé et ajouté au dépôt Git.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="create">
+            <h2>Créer et appliquer une migration</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Après avoir créé ou modifié les modèles, générer une migration :
+                    </p>
+                    <pre class="console"><code>flask --app app db migrate -m "Création des tables initiales"</code></pre>
+                    <p>
+                        Le paramètre<span class="comment"> -m </span>permet d'ajouter un message
+                        décrivant la modification.
+                    </p>
+                    <p>
+                        La commande compare :
+                    </p>
+                    <ul>
+                        <li>les modèles actuellement définis dans le code</li>
+                        <li>la structure actuelle de la base de données</li>
+                    </ul>
+                    <p>
+                        Elle crée ensuite un fichier dans<span class="comment"> migrations/versions/</span>. Son nom
+                        contient un identifiant unique et le message de la migration :
+                    </p>
+                    <pre class="console"><code>3a42f82d51c0_creation_des_tables_initiales.py</code></pre>
+                    <p>
+                        Une migration contient principalement deux fonctions :
+                    </p>
+                    <table>
+                        <tr>
+                            <th>Fonction</th>
+                            <th>Rôle</th>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">upgrade()</span></td>
+                            <td>Faire évoluer la base vers cette version</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">downgrade()</span></td>
+                            <td>Annuler les opérations de cette version</td>
+                        </tr>
+                    </table>
+                    <p>
+                        La commande<span class="comment"> migrate </span>crée un fichier, mais
+                        elle ne modifie pas encore la base de données.
+                    </p>
+                    <p>
+                        Avant d'appliquer une migration, ouvrir le fichier généré et vérifier les opérations présentes
+                        dans<span class="comment"> upgrade() </span> et<span class="comment"> downgrade()</span>.
+                        Appliquer ensuite toutes les migrations qui ne le sont pas encore :
+                    </p>
+                    <pre class="console"><code>flask --app app db upgrade</code></pre>
+                    <p>
+                        La structure de la base de données est alors mise à jour. Flask-Migrate enregistre également
+                        dans la base la version actuellement appliquée. Toutes les modifications de la base suivent
+                        le même processus, ce qui crée à chaque migration un nouveau fichier.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="history">
+            <h2>Consulter l'état des migrations</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Plusieurs commandes permettent d'observer l'état du système de migrations.
+                    </p>
+                    <table>
+                        <tr>
+                            <th>Commande</th>
+                            <th>Résultat</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="comment">flask --app app db current</span>
+                            </td>
+                            <td>Afficher la version actuellement appliquée</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="comment">flask --app app db history</span>
+                            </td>
+                            <td>Afficher l'historique des migrations</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="comment">flask --app app db show head</span>
+                            </td>
+                            <td>Afficher les informations sur la dernière migration</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="comment">flask --app app db check</span>
+                            </td>
+                            <td>Vérifier si les modèles contiennent des modifications non migrées</td>
+                        </tr>
+                    </table>
+                    <p>
+                        La commande suivante affiche l'ensemble des commandes disponibles :
+                    </p>
+                    <pre class="console"><code>flask --app app db --help</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="downgrade">
+            <h2>Annuler une migration</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Il est possible de revenir à la version précédente :
+                    </p>
+                    <pre class="console"><code>flask --app app db downgrade</code></pre>
+                    <p>
+                        Flask-Migrate exécute alors la fonction<span class="comment"> downgrade() </span>
+                        de la dernière migration appliquée.
+                    </p>
+                    <p>
+                        Pour revenir à une version précise :
+                    </p>
+                    <pre class="console"><code>flask --app app db downgrade identifiant_revision</code></pre>
+                    <p>
+                        Une migration annulée peut de nouveau être appliquée :
+                    </p>
+                    <pre class="console"><code>flask --app app db upgrade</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="existing">
+            <h2>Utiliser une base existante</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Une difficulté peut apparaître lorsque l'application possède déjà une base
+                        créée avec<span class="comment"> db.create_all()</span>. Si les données ne doivent pas être
+                        conservées pendant le développement, la solution la plus simple consiste à :
+                    </p>
+                    <ul>
+                        <li>supprimer la base de développement</li>
+                        <li>initialiser Flask-Migrate</li>
+                        <li>créer la migration initiale</li>
+                        <li>appliquer cette migration</li>
+                    </ul>
+                    <pre class="console"><code>flask --app app db init
+flask --app app db migrate -m "Migration initiale"
+flask --app app db upgrade</code></pre>
+                    <p>
+                        Si la base contient des données à conserver, elle ne doit pas être supprimée.
+                        Il faut d'abord créer un historique correspondant à sa structure actuelle. La commande
+                        suivante peut indiquer qu'une révision est déjà appliquée sans exécuter ses opérations :
+                    </p>
+                    <pre class="console"><code>flask --app app db stamp head</code></pre>
+                    <p>
+                        La commande<span class="comment"> stamp </span>ne modifie pas la structure
+                        de la base de données. Elle ne doit être utilisée que si la base correspond
+                        déjà exactement à la révision indiquée.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="errors">
+            <h2>Erreurs fréquentes</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <ul>
+                        <li>
+                            Continuer à utiliser<span class="comment"> db.create_all() </span>:
+                            <span class="error">
+                                les tables peuvent être créées en dehors de l'historique des migrations
+                            </span>.
+                        </li>
+                        <li>
+                            Oublier d'importer les modèles :
+                            <span class="error">
+                                Flask-Migrate ne détecte pas les tables attendues
+                            </span>.
+                        </li>
+                        <li>
+                            Exécuter les commandes depuis un mauvais dossier :
+                            <span class="error">
+                                Flask ne trouve pas le package de l'application
+                            </span>.
+                        </li>
+                        <li>
+                            Modifier les modèles sans créer de migration :
+                            <span class="error">
+                                le code et la structure de la base deviennent différents
+                            </span>.
+                        </li>
+                        <li>
+                            Confondre<span class="comment"> migrate </span>et<span class="comment"> upgrade </span>:
+                            <span class="error">
+                                la première commande génère un fichier, la seconde modifie la base
+                            </span>.
+                        </li>
+                        <li>
+                            Appliquer une migration sans la vérifier :
+                            <span class="error">
+                                des opérations incorrectes ou incomplètes peuvent être exécutées
+                            </span>.
+                        </li>
+                        <li>
+                            Modifier manuellement un ancien fichier de migration déjà partagé :
+                            <span class="error">
+                                les différents environnements ne possèdent plus le même historique
+                            </span>.
+                        </li>
+                        <li>
+                            Supprimer le dossier<span class="comment"> migrations </span>:
+                            <span class="error">
+                                l'historique permettant de reconstruire la base est perdu
+                            </span>.
+                        </li>
+                        <li>
+                            Utiliser<span class="comment"> downgrade </span>sans vérifier ses effets :
+                            <span class="error">
+                                certaines données peuvent être supprimées
+                            </span>.
+                        </li>
+                        <li>
+                            Utiliser<span class="comment"> stamp </span>sur une base dont la structure
+                            ne correspond pas à la révision :
+                            <span class="error">
+                                Flask-Migrate considère à tort que les migrations sont appliquées
+                            </span>.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ***************************************************************************************************************
+         FOOTER
+    **************************************************************************************************************** -->
+    <footer>
+        <div>© Copyright - Guillaume Peyrard</div>
+    </footer>
+</body>
+</html>

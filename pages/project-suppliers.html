@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/normalize.css">
+    <link rel="stylesheet" href="../css/init.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script type="module" src="../js/script.js" defer></script>
+    <title>Projet : la gestion des fournisseurs</title>
+</head>
+<body>
+    <!-- ***************************************************************************************************************
+         HEADER
+    **************************************************************************************************************** -->
+    <header>
+        <h1>Projet : la gestion des fournisseurs</h1>
+
+        <!-- navbar
+             ======================================================================================================= -->
+        <nav>
+            <ul class="navbar"></ul>
+        </nav>
+    </header>
+
+    <!-- ***************************************************************************************************************
+         ASIDE
+    **************************************************************************************************************** -->
+    <aside>
+
+        <!-- sidebar
+             ======================================================================================================= -->
+        <nav class="sidebar">
+
+            <!-- sidebar group ------------------------------------------------------------------------------------- -->
+            <section class="sidebar__group">
+                <h2>Dans cette page</h2>
+
+                <ul>
+                    <li class="sidebar__element">
+                        <a href="#questions">Énoncé</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#help">Conseils de réalisation</a>
+                    </li>
+                </ul>
+            </section>
+        </nav>
+    </aside>
+
+    <!-- ***************************************************************************************************************
+         MAIN
+    **************************************************************************************************************** -->
+    <main>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="questions">
+            <h2>Énoncé</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Vous devez réaliser une application Flask permettant de gérer les fournisseurs d'une entreprise.
+                    </p>
+
+                    <div class="separator"></div>
+
+                    <h3>Gestion des données</h3>
+                    <ul>
+                        <li>Chaque fournisseur est renseigné dans une base de données.</li>
+                        <li>Il est identifié par plusieurs éléments :
+                            <ul>
+                                <li>Nom de l'entreprise</li>
+                                <li>Adresse</li>
+                                <li>Ville</li>
+                                <li>Numéro de téléphone</li>
+                                <li>Adresse électronique</li>
+                                <li>S'il préfère être contacté par téléphone ou par e-mail</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <div class="separator"></div>
+
+                    <h3>Fonctionnement</h3>
+                    <ul>
+                        <li>L'application comporte plusieurs pages :
+                            <ul>
+                                <li>une page d'accueil affichant la liste complète des fournisseurs</li>
+                                <li>une page affichant toutes les informations sur un fournisseur</li>
+                                <li>un formulaire de création d'un fournisseur</li>
+                                <li>un formulaire de modification</li>
+                            </ul>
+                        </li>
+                        <li>Des liens permettent de naviguer dans l'ensemble du projet :
+                            <ul>
+                                <li>retour à l'accueil</li>
+                                <li>sélection d'un fournisseur</li>
+                                <li>ajout d'un fournisseur</li>
+                                <li>modification d'un fournisseur (depuis l'accueil et depuis la page dédiée)</li>
+                                <li>suppression d'un fournisseur (depuis l'accueil et depuis la page dédiée)</li>
+                            </ul>
+                        </li>
+                        <li>Sur la page d'accueil, on peut :
+                            <ul>
+                                <li>filtrer les fournisseurs par nom, par ville ou par préférence de contact</li>
+                                <li>trier les fournisseurs par nom ou par ville</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="help">
+            <h2>Conseils de réalisation</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <h3>Organisation du projet</h3>
+
+                    <ul>
+                        <li>Structurer l'application.</li>
+                        <li>Configurer une base de données.</li>
+                        <li>Créer les dossiers et sous-dossiers nécessaires.</li>
+                        <li>Créer les fichiers statiques nécessaires (style, js, images, etc.).</li>
+                    </ul>
+
+                    <div class="separator"></div>
+
+                    <h3>Modèle et base de données</h3>
+
+                    <ul>
+                        <li>
+                            Créer le modèle<span class="comment"> Supplier</span>, représentant un fournisseur et ses
+                            coordonnées :
+                            <ul>
+                                <li><span class="comment">id </span>: son identifiant unique</li>
+                                <li><span class="comment">name </span>: son nom</li>
+                                <li><span class="comment">address </span>: son adresse</li>
+                                <li><span class="comment">city </span>: sa ville</li>
+                                <li><span class="comment">phone </span>: son numéro de téléphone</li>
+                                <li><span class="comment">email </span>: son adresse électronique</li>
+                                <li>
+                                    <span class="comment">preferred_contact</span>: sa préférence de contact (utiliser
+                                    des boutons radio)
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <div class="separator"></div>
+
+                    <h3>Vues</h3>
+
+                    <ul>
+                        <li>
+                            Développer les fonctionnalités progressivement :
+                            <ul>
+                                <li>affichage de la liste complète des fournisseurs</li>
+                                <li>affichage des informations détaillées d'un fournisseur</li>
+                                <li>ajout d'un fournisseur</li>
+                                <li>modification d'un fournisseur</li>
+                                <li>suppression d'un fournisseur</li>
+                                <li>filtre des fournisseurs selon leur nom, leur ville ou leur préférence de contact</li>
+                                <li>tri des fournisseurs par nom ou par ville</li>
+                            </ul>
+                        </li>
+                        <li>Pour chacune, penser à :
+                            <ul>
+                                <li>développer sa vue</li>
+                                <li>affecter une route</li>
+                                <li>associer les bonnes méthodes (<span class="comment">GET </span>
+                                    et/ou<span class="comment"> POST</span>)</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <div class="separator"></div>
+
+                    <h3>Templates</h3>
+                    <ul>
+                        <li>
+                            Créer un template commun<span class="comment"> base.html</span> contenant :
+                            <ul>
+                                <li>la structure générale de la page</li>
+                                <li>un en-tête</li>
+                                <li>un menu de navigation</li>
+                                <li>un bloc destiné au contenu principal</li>
+                                <li>un pied de page</li>
+                                <li>le lien vers la feuille de style</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Les autres templates héritent de cette structure :
+                            <table>
+                                <tr>
+                                    <th>Template</th>
+                                    <th>Contenu attendu</th>
+                                </tr>
+                                <tr>
+                                    <td><span class="comment">suppliers.html</span></td>
+                                    <td>Liste, filtrage et tri des fournisseurs</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="comment">supplier-detail.html</span></td>
+                                    <td>Informations complètes sur un fournisseur</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="comment">create-supplier.html</span></td>
+                                    <td>Formulaire vide de création</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="comment">update-supplier.html</span></td>
+                                    <td>Formulaire prérempli de modification</td>
+                                </tr>
+                            </table>
+                        </li>
+                        <li>
+                            Sur la page<span class="comment"> suppliers.html</span>, pour chaque fournisseur, créer :
+                            <ul>
+                                <li>un lien vers sa page détaillée</li>
+                                <li>un lien vers son formulaire de modification</li>
+                                <li>une fonctionnalité de suppression avec confirmation</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Sur la page<span class="comment"> supplier-detail.html</span>, prévoyez :
+                            <ul>
+                                <li>le nom de l'entreprise</li>
+                                <li>l'adresse complète</li>
+                                <li>la ville</li>
+                                <li>le numéro de téléphone</li>
+                                <li>l'adresse électronique</li>
+                                <li>la préférence de contact</li>
+                                <li>un lien de modification</li>
+                                <li>une fonctionnalité de suppression avec confirmation</li>
+                                <li>un lien de retour vers la liste</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <div class="separator"></div>
+
+                    <h3>Formulaires</h3>
+
+                    <ul>
+                        <li>
+                            Utiliser les mêmes champs pour les formulaires de création et de modification :
+                            <ul>
+                                <li>nom de l'entreprise</li>
+                                <li>adresse</li>
+                                <li>ville</li>
+                                <li>numéro de téléphone</li>
+                                <li>adresse électronique</li>
+                                <li>préférence de contact</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Paramétrer correctement les champs :
+                            <ul>
+                                <li><span class="comment">type="text" </span>pour les informations générales</li>
+                                <li><span class="comment">type="tel" </span>pour le téléphone</li>
+                                <li><span class="comment">type="email" </span>pour l'adresse électronique</li>
+                                <li><span class="comment">required </span>pour les champs obligatoires</li>
+                                <li><span class="comment">maxlength </span>pour limiter la longueur des textes</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Utiliser l'attribut<span class="comment"> value</span> pour afficher les données connues.
+                        </li>
+                        <li>
+                            Pour la préférence de contact, utiliser l'attribut<span class="comment"> checked</span>.
+                        </li>
+                    </ul>
+
+                    <div class="separator"></div>
+
+                    <h3>Filtres et tris</h3>
+
+                    <ul>
+                        <li>
+                            Utiliser la méthode<span class="comment"> GET </span>pour le formulaire de filtre.
+                        </li>
+                        <li>
+                            Récupérer les valeurs envoyées avec<span class="comment"> GET </span>
+                            avec<span class="comment"> request.args</span>.
+                        </li>
+                        <li>
+                            Proposer les champs de filtre :
+                            <ul>
+                                <li>un champ permettant de rechercher un fournisseur par son nom</li>
+                                <li>un champ pour filtrer selon la ville</li>
+                                <li>un champ pour filtrer selon la préférence de contact</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Permettre à l'utilisateur de choisir le tri :
+                            <ul>
+                                <li>par nom de l'entreprise</li>
+                                <li>par ville</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Vérifier le choix effectué avant de filtrer ou de trier.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ***************************************************************************************************************
+         FOOTER
+    **************************************************************************************************************** -->
+    <footer>
+        <div>© Copyright - Guillaume Peyrard</div>
+    </footer>
+</body>
+</html>

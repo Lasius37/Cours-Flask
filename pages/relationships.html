@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/normalize.css">
+    <link rel="stylesheet" href="../css/init.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script type="module" src="../js/script.js" defer></script>
+    <title>Créer des relations entre les modèles</title>
+</head>
+<body>
+    <!-- ***************************************************************************************************************
+         HEADER
+    **************************************************************************************************************** -->
+    <header>
+        <h1>Créer des relations entre les modèles</h1>
+
+        <!-- navbar
+             ======================================================================================================= -->
+        <nav>
+            <ul class="navbar"></ul>
+        </nav>
+    </header>
+
+    <!-- ***************************************************************************************************************
+         ASIDE
+    **************************************************************************************************************** -->
+    <aside>
+
+        <!-- sidebar
+             ======================================================================================================= -->
+        <nav class="sidebar">
+
+            <!-- sidebar group ------------------------------------------------------------------------------------- -->
+            <section class="sidebar__group">
+                <h2>Dans cette page</h2>
+
+                <ul>
+                    <li class="sidebar__element">
+                        <a href="#principle">Comprendre les relations</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#one-to-many">Créer une relation un-à-plusieurs</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#foreign-key">Ajouter une clé étrangère</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#relationship">Définir les relations entre les objets</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#create">Créer des objets liés</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#query">Consulter les objets liés</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#update">Modifier une relation</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#many-to-many">Créer et gérer une relation plusieurs-à-plusieurs</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#one-to-one">Créer et gérer une relation un-à-un</a>
+                    </li>
+                    <li class="sidebar__element">
+                        <a href="#errors">Erreurs fréquentes</a>
+                    </li>
+                </ul>
+            </section>
+        </nav>
+    </aside>
+
+    <!-- ***************************************************************************************************************
+         MAIN
+    **************************************************************************************************************** -->
+    <main>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="principle">
+            <h2>Comprendre les relations</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Une application utilise souvent plusieurs modèles liés entre eux. Par exemple :
+                    </p>
+                    <ul>
+                        <li>un auteur peut avoir écrit plusieurs livres</li>
+                        <li>un livre a été écrit par un auteur</li>
+                    </ul>
+                    <p>
+                        Il serait possible d'enregistrer le nom de l'auteur directement dans chaque livre, mais cette
+                        solution entraînerait des répétitions. Une base de données relationnelle utilise plutôt deux
+                        tables :
+                    </p>
+                    <table>
+                        <tr>
+                            <th>Table</th>
+                            <th>Données</th>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">author</span></td>
+                            <td>Informations sur les auteurs</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">book</span></td>
+                            <td>Informations sur les livres</td>
+                        </tr>
+                    </table>
+                    <p>
+                        Chaque livre contient alors l'identifiant de son auteur.
+                    </p>
+                    <table>
+                        <caption>Auteurs (<span class="comment">author</span>)</caption>
+                        <tr>
+                            <th>id</th>
+                            <th>name</th>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>Jules Verne</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>George Sand</td>
+                        </tr>
+                    </table>
+                    <table>
+                        <caption>Livres (<span class="comment">book</span>)</caption>
+                        <tr>
+                            <th>id</th>
+                            <th>title</th>
+                            <th>author_id</th>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>Vingt mille lieues sous les mers</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>La mare au diable</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Voyage au centre de la terre</td>
+                            <td>1</td>
+                        </tr>
+                    </table>
+                    <p>
+                        La colonne<span class="comment"> author_id </span>permet de relier chaque
+                        livre à une ligne de la table<span class="comment"> author</span>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="one-to-many">
+            <h2>Créer une relation un-à-plusieurs</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Une relation<span class="comment"> un-à-plusieurs </span>associe un objet
+                        à plusieurs objets d'un autre modèle. Par exemple :
+                    </p>
+                    <ul>
+                        <li>un auteur peut être associé à plusieurs livres</li>
+                        <li>chaque livre est associé à un seul auteur</li>
+                    </ul>
+                    <p>
+                        Cette relation nécessite deux éléments :
+                    </p>
+                    <ul>
+                        <li>une clé étrangère dans le modèle situé du côté « plusieurs » (livres)</li>
+                        <li>des relations permettant de circuler entre les objets Python</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="foreign-key">
+            <h2>Ajouter une clé étrangère</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Les deux modèles peuvent être placés dans<span class="comment"> app/models.py</span>.
+                    </p>
+                    <pre class="python"><code><span class="word">from</span> .extensions <span class="word">import</span> db
+
+<span class="word">class</span> <span class="function">Author</span>(db.Model):
+    __tablename__ = <span class="text">"author"</span>
+
+    id = db.Column(...)
+
+    name = db.Column(...)
+
+
+<span class="word">class</span> <span class="function">Book</span>(db.Model):
+    __tablename__ = <span class="text">"book"</span>
+
+    id = db.Column(...)
+
+    title = db.Column(...)
+
+    author_id = db.Column(
+        db.Integer,
+        db.ForeignKey(<span class="text">"author.id"</span>),
+        nullable=<span class="word">False</span>
+    )</code></pre>
+
+                    <p>
+                        La colonne<span class="comment"> author_id </span>est placée dans le
+                        modèle<span class="comment"> Book</span>, car plusieurs livres peuvent appartenir
+                        au même auteur.
+                    </p>
+                    <p>
+                        L'instruction <span class="comment">db.ForeignKey("author.id")</span> crée la clé étrangère :
+                    </p>
+                    <p>
+                        Elle indique que la valeur doit correspondre à la colonne<span class="comment"> id </span> de
+                        la table<span class="comment"> author</span>.
+                    </p>
+                    <p>
+                        Le nom utilisé dans<span class="comment"> ForeignKey </span>est le nom
+                        de la table, et pas nécessairement le nom de la classe Python.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="relationship">
+            <h2>Définir les relations entre les objets</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        La clé étrangère crée le lien dans la base de données. La
+                        fonction<span class="comment"> db.relationship() </span>permet ensuite
+                        d'utiliser ce lien directement avec les objets Python.
+                    </p>
+                    <pre class="python"><code><span class="word">class</span> <span class="function">Author</span>(db.Model):
+    __tablename__ = <span class="text">"author"</span>
+
+    id = db.Column(...)
+
+    name = db.Column(...)
+
+    books = db.<span class="function">relationship</span>(
+        <span class="text">"Book"</span>,
+        back_populates=<span class="text">"author"</span>
+    )
+
+
+<span class="word">class</span> <span class="function">Book</span>(db.Model):
+    __tablename__ = <span class="text">"book"</span>
+
+    id = db.Column(...)
+
+    title = db.Column(...)
+
+    author_id = db.Column(
+        db.Integer,
+        db.ForeignKey(<span class="text">"author.id"</span>),
+        nullable=<span class="word">False</span>
+    )
+
+    author = db.<span class="function">relationship</span>(
+        <span class="text">"Author"</span>,
+        back_populates=<span class="text">"books"</span>
+    )</code></pre>
+                    <p>
+                        Deux propriétés sont ajoutées :
+                    </p>
+                    <table>
+                        <tr>
+                            <th>Propriété</th>
+                            <th>Résultat</th>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">author.books</span></td>
+                            <td>Liste des livres liés à l'auteur</td>
+                        </tr>
+                        <tr>
+                            <td><span class="comment">book.author</span></td>
+                            <td>Auteur lié au livre</td>
+                        </tr>
+                    </table>
+                    <p>
+                        Le paramètre<span class="comment"> back_populates </span>indique que les
+                        deux propriétés représentent les deux côtés de la même relation.
+                    </p>
+                    <div class="information">
+                        <p>
+                            <span class="comment">db.relationship() </span>ne crée pas une nouvelle
+                            colonne dans la table. Il crée une propriété utilisable dans le code Python.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="create">
+            <h2>Créer des objets liés</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <h3>Utiliser la clé étrangère</h3>
+                    <p>
+                        Un livre peut être associé à un auteur grâce à son identifiant.
+                    </p>
+                    <pre class="python"><code>author = db.session.<span class="function">get</span>(
+    Author,
+    author_id
+)
+
+book = Book(
+    title=<span class="text">"Voyage au centre de la Terre"</span>,
+    author_id=author.id
+)
+
+db.session.<span class="function">add</span>(book)
+db.session.<span class="function">commit</span>()</code></pre>
+
+                    <h3>Utiliser la relation</h3>
+                    <p>
+                        Il est également possible d'affecter directement l'objet auteur.
+                    </p>
+                    <pre class="python"><code>author = db.session.<span class="function">get</span>(
+    Author,
+    author_id
+)
+
+book = Book(
+    title=<span class="text">"Voyage au centre de la Terre"</span>,
+    author=author
+)
+
+db.session.<span class="function">add</span>(book)
+db.session.<span class="function">commit</span>()</code></pre>
+                    <p>
+                        SQLAlchemy renseigne alors automatiquement la valeur de<span class="comment"> author_id</span>.
+                        Attention, il faut toutefois vérifier que l'auteur est déjà dans la base de données avant d'y
+                        ajouter le livre.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="query">
+            <h2>Consulter les objets liés</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <h3>Retrouver l'auteur d'un livre</h3>
+
+                    <pre class="python"><code>book = db.session.<span class="function">get</span>(
+    Book,
+    book_id
+)
+author = book.author</code></pre>
+                    <p>
+                        Les propriétés de l'auteur deviennent accessibles :
+                    </p>
+                    <pre class="python"><code>book.author.name</code></pre>
+
+                    <h3>Retrouver les livres d'un auteur</h3>
+                    <pre class="python"><code>author = db.session.<span class="function">get</span>(
+    Author,
+    author_id
+)
+
+books = author.books</code></pre>
+                    <p>
+                        La propriété<span class="comment"> books </span>contient une collection
+                        d'objets<span class="comment"> Book</span>. Dans un template :
+                    </p>
+                    <pre class="html"><code>&lt;h2&gt;&#123;&#123; author.name &#125;&#125;&lt;/h2&gt;
+
+&lt;ul&gt;
+    &#123;% for book in author.books %&#125;
+        &lt;li&gt;&#123;&#123; book.title &#125;&#125;&lt;/li&gt;
+    &#123;% else %&#125;
+        &lt;li&gt;Aucun livre enregistré&lt;/li&gt;
+    &#123;% endfor %&#125;
+&lt;/ul&gt;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="update">
+            <h2>Modifier une relation</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Pour changer l'auteur d'un livre, on peut modifier sa clé étrangère :
+                    </p>
+                    <pre class="python"><code>book.author_id = new_author.id
+
+db.session.<span class="function">commit</span>()</code></pre>
+                    <p>
+                        Il est également possible d'affecter directement le nouvel objet :
+                    </p>
+                    <pre class="python"><code>book.author = new_author
+
+db.session.<span class="function">commit</span>()</code></pre>
+                    <p>
+                        Un objet peut aussi être ajouté à la collection d'un auteur :
+                    </p>
+                    <pre class="python"><code>book = Book(
+    title=<span class="text">"Un nouveau livre"</span>
+)
+
+author.books.<span class="function">append</span>(book)
+
+db.session.<span class="function">commit</span>()</code></pre>
+                    <p>
+                        SQLAlchemy met alors à jour les deux côtés de la relation.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="many-to-many">
+            <h2>Créer et gérer une relation plusieurs-à-plusieurs</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Dans une relation<span class="comment"> plusieurs-à-plusieurs</span>, chaque objet peut être
+                        associé à plusieurs objets de l'autre modèle. Par exemple :
+                    </p>
+                    <ul>
+                        <li>un livre peut appartenir à plusieurs catégories (ou genres littéraires)</li>
+                        <li>une catégorie peut contenir plusieurs livres</li>
+                    </ul>
+                    <p>
+                        Une table d'association est alors nécessaire pour enregistrer les liens.
+                    </p>
+
+                    <pre class="python"><code>book_category = db.Table(
+    <span class="text">"book_category"</span>,
+
+    db.Column(
+        <span class="text">"book_id"</span>,
+        db.Integer,
+        db.ForeignKey(<span class="text">"book.id"</span>),
+        primary_key=<span class="word">True</span>
+    ),
+
+    db.Column(
+        <span class="text">"category_id"</span>,
+        db.Integer,
+        db.ForeignKey(<span class="text">"category.id"</span>),
+        primary_key=<span class="word">True</span>
+    )
+)</code></pre>
+                    <p>
+                        Cette table ne représente pas un objet utilisé directement dans l'application.
+                        Elle enregistre seulement les associations entre les livres et les catégories.
+                    </p>
+                    <pre class="python"><code><span class="word">class</span> <span class="function">Book</span>(db.Model):
+    __tablename__ = <span class="text">"book"</span>
+
+    id = db.Column(...)
+
+    title = db.Column(...)
+
+    categories = db.<span class="function">relationship</span>(
+        <span class="text">"Category"</span>,
+        secondary=book_category,
+        back_populates=<span class="text">"books"</span>
+    )
+
+
+<span class="word">class</span> <span class="function">Category</span>(db.Model):
+    __tablename__ = <span class="text">"category"</span>
+
+    id = db.Column(...)
+
+    name = db.Column(...)
+
+    books = db.<span class="function">relationship</span>(
+        <span class="text">"Book"</span>,
+        secondary=book_category,
+        back_populates=<span class="text">"categories"</span>
+    )</code></pre>
+                    <p>
+                        Le paramètre<span class="comment"> secondary </span>indique la table
+                        d'association utilisée par la relation. Pour associer une catégorie à un livre :
+                    </p>
+                    <pre class="python"><code>book.categories.<span class="function">append</span>(category)
+
+db.session.<span class="function">commit</span>()</code></pre>
+                    <p>
+                        Pour retirer cette association :
+                    </p>
+                    <pre class="python"><code>book.categories.<span class="function">remove</span>(category)
+
+db.session.<span class="function">commit</span>()</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="one-to-one">
+            <h2>Créer et gérer une relation un-à-un</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <p>
+                        Une relation<span class="comment"> un-à-un </span>associe un objet à un seul objet d'un autre
+                        modèle. Par exemple, un utilisateur peut posséder un seul profil détaillé.
+                    </p>
+                    <p>
+                        La clé étrangère peut être rendue unique avec le
+                        paramètre<span class="comment"> unique=True </span>.
+                    </p>
+                    <pre class="python"><code><span class="word">class</span> <span class="function">Profile</span>(db.Model):
+    __tablename__ = <span class="text">"profile"</span>
+
+    id = db.Column(...)
+    avatar = db.Column(...)
+
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey(<span class="text">"user.id"</span>),
+        nullable=<span class="word">False</span>,
+        unique=<span class="word">True</span>
+    )
+
+    user = db.<span class="function">relationship</span>(
+        <span class="text">"User"</span>,
+        back_populates=<span class="text">"profile"</span>
+    )</code></pre>
+                    <p>
+                        Du côté de l'utilisateur, le paramètre<span class="comment"> uselist=False </span>
+                        indique que la propriété ne contient pas une collection.
+                    </p>
+                    <pre class="python"><code><span class="word">class</span> <span class="function">User</span>(db.Model):
+    __tablename__ = <span class="text">"user"</span>
+
+    id = db.Column(...)
+    password = db.Column(...)
+
+    profile = db.<span class="function">relationship</span>(
+        <span class="text">"Profile"</span>,
+        back_populates=<span class="text">"user"</span>,
+        uselist=<span class="word">False</span>
+    )</code></pre>
+                    <p>
+                        La propriété<span class="comment"> user.profile </span>renvoie alors un
+                        seul objet<span class="comment"> Profile</span>, ou
+                        <span class="comment">None</span>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- content section
+             ======================================================================================================= -->
+        <section id="errors">
+            <h2>Erreurs fréquentes</h2>
+
+            <div class="layout">
+
+                <!-- layout element -------------------------------------------------------------------------------- -->
+                <div class="layout__text">
+                    <ul>
+                        <li>
+                            Utiliser le nom de la classe dans<span class="comment"> ForeignKey </span>:
+                            <span class="error">il faut indiquer le nom de la table et de la colonne</span>.
+                        </li>
+                        <li>
+                            Placer la clé étrangère du mauvais côté :
+                            <span class="error">
+                                dans une relation un-à-plusieurs, elle est généralement placée
+                                dans la table située du côté « plusieurs »
+                            </span>.
+                        </li>
+                        <li>
+                            Confondre<span class="comment"> ForeignKey </span>
+                            et<span class="comment"> relationship </span>:
+                            <span class="error">
+                                le premier crée le lien dans la base, le second facilite l'accès entre les objets
+                            </span>.
+                        </li>
+                        <li>
+                            Utiliser des noms différents dans<span class="comment"> back_populates </span>:
+                            <span class="error">
+                                chaque valeur doit correspondre à la propriété définie dans l'autre modèle
+                            </span>.
+                        </li>
+                        <li>
+                            Créer un objet avec un identifiant étranger inexistant :
+                            <span class="error">la relation ne peut pas être établie correctement</span>.
+                        </li>
+                        <li>
+                            Oublier<span class="comment"> db.session.commit() </span>:
+                            <span class="error">
+                                la création ou la modification de la relation n'est pas enregistrée
+                            </span>.
+                        </li>
+                        <li>
+                            Oublier<span class="comment"> secondary </span>dans une relation
+                            plusieurs-à-plusieurs :
+                            <span class="error">SQLAlchemy ne connaît pas la table d'association</span>.
+                        </li>
+                        <li>
+                            Modifier les modèles sans adapter la base de données :
+                            <span class="error">
+                                les nouvelles colonnes et clés étrangères ne sont pas ajoutées
+                                automatiquement aux tables existantes
+                            </span>.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ***************************************************************************************************************
+         FOOTER
+    **************************************************************************************************************** -->
+    <footer>
+        <div>© Copyright - Guillaume Peyrard</div>
+    </footer>
+</body>
+</html>

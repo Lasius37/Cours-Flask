@@ -1,0 +1,133 @@
+{	"home": {
+		"id": "navbar__home",
+		"target": "index",
+		"icon": "bi bi-house-fill",
+		"text": "Accueil"
+	},
+	"menu": [
+		{
+			"title": "Introduction",
+			"subMenu": [
+				{
+					"tag": "flask-django",
+					"text": "Comparaison Django / Flask"
+				}
+			]
+		},
+		{
+			"title": "Concepts de base",
+			"subMenu": [
+				{
+					"tag": "init",
+					"text": "Initialiser un projet"
+				},
+				{
+					"tag": "app",
+					"text": "Créer et lancer une application"
+				},
+				{
+					"tag": "views",
+					"text": "Créer des routes et des vues"
+				},
+				{
+					"tag": "templates",
+					"text": "Utiliser des templates"
+				},
+				{
+					"tag": "static",
+					"text": "Gérer les fichiers statiques"
+				},
+				{
+					"tag": "project-personal-site",
+					"text": "Projet : le mini-site personnel"
+				}
+			]
+		},
+		{
+			"title": "Concepts intermédiaires",
+			"subMenu": [
+				{
+					"tag": "jinja",
+					"text": "Intégrer des données dans un template"
+				},
+				{
+					"tag": "database",
+					"text": "Configurer une base de données"
+				},
+				{
+					"tag": "models",
+					"text": "Créer un modèle"
+				},
+				{
+					"tag": "create-data",
+					"text": "Créer et enregistrer des données"
+				},
+				{
+					"tag": "query-data",
+					"text": "Rechercher, filtrer, trier et afficher des données"
+				},
+				{
+					"tag": "forms",
+					"text": "Créer un formulaire"
+				},
+				{
+					"tag": "form-data",
+					"text": "Enregistrer les données d'un formulaire"
+				},
+				{
+					"tag": "redirect",
+					"text": "Rediriger avec redirect() et url_for()"
+				},
+				{
+					"tag": "update-data",
+					"text": "Modifier des données"
+				},
+				{
+					"tag": "delete-data",
+					"text": "Supprimer des données"
+				},
+				{
+					"tag": "project-suppliers",
+					"text": "Projet : la gestion des fournisseurs"
+				}
+			]
+		},
+		{
+			"title": "Concepts avancés",
+			"subMenu": [
+				{
+					"tag": "structure",
+					"text": "Structurer l'application avec les blueprints"
+				},
+				{
+					"tag": "relationships",
+					"text": "Créer des relations entre les modèles"
+				},
+				{
+					"tag": "migrations",
+					"text": "Modifier la structure de la base de données"
+				},
+				{
+					"tag": "forms2",
+					"text": "Créer des formulaires avancés"
+				},
+				{
+					"tag": "uploads",
+					"text": "Gérer les fichiers envoyés"
+				},
+				{
+					"tag": "config",
+					"text": "Configurer l'application"
+				},
+				{
+					"tag": "deployment",
+					"text": "Préparer le déploiement"
+				},
+				{
+					"tag": "project-small-business",
+					"text": "Projet : la gestion d'une petite entreprise"
+				}
+			]
+		}
+	]
+}
