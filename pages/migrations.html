@@ -87,6 +87,11 @@
                 <!-- layout element -------------------------------------------------------------------------------- -->
                 <div class="layout__text">
                     <p>
+                        Dans les premières applications, la méthode<span class="comment"> db.create_all() </span>
+                        permettait de créer rapidement les tables. À partir de cette étape, les créations et les
+                        modifications de la structure de la base de données seront gérées avec Flask-Migrate.
+                    </p>
+                    <p>
                         La structure d'une base de données dépend des modèles définis dans l'application. Lorsqu'un
                         modèle est modifié, la base de données existante n'est pas mise à jour automatiquement.
                         Par exemple, le modèle suivant peut initialement contenir deux colonnes :
@@ -117,7 +122,9 @@
                         <li>de créer une table d'association</li>
                     </ul>
                     <p>
-                        Pour cela, il est nécessaire d'utiliser<span class="comment"> Flask-Migrate</span>.
+                        Pour cela, il est nécessaire d'utiliser<span class="comment"> Flask-Migrate</span>. Une fois les
+                        migrations mises en place, il ne faut plus
+                        utiliser<span class="comment"> db.create_all()</span>.
                     </p>
                 </div>
             </div>
@@ -137,10 +144,12 @@
                     </p>
                     <pre class="console"><code>pip install Flask-Migrate</code></pre>
                     <p>
-                        Ajouter ensuite la dépendance au fichier
-                        <span class="comment">requirements.txt</span> :
+                        Mettre ensuite à jout le fichier<span class="comment"> requirements.txt </span>:
                     </p>
                     <pre class="console"><code>pip freeze &gt; requirements.txt</code></pre>
+                    <p>
+                        Attention, cette commande doit être exécutée dans l'environnement virtuel du projet.
+                    </p>
                     <p>
                         On peut alors créer l'extension dans le fichier<span class="comment"> app/extensions.py</span>.
                     </p>
@@ -166,24 +175,23 @@ migrate = Migrate()</code></pre>
         <span class="text">"sqlite:///database.db"</span>
 
     db.<span class="function">init_app</span>(app)
+    migrate.<span class="function">init_app</span>(app, db)
 
     <span class="word">from</span> . <span class="word">import</span> models
 
-    migrate.<span class="function">init_app</span>(app, db)
-
-    <span class="comment"># Enregistrement des blueprints</span>
+    <span class="comment"># Enregistrement des blueprints, après l'import des modèles</span>
 
     <span class="word">return</span> app</code></pre>
                     <p>
-                        Flask-Migrate reçoit :
+                        La commande analyse les différences entre :
                     </p>
                     <ul>
-                        <li>l'application Flask à utiliser</li>
-                        <li>l'objet SQLAlchemy contenant les modèles</li>
+                        <li>les modèles actuellement définis dans le code</li>
+                        <li>la structure actuelle des tables de la base de données</li>
                     </ul>
                     <p>
-                        L'import des modèles permet à SQLAlchemy et à Flask-Migrate de connaître les
-                        tables attendues.
+                        Elle génère ensuite automatiquement une proposition de migration.
+                        Cette proposition doit toujours être vérifiée avant son application.
                     </p>
                 </div>
             </div>
@@ -222,7 +230,6 @@ migrate = Migrate()</code></pre>
 │   ├── README
 │   └── script.py.mako
 │
-├── run.py
 └── requirements.txt</code></pre>
                     <p>
                         Le dossier<span class="comment"> migrations </span>fait partie du projet.
@@ -288,6 +295,15 @@ migrate = Migrate()</code></pre>
                         Appliquer ensuite toutes les migrations qui ne le sont pas encore :
                     </p>
                     <pre class="console"><code>flask --app app db upgrade</code></pre>
+                    <p>
+                        Il est alors préférable de vérifier qu'aucune modification des modèles ne reste sans migration :
+                    </p>
+                    <pre class="console"><code>flask --app app db check</code></pre>
+                    <p>
+                        Une migration qui supprime une colonne ou une table peut également supprimer les données
+                        qu'elle contient. Il faut donc sauvegarder les données importantes avant d'appliquer
+                        une opération destructive.
+                    </p>
                     <p>
                         La structure de la base de données est alors mise à jour. Flask-Migrate enregistre également
                         dans la base la version actuellement appliquée. Toutes les modifications de la base suivent
@@ -406,9 +422,9 @@ flask --app app db upgrade</code></pre>
                     </p>
                     <pre class="console"><code>flask --app app db stamp head</code></pre>
                     <p>
-                        La commande<span class="comment"> stamp </span>ne modifie pas la structure
-                        de la base de données. Elle ne doit être utilisée que si la base correspond
-                        déjà exactement à la révision indiquée.
+                        La commande<span class="comment"> stamp </span>ne modifie pas la structure de la base de
+                        données. Elle ne doit être utilisée que si la base correspond déjà exactement à la révision
+                        indiquée : elle modifie uniquement la version enregistrée dans la base.
                     </p>
                 </div>
             </div>
@@ -483,6 +499,18 @@ flask --app app db upgrade</code></pre>
                             ne correspond pas à la révision :
                             <span class="error">
                                 Flask-Migrate considère à tort que les migrations sont appliquées
+                            </span>.
+                        </li>
+                        <li>
+                            Générer plusieurs migrations sans appliquer les précédentes :
+                            <span class="error">
+                                l'historique devient plus difficile à vérifier et les erreurs sont plus difficiles à identifier
+                            </span>.
+                        </li>
+                        <li>
+                            Supprimer manuellement une table ou une colonne directement dans la base :
+                            <span class="error">
+                                la structure réelle ne correspond plus à l'historique des migrations
                             </span>.
                         </li>
                     </ul>
