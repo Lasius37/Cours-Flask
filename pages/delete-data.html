@@ -50,7 +50,7 @@
                         <a href="#delete">Supprimer la donnée</a>
                     </li>
                     <li class="sidebar__element">
-                        <a href="#form">Créer le formulaire de suppression</a>
+                        <a href="#form">Ajouter un bouton de suppression</a>
                     </li>
                     <li class="sidebar__element">
                         <a href="#confirm">Demander une confirmation</a>
@@ -142,7 +142,7 @@
         <!-- content section
              ======================================================================================================= -->
         <section id="form">
-            <h2>Créer le formulaire de suppression</h2>
+            <h2>Ajouter un bouton de suppression</h2>
 
             <div class="layout">
 
@@ -275,8 +275,8 @@
                             <span class="error">la suppression n'est pas enregistrée durablement</span>.
                         </li>
                         <li>
-                            Rediriger avant<span class="comment"> commit() </span>:
-                            <span class="error">la suppression peut ne pas être enregistrée avant le changement de page</span>.
+                            Placer<span class="comment"> commit() </span>après le<span class="comment"> return </span>:
+                            <span class="error">le code n'est jamais exécuté et la suppression n'est pas enregistrée</span>.
                         </li>
                         <li>
                             Ne pas demander de confirmation :

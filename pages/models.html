@@ -259,7 +259,7 @@
                         nouveau livre.
                     </p>
                     <p>
-                        Le titre et le synopsis peuvent être rendus obligatoires :
+                        Le titre, l'année et le synopsis peuvent être rendus obligatoires :
                     </p>
                     <pre class="python"><code>title = db.Column(
     db.String(<span class="number">100</span>),
@@ -300,7 +300,7 @@ synopsis = db.Column(
     db.<span class="function">create_all</span>()</code></pre>
                     <p>
                         Le contexte d'application permet à Flask-SQLAlchemy de savoir quelle application
-                        et quelle configuration doivent être utilisées. Lors du lancement du programme :
+                        et quelle configuration doivent être utilisées. Lors de l'exécution de ce code :
                     </p>
                     <ul>
                         <li>le dossier<span class="comment"> instance </span>est créé si nécessaire</li>
@@ -350,6 +350,10 @@ synopsis = db.Column(
                             Modifier un modèle après la création de la table et relancer
                             <span class="comment">create_all()</span> :
                             <span class="error">la table existante n'est pas automatiquement modifiée</span>.
+                        </li>
+                        <li>
+                            Modifier un modèle puis appeler uniquement<span class="comment"> db.create_all() </span>:
+                            <span class="error">la structure d'une table existante n'est pas mise à jour</span>.
                         </li>
                     </ul>
                 </div>
