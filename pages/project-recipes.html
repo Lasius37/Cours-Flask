@@ -1,418 +1,352 @@
-<!doctype html>
+---
+layout: base
+short: "Projet - carnet de recettes"
+title: "Projet : le carnet de recettes"
+---
 
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/normalize.css">
-    <link rel="stylesheet" href="../css/init.css">
-    <link rel="stylesheet" href="../css/style.css">
-    <script type="module" src="../js/script.js" defer></script>
-    <title>Projet : le carnet de recettes</title>
-</head>
-<body>
-    <!-- ***************************************************************************************************************
-         HEADER
-    **************************************************************************************************************** -->
-    <header>
-            <h1>Projet : le carnet de recettes</h1>
+<!-- content section
+     ======================================================================================================= -->
+<section id="questions">
+    <h2>Énoncé</h2>
 
-        <!-- navbar
-             ======================================================================================================= -->
-        <nav>
-            <ul class="navbar"></ul>
-        </nav>
-    </header>
+    <div class="layout">
 
-    <!-- ***************************************************************************************************************
-         ASIDE
-    **************************************************************************************************************** -->
-    <aside>
+        <!-- layout element -------------------------------------------------------------------------------- -->
+        <div class="layout__text">
+            <p>
+                Vous devez réaliser une application Flask permettant de gérer un carnet de recettes personnel.
+            </p>
+            <ol>
+                <li>
+                    <h3>Objectif général</h3>
 
-        <!-- sidebar
-             ======================================================================================================= -->
-        <nav class="sidebar">
+                    <ul>
+                        <li>L'application permet de gérer les recettes et leur catégorie.</li>
+                        <li>Chaque recette fait partie d'une seule catégorie.</li>
+                        <li>Chaque catégorie peut contenir plusieurs recettes.</li>
+                        <li>L'utilisateur peut consulter les recettes ou les filtrer.</li>
+                        <li>L'utilisateur peut ajouter, modifier et supprimer les différentes données.</li>
+                    </ul>
+                </li>
 
-            <!-- sidebar group ------------------------------------------------------------------------------------- -->
-            <section class="sidebar__group">
-                <h2>Dans cette page</h2>
+                <div class="separator"></div>
 
-                <ul>
-                    <li class="sidebar__element">
-                        <a href="#questions">Énoncé</a>
-                    </li>
-                    <li class="sidebar__element">
-                        <a href="#help">Conseils de réalisation</a>
-                    </li>
-                </ul>
-            </section>
-        </nav>
-    </aside>
+                <li>
+                    <h3>Données à gérer</h3>
 
-    <!-- ***************************************************************************************************************
-         MAIN
-    **************************************************************************************************************** -->
-    <main>
-
-        <!-- content section
-             ======================================================================================================= -->
-        <section id="questions">
-            <h2>Énoncé</h2>
-
-            <div class="layout">
-
-                <!-- layout element -------------------------------------------------------------------------------- -->
-                <div class="layout__text">
-                    <p>
-                        Vous devez réaliser une application Flask permettant de gérer un carnet de recettes personnel.
-                    </p>
-                    <ol>
+                    <ul>
                         <li>
-                            <h3>Objectif général</h3>
-
+                            Une recette est caractérisée par :
                             <ul>
-                                <li>L'application permet de gérer les recettes et leur catégorie.</li>
-                                <li>Chaque recette fait partie d'une seule catégorie.</li>
-                                <li>Chaque catégorie peut contenir plusieurs recettes.</li>
-                                <li>L'utilisateur peut consulter les recettes ou les filtrer.</li>
-                                <li>L'utilisateur peut ajouter, modifier et supprimer les différentes données.</li>
+                                <li>un nom</li>
+                                <li>un temps de préparation</li>
+                                <li>un niveau de difficulté</li>
+                                <li>une estimation du coût</li>
+                                <li>le nombre de personnes pour lesquelles elle est conçue</li>
+                                <li>une liste d'ingrédients</li>
+                                <li>une série d'étapes de préparation</li>
+                                <li>une photo facultative</li>
+                                <li>une catégorie</li>
+                                <li>un marqueur pour les recettes végétariennes</li>
                             </ul>
                         </li>
-
-                        <div class="separator"></div>
-
                         <li>
-                            <h3>Données à gérer</h3>
-
+                            Une catégorie est caractérisée par :
                             <ul>
-                                <li>
-                                    Une recette est caractérisée par :
-                                    <ul>
-                                        <li>un nom</li>
-                                        <li>un temps de préparation</li>
-                                        <li>un niveau de difficulté</li>
-                                        <li>une estimation du coût</li>
-                                        <li>le nombre de personnes pour lesquelles elle est conçue</li>
-                                        <li>une liste d'ingrédients</li>
-                                        <li>une série d'étapes de préparation</li>
-                                        <li>une photo facultative</li>
-                                        <li>une catégorie</li>
-                                        <li>un marqueur pour les recettes végétariennes</li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    Une catégorie est caractérisée par :
-                                    <ul>
-                                        <li>un nom</li>
-                                        <li>une couleur</li>
-                                    </ul>
-                                </li>
+                                <li>un nom</li>
+                                <li>une couleur</li>
                             </ul>
                         </li>
+                    </ul>
+                </li>
 
-                        <div class="separator"></div>
+                <div class="separator"></div>
 
+                <li>
+                    <h3>Relations entre les données</h3>
+
+                    <ul>
+                        <li>Une catégorie peut contenir plusieurs recettes.</li>
+                        <li>Une recette fait partie d'une seule catégorie.</li>
+                    </ul>
+                </li>
+
+                <div class="separator"></div>
+
+                <li>
+                    <h3>Fonctionnement général</h3>
+
+                    <ul>
                         <li>
-                            <h3>Relations entre les données</h3>
-
+                            L'application comporte plusieurs parties :
                             <ul>
-                                <li>Une catégorie peut contenir plusieurs recettes.</li>
-                                <li>Une recette fait partie d'une seule catégorie.</li>
+                                <li>une page d'accueil présentant l'application et donnant accès aux principales fonctionnalités</li>
+                                <li>une partie consacrée aux catégories</li>
+                                <li>une partie consacrée aux recettes</li>
                             </ul>
                         </li>
-
-                        <div class="separator"></div>
-
                         <li>
-                            <h3>Fonctionnement général</h3>
-
+                            Pour chaque type de donnée, l'application permet au minimum :
                             <ul>
-                                <li>
-                                    L'application comporte plusieurs parties :
-                                    <ul>
-                                        <li>une page d'accueil présentant l'application et donnant accès aux principales fonctionnalités</li>
-                                        <li>une partie consacrée aux catégories</li>
-                                        <li>une partie consacrée aux recettes</li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    Pour chaque type de donnée, l'application permet au minimum :
-                                    <ul>
-                                        <li>d'afficher la liste complète des éléments</li>
-                                        <li>d'afficher les informations détaillées d'un élément</li>
-                                        <li>d'ajouter un nouvel élément</li>
-                                        <li>de modifier un élément existant</li>
-                                        <li>de supprimer un élément après confirmation</li>
-                                    </ul>
-                                </li>
-                                <li>Les formulaires doivent vérifier les données avant leur enregistrement.</li>
-                                <li>Les formulaires de modification doivent afficher les données déjà enregistrées.</li>
-                                <li>Les différentes pages doivent permettre de naviguer entre les éléments liés.</li>
+                                <li>d'afficher la liste complète des éléments</li>
+                                <li>d'afficher les informations détaillées d'un élément</li>
+                                <li>d'ajouter un nouvel élément</li>
+                                <li>de modifier un élément existant</li>
+                                <li>de supprimer un élément après confirmation</li>
                             </ul>
                         </li>
+                        <li>Les formulaires doivent vérifier les données avant leur enregistrement.</li>
+                        <li>Les formulaires de modification doivent afficher les données déjà enregistrées.</li>
+                        <li>Les différentes pages doivent permettre de naviguer entre les éléments liés.</li>
+                    </ul>
+                </li>
 
-                        <div class="separator"></div>
+                <div class="separator"></div>
 
+                <li>
+                    <h3>Gestion des recettes</h3>
+
+                    <ul>
                         <li>
-                            <h3>Gestion des recettes</h3>
-
+                            La liste des recettes permet :
                             <ul>
-                                <li>
-                                    La liste des recettes permet :
-                                    <ul>
-                                        <li>de rechercher une recette par son nom</li>
-                                        <li>de filtrer les recettes par catégorie, par coût, par niveau de difficulté ou par durée de préparation</li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    La page détaillée d'une recette affiche :
-                                    <ul>
-                                        <li>sa catégorie</li>
-                                        <li>son nom</li>
-                                        <li>sa photo si elle est donnée</li>
-                                        <li>son temps de préparation</li>
-                                        <li>son niveau de difficulté</li>
-                                        <li>son coût estimé</li>
-                                        <li>le nombre de personnes pour lesquelles la recette est pensée</li>
-                                        <li>la liste de ses ingrédients</li>
-                                        <li>la liste de ses étapes de préparation</li>
-                                        <li>si elle est végétarienne</li>
-                                    </ul>
-                                </li>
+                                <li>de rechercher une recette par son nom</li>
+                                <li>de filtrer les recettes par catégorie, par coût, par niveau de difficulté ou par durée de préparation</li>
                             </ul>
                         </li>
-
-                        <div class="separator"></div>
-
                         <li>
-                            <h3>Gestion des catégories</h3>
-
+                            La page détaillée d'une recette affiche :
                             <ul>
-                                <li>La liste des catégories permet de rechercher une catégorie par son nom.</li>
-                                <li>
-                                    La page détaillée d'une catégorie affiche :
-                                    <ul>
-                                        <li>son nom</li>
-                                        <li>la couleur qui lui est associée</li>
-                                        <li>la liste des recettes qui en font partie</li>
-                                    </ul>
-                                </li>
-                                <li>Une catégorie ne peut être supprimée que si elle ne contient aucune recette.</li>
+                                <li>sa catégorie</li>
+                                <li>son nom</li>
+                                <li>sa photo si elle est donnée</li>
+                                <li>son temps de préparation</li>
+                                <li>son niveau de difficulté</li>
+                                <li>son coût estimé</li>
+                                <li>le nombre de personnes pour lesquelles la recette est pensée</li>
+                                <li>la liste de ses ingrédients</li>
+                                <li>la liste de ses étapes de préparation</li>
+                                <li>si elle est végétarienne</li>
                             </ul>
                         </li>
+                    </ul>
+                </li>
 
-                        <div class="separator"></div>
+                <div class="separator"></div>
 
+                <li>
+                    <h3>Gestion des catégories</h3>
+
+                    <ul>
+                        <li>La liste des catégories permet de rechercher une catégorie par son nom.</li>
                         <li>
-                            <h3>Présentation et navigation</h3>
-
+                            La page détaillée d'une catégorie affiche :
                             <ul>
-                                <li>Les pages utilisent une structure générale commune.</li>
-                                <li>Le menu permet d'accéder aux catégories et aux recettes.</li>
-                                <li>Chaque liste donne accès aux pages détaillées correspondantes.</li>
-                                <li>La page d'une catégorie donne accès à ses recettes.</li>
-                                <li>La page d'une recette donne accès à la catégorie associée.</li>
-                                <li>Des liens permettent de revenir facilement aux listes précédentes.</li>
-                                <li>Les actions principales sont clairement identifiables.</li>
-                                <li>Les messages d'erreur sont compréhensibles.</li>
-                                <li>L'affichage reste cohérent dans toute l'application.</li>
+                                <li>son nom</li>
+                                <li>la couleur qui lui est associée</li>
+                                <li>la liste des recettes qui en font partie</li>
                             </ul>
                         </li>
+                        <li>Une catégorie ne peut être supprimée que si elle ne contient aucune recette.</li>
+                    </ul>
+                </li>
 
-                        <div class="separator"></div>
+                <div class="separator"></div>
 
-                        <li>
-                            <h3>Contraintes générales</h3>
-
-                            <ul>
-                                <li>L'application doit être structurée avec plusieurs blueprints.</li>
-                                <li>Les données doivent être enregistrées dans une base de données.</li>
-                                <li>Les modifications de la base doivent être gérées avec des migrations.</li>
-                                <li>Les formulaires doivent être réalisés avec Flask-WTF.</li>
-                                <li>Les fichiers envoyés doivent être vérifiés et enregistrés correctement.</li>
-                                <li>Les paramètres de l'application doivent être regroupés dans une configuration.</li>
-                                <li>Les données locales et les informations sensibles ne doivent pas être publiées.</li>
-                                <li>L'application doit pouvoir être préparée pour un déploiement.</li>
-                            </ul>
-                        </li>
-                    </ol>
-                </div>
-            </div>
-        </section>
-
-        <!-- content section
-             ======================================================================================================= -->
-        <section id="help">
-            <h2>Conseils de réalisation</h2>
-
-            <div class="layout">
-
-                <!-- layout element -------------------------------------------------------------------------------- -->
-                <div class="layout__text">
-                    <h3>Organisation de l'application</h3>
+                <li>
+                    <h3>Présentation et navigation</h3>
 
                     <ul>
-                        <li>Séparer les principales fonctionnalités de l'application.</li>
-                        <li>Prévoir un blueprint consacré aux pages générales, un pour les recettes et un pour les catégories.</li>
-                        <li>Distinguer les responsabilités liées aux routes, aux formulaires, aux modèles et aux templates.</li>
-                        <li>Conserver une structure commune pour toutes les pages grâce à un template principal.</li>
-                        <li>Construire progressivement l'application avant d'ajouter la recherche, les filtres et l'envoi des images.</li>
+                        <li>Les pages utilisent une structure générale commune.</li>
+                        <li>Le menu permet d'accéder aux catégories et aux recettes.</li>
+                        <li>Chaque liste donne accès aux pages détaillées correspondantes.</li>
+                        <li>La page d'une catégorie donne accès à ses recettes.</li>
+                        <li>La page d'une recette donne accès à la catégorie associée.</li>
+                        <li>Des liens permettent de revenir facilement aux listes précédentes.</li>
+                        <li>Les actions principales sont clairement identifiables.</li>
+                        <li>Les messages d'erreur sont compréhensibles.</li>
+                        <li>L'affichage reste cohérent dans toute l'application.</li>
                     </ul>
+                </li>
 
-                    <div class="separator"></div>
+                <div class="separator"></div>
 
-                    <h3>Modèles et relation</h3>
+                <li>
+                    <h3>Contraintes générales</h3>
 
                     <ul>
-                        <li>Créer les modèles représentant les catégories et les recettes.</li>
-                        <li>Déterminer les champs obligatoires, facultatifs ou uniques avant de créer la première migration.</li>
-                        <li>Associer chaque recette à une catégorie avec une clé étrangère.</li>
-                        <li>Prévoir une relation permettant d'accéder aux recettes appartenant à une catégorie.</li>
-                        <li>Utiliser des noms explicites pour les modèles, leurs attributs et la relation qui les relie.</li>
-                        <li>Prévoir une représentation lisible de chaque objet pour faciliter son identification.</li>
-                        <li>Définir le comportement attendu lorsqu'une catégorie contient encore des recettes.</li>
+                        <li>L'application doit être structurée avec plusieurs blueprints.</li>
+                        <li>Les données doivent être enregistrées dans une base de données.</li>
+                        <li>Les modifications de la base doivent être gérées avec des migrations.</li>
+                        <li>Les formulaires doivent être réalisés avec Flask-WTF.</li>
+                        <li>Les fichiers envoyés doivent être vérifiés et enregistrés correctement.</li>
+                        <li>Les paramètres de l'application doivent être regroupés dans une configuration.</li>
+                        <li>Les données locales et les informations sensibles ne doivent pas être publiées.</li>
+                        <li>L'application doit pouvoir être préparée pour un déploiement.</li>
                     </ul>
+                </li>
+            </ol>
+        </div>
+    </div>
+</section>
 
-                    <div class="separator"></div>
+<!-- content section
+     ======================================================================================================= -->
+<section id="help">
+    <h2>Conseils de réalisation</h2>
 
-                    <h3>Progression conseillée</h3>
+    <div class="layout">
 
-                    <ul>
-                        <li>Créer la structure générale de l'application et enregistrer les blueprints.</li>
-                        <li>Configurer la base de données et les extensions utilisées par l'application.</li>
-                        <li>Créer les modèles et appliquer les premières migrations.</li>
-                        <li>Développer l'affichage des listes et des pages détaillées.</li>
-                        <li>Ajouter les formulaires de création et de modification.</li>
-                        <li>Ajouter la suppression avec une demande de confirmation.</li>
-                        <li>Mettre en place la recherche et les différents filtres.</li>
-                        <li>Ajouter l'envoi et l'affichage des photos.</li>
-                        <li>Vérifier la configuration et préparer le projet pour son déploiement.</li>
-                    </ul>
+        <!-- layout element -------------------------------------------------------------------------------- -->
+        <div class="layout__text">
+            <h3>Organisation de l'application</h3>
 
-                    <div class="separator"></div>
+            <ul>
+                <li>Séparer les principales fonctionnalités de l'application.</li>
+                <li>Prévoir un blueprint consacré aux pages générales, un pour les recettes et un pour les catégories.</li>
+                <li>Distinguer les responsabilités liées aux routes, aux formulaires, aux modèles et aux templates.</li>
+                <li>Conserver une structure commune pour toutes les pages grâce à un template principal.</li>
+                <li>Construire progressivement l'application avant d'ajouter la recherche, les filtres et l'envoi des images.</li>
+            </ul>
 
-                    <h3>Formulaires et validations</h3>
+            <div class="separator"></div>
 
-                    <ul>
-                        <li>Prévoir un formulaire adapté aux recettes et un autre aux catégories.</li>
-                        <li>Réutiliser autant que possible le même formulaire pour la création et la modification d'un objet.</li>
-                        <li>Choisir les types de champs en fonction des données attendues.</li>
-                        <li>Alimenter la liste des catégories à partir des catégories enregistrées dans la base de données.</li>
-                        <li>Vérifier que le temps de préparation et l'estimation du coût contiennent des valeurs cohérentes.</li>
-                        <li>Limiter les valeurs possibles pour le niveau de difficulté.</li>
-                        <li>Vérifier que le nom d'une catégorie n'est pas déjà utilisé.</li>
-                        <li>Afficher les erreurs à proximité des champs concernés.</li>
-                        <li>Conserver les données déjà saisies lorsque le formulaire contient une erreur.</li>
-                    </ul>
+            <h3>Modèles et relation</h3>
 
-                    <div class="separator"></div>
+            <ul>
+                <li>Créer les modèles représentant les catégories et les recettes.</li>
+                <li>Déterminer les champs obligatoires, facultatifs ou uniques avant de créer la première migration.</li>
+                <li>Associer chaque recette à une catégorie avec une clé étrangère.</li>
+                <li>Prévoir une relation permettant d'accéder aux recettes appartenant à une catégorie.</li>
+                <li>Utiliser des noms explicites pour les modèles, leurs attributs et la relation qui les relie.</li>
+                <li>Prévoir une représentation lisible de chaque objet pour faciliter son identification.</li>
+                <li>Définir le comportement attendu lorsqu'une catégorie contient encore des recettes.</li>
+            </ul>
 
-                    <h3>Création et modification des données</h3>
+            <div class="separator"></div>
 
-                    <ul>
-                        <li>Créer quelques catégories avant les premières recettes afin que l'utilisateur puisse les sélectionner dans le formulaire.</li>
-                        <li>Utiliser les données validées par le formulaire avant de créer ou de modifier un objet.</li>
-                        <li>Préremplir le formulaire lorsqu'une recette ou une catégorie est modifiée.</li>
-                        <li>Enregistrer les modifications uniquement lorsque toutes les données sont valides.</li>
-                        <li>Rediriger l'utilisateur après une création ou une modification réussie afin d'éviter un nouvel envoi du formulaire.</li>
-                    </ul>
+            <h3>Progression conseillée</h3>
 
-                    <div class="separator"></div>
+            <ul>
+                <li>Créer la structure générale de l'application et enregistrer les blueprints.</li>
+                <li>Configurer la base de données et les extensions utilisées par l'application.</li>
+                <li>Créer les modèles et appliquer les premières migrations.</li>
+                <li>Développer l'affichage des listes et des pages détaillées.</li>
+                <li>Ajouter les formulaires de création et de modification.</li>
+                <li>Ajouter la suppression avec une demande de confirmation.</li>
+                <li>Mettre en place la recherche et les différents filtres.</li>
+                <li>Ajouter l'envoi et l'affichage des photos.</li>
+                <li>Vérifier la configuration et préparer le projet pour son déploiement.</li>
+            </ul>
 
-                    <h3>Suppression des données</h3>
+            <div class="separator"></div>
 
-                    <ul>
-                        <li>Afficher une page de confirmation avant toute suppression.</li>
-                        <li>Indiquer clairement l'élément qui va être supprimé.</li>
-                        <li>Empêcher la suppression d'une catégorie à laquelle des recettes sont associées.</li>
-                        <li>Prévoir un message compréhensible lorsque la suppression est impossible.</li>
-                        <li>Supprimer également la photo associée à une recette si elle n'est plus utilisée.</li>
-                    </ul>
+            <h3>Formulaires et validations</h3>
 
-                    <div class="separator"></div>
+            <ul>
+                <li>Prévoir un formulaire adapté aux recettes et un autre aux catégories.</li>
+                <li>Réutiliser autant que possible le même formulaire pour la création et la modification d'un objet.</li>
+                <li>Choisir les types de champs en fonction des données attendues.</li>
+                <li>Alimenter la liste des catégories à partir des catégories enregistrées dans la base de données.</li>
+                <li>Vérifier que le temps de préparation et l'estimation du coût contiennent des valeurs cohérentes.</li>
+                <li>Limiter les valeurs possibles pour le niveau de difficulté.</li>
+                <li>Vérifier que le nom d'une catégorie n'est pas déjà utilisé.</li>
+                <li>Afficher les erreurs à proximité des champs concernés.</li>
+                <li>Conserver les données déjà saisies lorsque le formulaire contient une erreur.</li>
+            </ul>
 
-                    <h3>Recherche et filtres</h3>
+            <div class="separator"></div>
 
-                    <ul>
-                        <li>Afficher toutes les recettes avant d'ajouter les critères de sélection.</li>
-                        <li>Récupérer les critères de recherche et de filtrage depuis les paramètres de l'adresse.</li>
-                        <li>Construire progressivement la requête en ajoutant uniquement les filtres sélectionnés.</li>
-                        <li>Permettre de combiner une recherche par nom avec un ou plusieurs filtres.</li>
-                        <li>Prévoir une option permettant de réinitialiser les critères et de retrouver la liste complète.</li>
-                        <li>Conserver les critères choisis dans le formulaire après l'affichage des résultats.</li>
-                        <li>Afficher un message lorsque aucune recette ne correspond aux critères.</li>
-                    </ul>
+            <h3>Création et modification des données</h3>
 
-                    <div class="separator"></div>
+            <ul>
+                <li>Créer quelques catégories avant les premières recettes afin que l'utilisateur puisse les sélectionner dans le formulaire.</li>
+                <li>Utiliser les données validées par le formulaire avant de créer ou de modifier un objet.</li>
+                <li>Préremplir le formulaire lorsqu'une recette ou une catégorie est modifiée.</li>
+                <li>Enregistrer les modifications uniquement lorsque toutes les données sont valides.</li>
+                <li>Rediriger l'utilisateur après une création ou une modification réussie afin d'éviter un nouvel envoi du formulaire.</li>
+            </ul>
 
-                    <h3>Gestion des photos</h3>
+            <div class="separator"></div>
 
-                    <ul>
-                        <li>Rendre l'ajout d'une photo facultatif.</li>
-                        <li>Limiter les extensions autorisées aux formats d'image prévus par l'application.</li>
-                        <li>Vérifier le fichier avant son enregistrement.</li>
-                        <li>Générer un nom de fichier sûr afin d'éviter les noms invalides ou dangereux.</li>
-                        <li>Éviter qu'un nouveau fichier remplace accidentellement une image existante.</li>
-                        <li>Enregistrer uniquement le nom du fichier dans la base de données.</li>
-                        <li>Prévoir une image ou une présentation par défaut lorsqu'une recette ne possède pas de photo.</li>
-                        <li>Lors d'une modification, conserver l'ancienne photo si aucune nouvelle image n'est envoyée.</li>
-                    </ul>
+            <h3>Suppression des données</h3>
 
-                    <div class="separator"></div>
+            <ul>
+                <li>Afficher une page de confirmation avant toute suppression.</li>
+                <li>Indiquer clairement l'élément qui va être supprimé.</li>
+                <li>Empêcher la suppression d'une catégorie à laquelle des recettes sont associées.</li>
+                <li>Prévoir un message compréhensible lorsque la suppression est impossible.</li>
+                <li>Supprimer également la photo associée à une recette si elle n'est plus utilisée.</li>
+            </ul>
 
-                    <h3>Templates et navigation</h3>
+            <div class="separator"></div>
 
-                    <ul>
-                        <li>Créer un template principal contenant la structure générale, le menu et les fichiers statiques communs.</li>
-                        <li>Créer des templates distincts pour les listes, les pages détaillées et les formulaires.</li>
-                        <li>Réutiliser le même template de formulaire pour la création et la modification lorsque cela est possible.</li>
-                        <li>Permettre de passer facilement d'une catégorie à ses recettes et d'une recette à sa catégorie.</li>
-                        <li>Rendre clairement visibles les actions d'ajout, de modification et de suppression.</li>
-                    </ul>
+            <h3>Recherche et filtres</h3>
 
-                    <div class="separator"></div>
+            <ul>
+                <li>Afficher toutes les recettes avant d'ajouter les critères de sélection.</li>
+                <li>Récupérer les critères de recherche et de filtrage depuis les paramètres de l'adresse.</li>
+                <li>Construire progressivement la requête en ajoutant uniquement les filtres sélectionnés.</li>
+                <li>Permettre de combiner une recherche par nom avec un ou plusieurs filtres.</li>
+                <li>Prévoir une option permettant de réinitialiser les critères et de retrouver la liste complète.</li>
+                <li>Conserver les critères choisis dans le formulaire après l'affichage des résultats.</li>
+                <li>Afficher un message lorsque aucune recette ne correspond aux critères.</li>
+            </ul>
 
-                    <h3>Configuration et sécurité</h3>
+            <div class="separator"></div>
 
-                    <ul>
-                        <li>Regrouper les principaux paramètres de l'application dans une configuration dédiée.</li>
-                        <li>Ne pas écrire directement une clé secrète définitive dans le code publié.</li>
-                        <li>Configurer séparément l'adresse de la base de données et le dossier utilisé pour les images.</li>
-                        <li>Ne pas publier la base de données locale, les fichiers envoyés par les utilisateurs ou les informations sensibles.</li>
-                        <li>Ajouter les fichiers et dossiers concernés au fichier <span class="comment">.gitignore</span>.</li>
-                        <li>Vérifier le comportement de l'application lorsque les données ou les fichiers attendus sont absents.</li>
-                    </ul>
+            <h3>Gestion des photos</h3>
 
-                    <div class="separator"></div>
+            <ul>
+                <li>Rendre l'ajout d'une photo facultatif.</li>
+                <li>Limiter les extensions autorisées aux formats d'image prévus par l'application.</li>
+                <li>Vérifier le fichier avant son enregistrement.</li>
+                <li>Générer un nom de fichier sûr afin d'éviter les noms invalides ou dangereux.</li>
+                <li>Éviter qu'un nouveau fichier remplace accidentellement une image existante.</li>
+                <li>Enregistrer uniquement le nom du fichier dans la base de données.</li>
+                <li>Prévoir une image ou une présentation par défaut lorsqu'une recette ne possède pas de photo.</li>
+                <li>Lors d'une modification, conserver l'ancienne photo si aucune nouvelle image n'est envoyée.</li>
+            </ul>
 
-                    <h3>Vérifications finales</h3>
+            <div class="separator"></div>
 
-                    <ul>
-                        <li>Tester la création, la consultation, la modification et la suppression des deux types de données.</li>
-                        <li>Tester les formulaires avec des données valides et invalides.</li>
-                        <li>Vérifier qu'une recette reste toujours associée à une catégorie existante.</li>
-                        <li>Tester séparément puis simultanément la recherche et les différents filtres.</li>
-                        <li>Tester l'ajout d'une recette avec et sans photo.</li>
-                        <li>Vérifier les liens entre les listes, les pages détaillées et les formulaires.</li>
-                        <li>Tester le projet avec une base de données nouvellement créée.</li>
-                        <li>Vérifier que le dépôt ne contient aucune donnée locale ou information sensible avant sa publication.</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-    </main>
+            <h3>Templates et navigation</h3>
 
-    <!-- ***************************************************************************************************************
-         FOOTER
-    **************************************************************************************************************** -->
-    <footer>
-        <div>© Copyright - Guillaume Peyrard</div>
-    </footer>
-</body>
-</html>
+            <ul>
+                <li>Créer un template principal contenant la structure générale, le menu et les fichiers statiques communs.</li>
+                <li>Créer des templates distincts pour les listes, les pages détaillées et les formulaires.</li>
+                <li>Réutiliser le même template de formulaire pour la création et la modification lorsque cela est possible.</li>
+                <li>Permettre de passer facilement d'une catégorie à ses recettes et d'une recette à sa catégorie.</li>
+                <li>Rendre clairement visibles les actions d'ajout, de modification et de suppression.</li>
+            </ul>
+
+            <div class="separator"></div>
+
+            <h3>Configuration et sécurité</h3>
+
+            <ul>
+                <li>Regrouper les principaux paramètres de l'application dans une configuration dédiée.</li>
+                <li>Ne pas écrire directement une clé secrète définitive dans le code publié.</li>
+                <li>Configurer séparément l'adresse de la base de données et le dossier utilisé pour les images.</li>
+                <li>Ne pas publier la base de données locale, les fichiers envoyés par les utilisateurs ou les informations sensibles.</li>
+                <li>Ajouter les fichiers et dossiers concernés au fichier <span class="comment">.gitignore</span>.</li>
+                <li>Vérifier le comportement de l'application lorsque les données ou les fichiers attendus sont absents.</li>
+            </ul>
+
+            <div class="separator"></div>
+
+            <h3>Vérifications finales</h3>
+
+            <ul>
+                <li>Tester la création, la consultation, la modification et la suppression des deux types de données.</li>
+                <li>Tester les formulaires avec des données valides et invalides.</li>
+                <li>Vérifier qu'une recette reste toujours associée à une catégorie existante.</li>
+                <li>Tester séparément puis simultanément la recherche et les différents filtres.</li>
+                <li>Tester l'ajout d'une recette avec et sans photo.</li>
+                <li>Vérifier les liens entre les listes, les pages détaillées et les formulaires.</li>
+                <li>Tester le projet avec une base de données nouvellement créée.</li>
+                <li>Vérifier que le dépôt ne contient aucune donnée locale ou information sensible avant sa publication.</li>
+            </ul>
+        </div>
+    </div>
+</section>

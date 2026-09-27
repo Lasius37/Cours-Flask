@@ -1,0 +1,79 @@
+<details id="menu-container">
+    <summary id="menu-opener" aria-label="Menu principal">
+        <i class="bi bi-list" aria-hidden="true"></i>
+    </summary>
+
+    <div id="full-menu">
+        <a class="menu" id="home-btn" href="{{ '/index.html' | relative_url }}">
+            <i class="bi bi-house-fill"></i>
+            <span>Accueil</span>
+        </a>
+
+        <div class="menu" id="main-menu">
+            <details class="sub-menu" name="sub-menu">
+                <summary class="sub-menu-opener">
+                    <i class="bi bi-chevron-down" aria-hidden="true"></i>
+                    <span>Introduction</span>
+                </summary>
+
+                <ul>
+                    <li><a href="{{ '/pages/flask-django.html' | relative_url }}">Comparaison Django / Flask</a></li>
+                </ul>
+            </details>
+            <details class="sub-menu" name="sub-menu">
+                <summary class="sub-menu-opener">
+                    <i class="bi bi-chevron-down" aria-hidden="true"></i>
+                    <span>Concepts de base</span>
+                </summary>
+
+                <ul>
+                    <li><a href="{{ '/pages/init.html' | relative_url }}">Initialiser un projet</a></li>
+                    <li><a href="{{ '/pages/app.html' | relative_url }}">Créer et lancer une application</a></li>
+                    <li><a href="{{ '/pages/views.html' | relative_url }}">Créer des routes et des vues</a></li>
+                    <li><a href="{{ '/pages/templates.html' | relative_url }}">Utiliser des templates</a></li>
+                    <li><a href="{{ '/pages/static.html' | relative_url }}">Gérer les fichiers statiques</a></li>
+                    <li><a href="{{ '/pages/project-personal-site.html' | relative_url }}">Projet : un mini-site personnel</a></li>
+                </ul>
+            </details>
+
+            <details class="sub-menu" name="sub-menu">
+                <summary class="sub-menu-opener">
+                    <i class="bi bi-chevron-down" aria-hidden="true"></i>
+                    <span>Concepts intermédiaires</span>
+                </summary>
+
+                <ul>
+                    <li><a href="{{ '/pages/jinja.html' | relative_url }}">Intégrer des données dans un template</a></li>
+                    <li><a href="{{ '/pages/database.html' | relative_url }}">Configurer une base de données</a></li>
+                    <li><a href="{{ '/pages/models.html' | relative_url }}">Créer un modèle</a></li>
+                    <li><a href="{{ '/pages/create-data.html' | relative_url }}">Créer et enregistrer des données</a></li>
+                    <li><a href="{{ '/pages/query-data.html' | relative_url }}">Rechercher, filtrer, trier et afficher des données</a></li>
+                    <li><a href="{{ '/pages/forms.html' | relative_url }}">Créer un formulaire</a></li>
+                    <li><a href="{{ '/pages/form-data.html' | relative_url }}">Enregistrer les données d'un formulaire</a></li>
+                    <li><a href="{{ '/pages/redirect.html' | relative_url }}">Rediriger avec redirect() et url_for()</a></li>
+                    <li><a href="{{ '/pages/update-data.html' | relative_url }}">Modifier des données</a></li>
+                    <li><a href="{{ '/pages/delete-data.html' | relative_url }}">Supprimer des données</a></li>
+                    <li><a href="{{ '/pages/project-suppliers.html' | relative_url }}">Projet : la gestion des fournisseurs</a></li>
+                </ul>
+            </details>
+
+            <details class="sub-menu" name="sub-menu">
+                <summary class="sub-menu-opener">
+                    <i class="bi bi-chevron-down" aria-hidden="true"></i>
+                    <span>Concepts avancés</span>
+                </summary>
+
+                <ul>
+                    <li><a href="{{ '/pages/blueprints.html' | relative_url }}">Structurer l'application avec les blueprints</a></li>
+                    <li><a href="{{ '/pages/relationships.html' | relative_url }}">Créer des relations entre les modèles</a></li>
+                    <li><a href="{{ '/pages/migrations.html' | relative_url }}">Modifier la structure de la base de données</a></li>
+                    <li><a href="{{ '/pages/forms2.html' | relative_url }}">Créer des formulaires avancés</a></li>
+                    <li><a href="{{ '/pages/uploads.html' | relative_url }}">Gérer les fichiers envoyés</a></li>
+                    <li><a href="{{ '/pages/config.html' | relative_url }}">Configurer l'application</a></li>
+                    <li><a href="{{ '/pages/deployment.html' | relative_url }}">Préparer le déploiement</a></li>
+                    <li><a href="{{ '/pages/project-recipes.html' | relative_url }}">Projet : le carnet de recettes</a></li>
+                </ul>
+            </details>
+        </div>
+    </div>
+</details>

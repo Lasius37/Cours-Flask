@@ -1,4 +1,5 @@
-{	"home": {
+{
+	"home": {
 		"id": "navbar__home",
 		"target": "index",
 		"icon": "bi bi-house-fill",
